@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_cache/view/splash_screen.dart';
+import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/routes.dart';
 
 class HomeChache extends StatelessWidget {
   const HomeChache({super.key});
@@ -12,10 +14,12 @@ class HomeChache extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return MaterialApp(
+        return GetMaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'Home Cache',
-          theme: ThemeData(),
-          home: const SplashScreen(),
+          theme: ThemeData(scaffoldBackgroundColor: AppColors.surface),
+          initialRoute: AppRoutes.splash,
+          getPages: AppRoutes.pages,
         );
       },
     );
