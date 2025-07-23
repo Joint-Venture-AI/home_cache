@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
+import 'package:home_cache/view/widget/text_button_widget.dart';
+import 'package:home_cache/view/widget/text_button_widget_light.dart';
 
 class SelectTypeOfHouseScreen extends StatefulWidget {
   const SelectTypeOfHouseScreen({super.key});
@@ -44,15 +48,44 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 40.h),
-
               Wrap(
                 spacing: 16.w,
                 runSpacing: 16.h,
                 children: [
-                  _buildTile("Apartment", "assets/icons/apartment.svg", 0),
-                  _buildTile("Villa", "assets/icons/villa.svg", 1),
-                  _buildTile("Bungalow", "assets/icons/bungalow.svg", 2),
-                  _buildTile("Cabin", "assets/icons/cabin.svg", 3),
+                  _buildTile("House", "assets/images/house.png", 0),
+                  _buildTile("Condo", "assets/images/condo.png", 1),
+                  _buildTile("Townhouse", "assets/images/townhouse.png", 2),
+                  _buildTile("Apartment", "assets/images/apartment.png", 3),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              Text(
+                'other (not listed),',
+                style: TextStyles.bold.copyWith(
+                  color: AppColors.primary,
+                  fontSize: 20.sp,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+
+              SizedBox(height: 72.h),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextButtonWidgetLight(
+                      text: 'Skip',
+                      onPressed: () {},
+                    ),
+                  ),
+                  SizedBox(width: 100.w),
+                  Expanded(
+                    child: TextWidgetButton(
+                      text: '→  Next  ',
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.homeInfo);
+                      },
+                    ),
+                  ),
                 ],
               ),
             ],
@@ -67,10 +100,9 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
       width: (MediaQuery.of(context).size.width - 64.w) / 2,
       child: SelectableTile(
         title: title,
-        iconAsset: iconPath,
+        imageAsset: iconPath,
         isSelected: selectedIndex == index,
         onTap: () => setState(() => selectedIndex = index),
-        imageAsset: '',
       ),
     );
   }

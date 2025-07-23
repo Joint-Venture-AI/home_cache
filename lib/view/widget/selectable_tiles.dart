@@ -4,7 +4,7 @@ import 'package:home_cache/constants/colors.dart';
 
 class SelectableTile extends StatelessWidget {
   final String title;
-  final String imageAsset; // Renamed for clarity
+  final String imageAsset;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -14,16 +14,17 @@ class SelectableTile extends StatelessWidget {
     required this.imageAsset,
     required this.isSelected,
     required this.onTap,
-    required String iconAsset,
   });
 
   @override
   Widget build(BuildContext context) {
+    double tileSize = (MediaQuery.of(context).size.width - 80.w) / 2;
+
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        width: 120.w,
-        height: 120.h,
+        width: tileSize,
+        height: tileSize,
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
           color: AppColors.lightgrey,
@@ -32,15 +33,27 @@ class SelectableTile extends StatelessWidget {
             width: 2.w,
           ),
           borderRadius: BorderRadius.circular(12.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.4),
+              blurRadius: 6,
+              offset: Offset(0, 4),
+            ),
+          ],
         ),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(imageAsset, width: 36.w, height: 36.w),
-            SizedBox(height: 8.h),
+            const SizedBox(),
+            Image.asset(
+              imageAsset,
+              width: 72.w,
+              height: 72.w,
+              fit: BoxFit.contain,
+            ),
             Text(
               title,
-              style: TextStyle(fontSize: 14.sp),
+              style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w500),
               textAlign: TextAlign.center,
             ),
           ],

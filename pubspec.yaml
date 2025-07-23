@@ -1,5 +1,5 @@
 name: home_cache
-description: "A new Flutter project."
+description: "Home Cache"
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -25,17 +25,14 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^5.0.0
 
+
+
 flutter:
-
-  # Enables use of material icons
   uses-material-design: true
-
-  # App assets
   assets:
     - assets/logos/
     - assets/icons/
-
-  # Custom fonts
+    - assets/images/
   fonts:
     - family: LeagueSpartan
       fonts:
