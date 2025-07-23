@@ -17,7 +17,10 @@ class HomeChache extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Home Cache',
-          theme: ThemeData(scaffoldBackgroundColor: AppColors.surface),
+          theme: ThemeData(
+            scaffoldBackgroundColor: AppColors.surface,
+            fontFamily: 'LeagueSpartan',
+          ),
           initialRoute: AppRoutes.splash,
           getPages: AppRoutes.pages,
         );

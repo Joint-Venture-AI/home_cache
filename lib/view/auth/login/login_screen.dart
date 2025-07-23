@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/input_field.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
@@ -27,17 +30,14 @@ class LoginScreen extends StatelessWidget {
                 style: TextStyles.bold.copyWith(color: AppColors.secondary),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 60.h),
+              SizedBox(height: 40.h),
               Text(
                 'Email or Mobile Number',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextInputField(
-                hintText: '',
-                prefixIcon: Icon(Icons.email, color: AppColors.lightgrey),
-              ),
+              TextInputField(hintText: 'example@example.com'),
               SizedBox(height: 20.h),
               Text(
                 'Password',
@@ -45,10 +45,7 @@ class LoginScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextInputField(
-                hintText: '',
-                prefixIcon: Icon(Icons.email, color: AppColors.lightgrey),
-              ),
+              TextInputField(hintText: '*************'),
               SizedBox(height: 6.h),
               Text(
                 'Forgot Password',
@@ -59,9 +56,21 @@ class LoginScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 50.h),
-              TextWidgetButton(text: 'Log In', onPressed: () {}),
-              SizedBox(height: 15.h),
-              TextButtonWidgetLight(text: 'Create Account', onPressed: () {}),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50.w),
+                child: Column(
+                  children: [
+                    TextWidgetButton(text: 'Log In', onPressed: () {}),
+                    SizedBox(height: 15.h),
+                    TextButtonWidgetLight(
+                      text: 'Create Account',
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.signup);
+                      },
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(height: 50.h),
 
               Text(

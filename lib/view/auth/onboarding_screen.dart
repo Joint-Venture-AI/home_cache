@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/instance_manager.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/routes.dart';
@@ -28,13 +27,25 @@ class OnboardingScreen extends StatelessWidget {
                 Image.asset('assets/logos/tagline.png', height: 50.h),
                 SizedBox(height: 48.h),
 
-                TextButtonWidgetLight(text: 'Sign Up', onPressed: () {}),
-                SizedBox(height: 16.h),
-                TextWidgetButton(
-                  text: 'Log In',
-                  onPressed: () {
-                    Get.toNamed(AppRoutes.login);
-                  },
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50.w),
+                  child: Column(
+                    children: [
+                      TextButtonWidgetLight(
+                        text: 'Sign Up',
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.signup);
+                        },
+                      ),
+                      SizedBox(height: 15.h),
+                      TextWidgetButton(
+                        text: 'Log In',
+                        onPressed: () {
+                          Get.toNamed(AppRoutes.login);
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),
