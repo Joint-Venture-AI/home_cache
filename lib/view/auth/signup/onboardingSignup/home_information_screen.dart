@@ -154,7 +154,9 @@ class HomeInformationScreen extends StatelessWidget {
                   Expanded(
                     child: TextButtonWidgetLight(
                       text: 'Skip',
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.finishUtility);
+                      },
                     ),
                   ),
                   SizedBox(width: 100.w),

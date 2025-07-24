@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/route_manager.dart';
 
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
@@ -76,7 +79,9 @@ class _SelectPowerTypeScreenState extends State<SelectResponsibleTypeScreen> {
                   Expanded(
                     child: TextButtonWidgetLight(
                       text: 'Skip',
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.finishUtility);
+                      },
                     ),
                   ),
                   SizedBox(width: 100.w),
@@ -84,7 +89,7 @@ class _SelectPowerTypeScreenState extends State<SelectResponsibleTypeScreen> {
                     child: TextWidgetButton(
                       text: '→  Next  ',
                       onPressed: () {
-                        // Get.toNamed(AppRoutes.selectWaterSupply);
+                        Get.toNamed(AppRoutes.finishUtility);
                       },
                     ),
                   ),

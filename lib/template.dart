@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class t extends StatelessWidget {
+  const t({super.key});
 
   @override
   Widget build(BuildContext context) {

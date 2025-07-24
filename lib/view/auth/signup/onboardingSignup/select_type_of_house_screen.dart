@@ -74,7 +74,9 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
                   Expanded(
                     child: TextButtonWidgetLight(
                       text: 'Skip',
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.finishUtility);
+                      },
                     ),
                   ),
                   SizedBox(width: 100.w),
