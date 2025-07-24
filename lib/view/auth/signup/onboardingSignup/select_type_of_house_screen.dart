@@ -4,6 +4,9 @@ import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
+import 'package:home_cache/view/auth/signup/onboardingSignup/dialogs/first_dialog.dart';
+import 'package:home_cache/view/auth/signup/onboardingSignup/dialogs/second_dialog.dart';
+import 'package:home_cache/view/auth/signup/onboardingSignup/dialogs/third_dialog.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
@@ -19,6 +22,34 @@ class SelectTypeOfHouseScreen extends StatefulWidget {
 
 class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
   int? selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(seconds: 1), () {
+        _showFirstDialog();
+      });
+    });
+  }
+
+  void _showFirstDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const FirstDialog(),
+    ).then((_) => _showSecondDialog());
+  }
+
+  void _showSecondDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const SecondDialog(),
+    ).then((_) => _showThirdDialog());
+  }
+
+  void _showThirdDialog() {
+    showDialog(context: context, builder: (context) => const ThirdDialog());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +98,6 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
                   decoration: TextDecoration.underline,
                 ),
               ),
-
               SizedBox(height: 72.h),
               Row(
                 children: [

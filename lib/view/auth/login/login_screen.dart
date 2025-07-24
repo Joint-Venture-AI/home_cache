@@ -59,7 +59,12 @@ class LoginScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 50.w),
                 child: Column(
                   children: [
-                    TextWidgetButton(text: 'Log In', onPressed: () {}),
+                    TextWidgetButton(
+                      text: 'Log In',
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.bottomNav);
+                      },
+                    ),
                     SizedBox(height: 15.h),
                     TextButtonWidgetLight(
                       text: 'Create Account',

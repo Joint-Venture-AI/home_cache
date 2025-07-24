@@ -1,6 +1,7 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:home_cache/view/auth/login/login_screen.dart';
 import 'package:home_cache/view/auth/onboarding_screen.dart';
+import 'package:home_cache/view/auth/signup/add_details_iteam_screen.dart';
 import 'package:home_cache/view/auth/signup/finish_utility_screen.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/home_information_screen.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_cooling_type_screen.dart';
@@ -14,6 +15,7 @@ import 'package:home_cache/view/auth/signup/select_iteam_screen.dart';
 
 import 'package:home_cache/view/auth/signup/signup_screen.dart';
 import 'package:home_cache/view/auth/signup/track_list_screen.dart';
+import 'package:home_cache/view/home/bottom_nav_bar.dart';
 import 'package:home_cache/view/splash_screen.dart';
 
 class AppRoutes {
@@ -32,6 +34,8 @@ class AppRoutes {
   static const finishUtility = '/finish-utility';
   static const trackList = '/track-list';
   static const selectIteam = '/select-iteam';
+  static const addDetailsIteam = '/add-details-iteam';
+  static const bottomNav = '/bottom-nav';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -64,5 +68,7 @@ class AppRoutes {
     GetPage(name: finishUtility, page: () => const FinishUtilityScreen()),
     GetPage(name: trackList, page: () => const TrackListScreen()),
     GetPage(name: selectIteam, page: () => const SelectIteamScreen()),
+    GetPage(name: addDetailsIteam, page: () => const AddDetailsIteamScreen()),
+    GetPage(name: bottomNav, page: () => const BottomNavBar()),
   ];
 }

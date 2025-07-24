@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
@@ -8,9 +7,10 @@ import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/icon_search_bar_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
+import 'package:home_cache/view/widget/text_field_wigget.dart';
 
-class SelectIteamScreen extends StatelessWidget {
-  const SelectIteamScreen({super.key});
+class AddDetailsIteamScreen extends StatelessWidget {
+  const AddDetailsIteamScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -36,16 +36,39 @@ class SelectIteamScreen extends StatelessWidget {
               Image.asset("assets/images/item.png", height: 90.h),
               SizedBox(height: 32.h),
 
-              IconSearchBarWidget(onChanged: (value) {}),
-              SizedBox(height: 340.h),
+              Text(
+                'Type',
+                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                textAlign: TextAlign.start,
+              ),
+              SizedBox(height: 6.h),
+              TextFieldWigget(),
+              SizedBox(height: 16.h),
+              Text(
+                'Last Serviced',
+                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                textAlign: TextAlign.start,
+              ),
+              SizedBox(height: 6.h),
+              TextFieldWigget(),
+              SizedBox(height: 16.h),
+              Text(
+                'Note',
+                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                textAlign: TextAlign.start,
+              ),
+              SizedBox(height: 6.h),
+              TextFieldWigget(),
+
+              SizedBox(height: 120.h),
               Row(
                 children: [
-                  SizedBox(width: 180.w),
+                  SizedBox(width: 150.w),
                   Expanded(
                     child: TextWidgetButton(
                       text: '✓  Complete  ',
                       onPressed: () {
-                        Get.toNamed(AppRoutes.addDetailsIteam);
+                        Get.toNamed(AppRoutes.bottomNav);
                       },
                     ),
                   ),
