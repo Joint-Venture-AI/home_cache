@@ -89,7 +89,7 @@ class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
                     child: TextWidgetButton(
                       text: '→  Next  ',
                       onPressed: () {
-                        Get.toNamed(AppRoutes.homeInfo);
+                        Get.toNamed(AppRoutes.selectWaterSupply);
                       },
                     ),
                   ),
