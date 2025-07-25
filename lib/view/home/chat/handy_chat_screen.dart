@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
+
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
@@ -8,7 +8,6 @@ import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/icon_search_bar_widget.dart';
 import 'package:home_cache/view/widget/question_tile_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
-import 'package:home_cache/view/widget/text_button_widget_light.dart';
 
 class HandyChatScreen extends StatelessWidget {
   const HandyChatScreen({super.key});

@@ -48,7 +48,7 @@ class FinishUtilityScreen extends StatelessWidget {
                     TextButtonWidgetLight(
                       text: 'Go to Home Page',
                       onPressed: () {
-                        //  Get.toNamed(AppRoutes.signup);
+                        Get.toNamed(AppRoutes.bottomNav);
                       },
                     ),
                   ],

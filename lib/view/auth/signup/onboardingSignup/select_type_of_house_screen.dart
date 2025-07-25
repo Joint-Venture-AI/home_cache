@@ -27,7 +27,7 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Future.delayed(const Duration(seconds: 1), () {
+      Future.delayed(const Duration(seconds: 0), () {
         _showFirstDialog();
       });
     });

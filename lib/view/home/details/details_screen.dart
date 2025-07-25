@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/instance_manager.dart';
+import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/auth/login/login_screen.dart';
 import 'package:home_cache/view/auth/onboarding_screen.dart';
 import 'package:home_cache/view/auth/signup/signup_screen.dart';
@@ -131,12 +134,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   switch (index) {
                     case 0:
                       onTap = () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const LoginScreen(),
-                          ),
-                        );
+                        Get.toNamed(AppRoutes.provider);
                       };
                       break;
                     case 1:
