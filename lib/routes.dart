@@ -16,6 +16,7 @@ import 'package:home_cache/view/auth/signup/select_iteam_screen.dart';
 import 'package:home_cache/view/auth/signup/signup_screen.dart';
 import 'package:home_cache/view/auth/signup/track_list_screen.dart';
 import 'package:home_cache/view/home/bottom_nav_bar.dart';
+import 'package:home_cache/view/home/home/home_health_screen.dart';
 import 'package:home_cache/view/splash_screen.dart';
 
 class AppRoutes {
@@ -36,6 +37,7 @@ class AppRoutes {
   static const selectIteam = '/select-iteam';
   static const addDetailsIteam = '/add-details-iteam';
   static const bottomNav = '/bottom-nav';
+  static const homeHealth = '/home-health';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -70,5 +72,6 @@ class AppRoutes {
     GetPage(name: selectIteam, page: () => const SelectIteamScreen()),
     GetPage(name: addDetailsIteam, page: () => const AddDetailsIteamScreen()),
     GetPage(name: bottomNav, page: () => const BottomNavBar()),
+    GetPage(name: homeHealth, page: () => const HomeHealthScreen()),
   ];
 }
