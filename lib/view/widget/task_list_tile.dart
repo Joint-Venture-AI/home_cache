@@ -8,11 +8,11 @@ class TaskListTile extends StatelessWidget {
   final VoidCallback? onTap;
 
   const TaskListTile({
-    Key? key,
+    super.key,
     required this.title,
     required this.date,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

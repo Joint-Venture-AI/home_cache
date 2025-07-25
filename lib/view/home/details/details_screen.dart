@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/auth/login/login_screen.dart';
+import 'package:home_cache/view/auth/onboarding_screen.dart';
+import 'package:home_cache/view/auth/signup/signup_screen.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
@@ -124,17 +126,55 @@ class _DetailsScreenState extends State<DetailsScreen> {
                 ),
                 itemCount: tiles.length,
                 itemBuilder: (context, index) {
+                  VoidCallback onTap;
+
+                  switch (index) {
+                    case 0:
+                      onTap = () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const LoginScreen(),
+                          ),
+                        );
+                      };
+                      break;
+                    case 1:
+                      onTap = () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const SignupScreen(),
+                          ),
+                        );
+                      };
+                      break;
+                    case 2:
+                      onTap = () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => const OnboardingScreen(),
+                          ),
+                        );
+                      };
+                      break;
+                    case 3:
+                    default:
+                      onTap = () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Coming Soon")),
+                        );
+                      };
+                      break;
+                  }
+
                   return _buildTile(
                     context,
                     tiles[index]['title'],
                     tiles[index]['iconPath'],
                     tiles[index]['index'],
-                    () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const LoginScreen()),
-                      );
-                    },
+                    onTap,
                   );
                 },
               ),
