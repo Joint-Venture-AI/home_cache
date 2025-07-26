@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/view/home/details/provider/filter_dialog.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/icon_search_bar_widget.dart';
 import 'package:home_cache/view/widget/input_field.dart';
+import 'package:home_cache/view/widget/task_list_tile.dart';
 
 class ProviderScreen extends StatelessWidget {
   const ProviderScreen({super.key});
@@ -37,6 +40,36 @@ class ProviderScreen extends StatelessWidget {
               ),
               SizedBox(height: 6.h),
               IconSearchBarWidget(onChanged: (value) {}),
+              SizedBox(height: 24.h),
+              Row(
+                children: [
+                  Text(
+                    'Your Providers',
+                    style: TextStyles.bold.copyWith(
+                      color: AppColors.black,
+                      fontSize: 20.sp,
+                    ),
+                    textAlign: TextAlign.start,
+                  ),
+                  Spacer(),
+                  GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) => const FilterDialog(),
+                      );
+                    },
+                    child: SvgPicture.asset(
+                      'assets/icons/filter.svg',
+                      width: 24.w,
+                      height: 24.h,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  SizedBox(height: 6.h),
+                  //TaskListTile(title: "HVAC Pros", date: "Last used: 1/02/24"),
+                ],
+              ),
             ],
           ),
         ),

@@ -188,12 +188,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       onTap: () {},
                     ),
-                    TaskListTile(
-                      title: "HVAC Service",
-                      date: "Overdue",
-
-                      onTap: () {},
-                    ),
                   ],
                 ],
               ),

@@ -23,8 +23,8 @@ class t extends StatelessWidget {
   }
 }
 
-/*Text(
+Text(
                 'Create A New Account',
                 style: TextStyles.bold.copyWith(color: AppColors.secondary),
                 textAlign: TextAlign.center,
-              ),*/
+              ),
