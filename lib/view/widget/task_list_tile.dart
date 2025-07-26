@@ -23,7 +23,16 @@ class TaskListTile extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(12.r),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.5),
+              spreadRadius: 1,
+              blurRadius: 2,
+              offset: Offset(0, 2),
+            ),
+          ],
         ),
+
         child: Row(
           children: [
             Expanded(
@@ -39,9 +48,12 @@ class TaskListTile extends StatelessWidget {
                         fontSize: 18.sp,
                         fontWeight: FontWeight.w600,
                       ),
-                    ),
+                    ), // Display rating
                     SizedBox(height: 4.h),
-                    Text(date, style: TextStyle(fontSize: 14.sp)),
+                    Text(
+                      date,
+                      style: TextStyle(fontSize: 14.sp),
+                    ), // dispaly heart sign
                     SizedBox(height: 8.h),
                   ],
                 ),

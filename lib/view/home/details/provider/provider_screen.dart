@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/home/details/provider/filter_dialog.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/icon_search_bar_widget.dart';
 import 'package:home_cache/view/widget/input_field.dart';
+import 'package:home_cache/view/widget/provider_list_tile.dart';
 import 'package:home_cache/view/widget/task_list_tile.dart';
 
 class ProviderScreen extends StatelessWidget {
@@ -67,8 +71,35 @@ class ProviderScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 6.h),
-                  //TaskListTile(title: "HVAC Pros", date: "Last used: 1/02/24"),
                 ],
+              ),
+              SizedBox(height: 16.h),
+              ProviderListTile(
+                providerName: 'HVAC Pros',
+                lastUsedDate: 'Used on Jul 15, 2025',
+                rating: 2,
+                isFavorite: false,
+                onTap: () {
+                  Get.toNamed(AppRoutes.providerDetails);
+                },
+              ),
+              ProviderListTile(
+                providerName: 'Bright Electricals',
+                lastUsedDate: 'Used on Jul 15, 2025',
+                rating: 5,
+                isFavorite: true,
+                onTap: () {
+                  Get.toNamed(AppRoutes.providerDetails);
+                },
+              ),
+              ProviderListTile(
+                providerName: 'Bright Electricals',
+                lastUsedDate: 'Used on Jul 15, 2025',
+                rating: 5,
+                isFavorite: true,
+                onTap: () {
+                  Get.toNamed(AppRoutes.providerDetails);
+                },
               ),
             ],
           ),

@@ -186,7 +186,7 @@ class _FilterDialogState extends State<FilterDialog> {
         children: [
           Checkbox(
             value: selectedServices[title] ?? false,
-            activeColor: AppColors.primary,
+            activeColor: AppColors.primaryLight,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(6),
             ),
