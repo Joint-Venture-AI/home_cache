@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
 
 class DocumentSlider extends StatefulWidget {
+  const DocumentSlider({super.key});
+
   @override
   _DocumentSliderState createState() => _DocumentSliderState();
 }
