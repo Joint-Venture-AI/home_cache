@@ -156,7 +156,7 @@ class _HomeHealthScreenState extends State<HomeHealthScreen> {
                     Text(
                       'Tasks',
                       style: TextStyles.medium.copyWith(
-                        color: AppColors.secondary,
+                        color: AppColors.black,
                         fontSize: 20.sp,
                       ),
                     ),

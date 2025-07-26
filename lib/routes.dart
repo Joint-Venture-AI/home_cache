@@ -17,6 +17,7 @@ import 'package:home_cache/view/auth/signup/signup_screen.dart';
 import 'package:home_cache/view/auth/signup/track_list_screen.dart';
 import 'package:home_cache/view/home/bottom_nav_bar.dart';
 import 'package:home_cache/view/home/chat/chat_screen.dart';
+import 'package:home_cache/view/home/details/provider/add_provider_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_details_screen.dart';
 import 'package:home_cache/view/home/home/home_health_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_screen.dart';
@@ -44,6 +45,7 @@ class AppRoutes {
   static const chat = '/chat';
   static const provider = '/provider';
   static const providerDetails = '/provider-details';
+  static const addProvider = '/add-provider';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -82,5 +84,6 @@ class AppRoutes {
     GetPage(name: chat, page: () => const ChatScreen()),
     GetPage(name: provider, page: () => const ProviderScreen()),
     GetPage(name: providerDetails, page: () => const ProviderDetailsScreen()),
+    GetPage(name: addProvider, page: () => const AddProviderScreen()),
   ];
 }

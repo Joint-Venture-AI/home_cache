@@ -3,7 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors, primaryLight;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/past_appointments_section.dart';
+import 'package:home_cache/view/widget/doccument_slider.dart';
+import 'package:home_cache/view/widget/past_appoinment_tile.dart';
 import 'package:home_cache/view/widget/scheduled_appointment_tile.dart';
 
 class ProviderDetailsScreen extends StatefulWidget {
@@ -14,6 +15,8 @@ class ProviderDetailsScreen extends StatefulWidget {
 }
 
 class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
+  bool isPastExpanded = false; // Tracks if Past Appointments are expanded
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,7 +80,6 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                       ),
                       textAlign: TextAlign.center,
                     ),
-
                     SizedBox(height: 4),
                     Text(
                       '(333) 455-6789',
@@ -113,11 +115,48 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                 subtitle: 'Aug 15, 10:00 AM',
               ),
               SizedBox(height: 20.h),
+
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isPastExpanded = !isPastExpanded;
+                  });
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Past Appointments',
+                      style: TextStyles.semiBold.copyWith(
+                        color: AppColors.black,
+                      ),
+                      textAlign: TextAlign.start,
+                    ),
+                    Icon(
+                      isPastExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      color: AppColors.secondary,
+                      size: 24.w,
+                    ),
+                  ],
+                ),
+              ),
+
+              SizedBox(height: 8.h),
+
+              if (isPastExpanded) ...[
+                PastAppointmentsTile(date: "June 18, 2025", status: "AC Check"),
+                PastAppointmentsTile(date: "May 05, 2025", status: "AC Check"),
+              ],
+              SizedBox(height: 20.h),
               Text(
-                'Past Appointments',
+                'Documents',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
+              SizedBox(height: 6.h),
+              DocumentSlider(),
             ],
           ),
         ),
