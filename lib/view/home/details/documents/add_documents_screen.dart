@@ -216,7 +216,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                 child: Column(
                   children: [
                     TextWidgetButton(
-                      text: 'Sign Up',
+                      text: '→  Next',
                       onPressed: () {
                         // Get.toNamed(AppRoutes.selectHouse);
                       },

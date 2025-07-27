@@ -66,7 +66,7 @@ class DocumentTile extends StatelessWidget {
             ),
 
             Text(
-              '$date',
+              date,
               style: TextStyle(
                 fontSize: 10.sp,
                 color: AppColors.black.withOpacity(0.7),

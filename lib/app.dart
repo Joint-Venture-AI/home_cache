@@ -29,7 +29,7 @@ class HomeCache extends StatelessWidget {
             colorScheme: ColorScheme.fromSwatch().copyWith(
               primary: AppColors.primary,
               secondary: AppColors.secondary,
-              background: AppColors.surface,
+              surface: AppColors.surface,
               error: Colors.red,
             ),
 
