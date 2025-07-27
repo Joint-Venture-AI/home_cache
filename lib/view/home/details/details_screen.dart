@@ -137,12 +137,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       break;
                     case 1:
                       onTap = () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const SignupScreen(),
-                          ),
-                        );
+                        Get.toNamed(AppRoutes.documents);
                       };
                       break;
                     case 2:
