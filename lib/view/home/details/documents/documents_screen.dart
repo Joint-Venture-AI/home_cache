@@ -161,13 +161,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       'iconPath': 'assets/images/document.png',
       'category': 'Manuals',
     },
-    {
-      'title': 'Tax Document',
-      'subtitle': 'Financial',
-      'date': '30 Jun 25',
-      'iconPath': 'assets/images/document.png',
-      'category': 'Other',
-    },
   ];
 
   @override
@@ -280,14 +273,21 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             ),
             SizedBox(height: 20.h),
 
-            // Document Grid
             Expanded(
               child: filteredDocuments.isEmpty
-                  ? Center(
-                      child: Text(
-                        'No documents in this category.',
-                        style: TextStyle(color: Colors.grey, fontSize: 14.sp),
-                      ),
+                  ? Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Center(
+                          child: Text(
+                            'No documents in this category.',
+                            style: TextStyles.medium.copyWith(
+                              color: AppColors.black,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 60.h),
+                      ],
                     )
                   : GridView.builder(
                       padding: EdgeInsets.only(

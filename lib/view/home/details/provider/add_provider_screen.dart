@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 import 'package:home_cache/view/widget/text_button_widget.dart';
@@ -101,7 +104,12 @@ class AddProviderScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 50.w),
                 child: Column(
                   children: [
-                    TextWidgetButton(text: 'Confirm', onPressed: () {}),
+                    TextWidgetButton(
+                      text: 'Confirm',
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.provider);
+                      },
+                    ),
                   ],
                 ),
               ),
