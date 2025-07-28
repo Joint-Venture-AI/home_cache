@@ -17,8 +17,11 @@ import 'package:home_cache/view/auth/signup/signup_screen.dart';
 import 'package:home_cache/view/auth/signup/track_list_screen.dart';
 import 'package:home_cache/view/home/bottom_nav_bar.dart';
 import 'package:home_cache/view/home/chat/chat_screen.dart';
+import 'package:home_cache/view/home/details/documents/add_documents_details_screen.dart';
 import 'package:home_cache/view/home/details/documents/add_documents_screen.dart';
+import 'package:home_cache/view/home/details/documents/documents_details_screen.dart';
 import 'package:home_cache/view/home/details/documents/documents_screen.dart';
+import 'package:home_cache/view/home/details/documents/preview_document_screen.dart';
 import 'package:home_cache/view/home/details/provider/add_provider_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_details_screen.dart';
 import 'package:home_cache/view/home/home/home_health_screen.dart';
@@ -50,6 +53,9 @@ class AppRoutes {
   static const addProvider = '/add-provider';
   static const documents = '/documents';
   static const addDocuments = '/add-documents';
+  static const previewDocument = '/preview-document';
+  static const addDocumentsDetails = '/add-documents-details';
+  static const documentsDetails = '/documents-details';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -91,5 +97,11 @@ class AppRoutes {
     GetPage(name: addProvider, page: () => const AddProviderScreen()),
     GetPage(name: documents, page: () => const DocumentsScreen()),
     GetPage(name: addDocuments, page: () => const AddDocumentsScreen()),
+    GetPage(name: previewDocument, page: () => const PreviewDocumentScreen()),
+    GetPage(
+      name: addDocumentsDetails,
+      page: () => const AddDocumentsDetailsScreen(),
+    ),
+    GetPage(name: documentsDetails, page: () => const DocumentsDetailsScreen()),
   ];
 }

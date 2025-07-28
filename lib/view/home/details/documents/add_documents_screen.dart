@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
@@ -218,7 +221,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                     TextWidgetButton(
                       text: '→  Next',
                       onPressed: () {
-                        // Get.toNamed(AppRoutes.selectHouse);
+                        Get.toNamed(AppRoutes.previewDocument);
                       },
                     ),
                   ],

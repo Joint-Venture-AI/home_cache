@@ -49,63 +49,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       'category': 'Warranties',
     },
     {
-      'title': 'Warranty',
-      'subtitle': 'Electronics',
-      'date': '10 Jun 25',
-      'iconPath': 'assets/images/document.png',
-      'category': 'Warranties',
-    },
-    {
-      'title': 'Laptop',
-      'subtitle': 'Computer',
-      'date': '22 Aug 25',
-      'iconPath': 'assets/images/document.png',
-      'category': 'Warranties',
-    },
-    {
-      'title': 'Warranty',
-      'subtitle': 'Electronics',
-      'date': '10 Jun 25',
-      'iconPath': 'assets/images/document.png',
-      'category': 'Warranties',
-    },
-    {
-      'title': 'Laptop',
-      'subtitle': 'Computer',
-      'date': '22 Aug 25',
-      'iconPath': 'assets/images/document.png',
-      'category': 'Warranties',
-    },
-    {
-      'title': 'Warranty',
-      'subtitle': 'Electronics',
-      'date': '10 Jun 25',
-      'iconPath': 'assets/images/document.png',
-      'category': 'Warranties',
-    },
-    {
-      'title': 'Laptop',
-      'subtitle': 'Computer',
-      'date': '22 Aug 25',
-      'iconPath': 'assets/images/document.png',
-      'category': 'Warranties',
-    },
-    {
-      'title': 'Warranty',
-      'subtitle': 'Electronics',
-      'date': '10 Jun 25',
-      'iconPath': 'assets/images/document.png',
-      'category': 'Warranties',
-    },
-    {
-      'title': 'Laptop',
-      'subtitle': 'Computer',
-      'date': '22 Aug 25',
-      'iconPath': 'assets/images/document.png',
-      'category': 'Warranties',
-    },
-
-    {
       'title': 'Car',
       'subtitle': 'Vehicle',
       'date': '15 May 25',
@@ -119,7 +62,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       'iconPath': 'assets/images/document.png',
       'category': 'Insurance',
     },
-
     {
       'title': 'Grocery Receipt',
       'subtitle': 'Shopping',
@@ -134,7 +76,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       'iconPath': 'assets/images/document.png',
       'category': 'Receipts',
     },
-
     {
       'title': 'Renovation Quote',
       'subtitle': 'Home Improvement',
@@ -149,7 +90,6 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
       'iconPath': 'assets/images/document.png',
       'category': 'Quotes',
     },
-
     {
       'title': 'User Manual',
       'subtitle': 'Appliance',
@@ -213,7 +153,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             ),
             SizedBox(height: 20.h),
 
-            // Category buttons
+            // Categories
             Column(
               children: [
                 Row(
@@ -276,6 +216,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
             ),
             SizedBox(height: 20.h),
 
+            // Documents Grid
             Expanded(
               child: filteredDocuments.isEmpty
                   ? Column(
@@ -313,9 +254,7 @@ class _DocumentsScreenState extends State<DocumentsScreen> {
                           date: doc['date'],
                           iconPath: doc['iconPath'],
                           onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text("Tapped ${doc['title']}")),
-                            );
+                            Get.toNamed(AppRoutes.documentsDetails);
                           },
                         );
                       },
