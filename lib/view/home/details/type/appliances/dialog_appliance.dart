@@ -125,13 +125,13 @@ class DialogAppliance extends StatelessWidget {
                     },
                   ),
                 ),
-                SizedBox(height: 60.h),
+                SizedBox(height: 70.h),
                 Padding(
                   padding: EdgeInsets.only(left: 60.w),
                   child: Column(
                     children: [
                       TextWidgetButton(
-                        text: '→ Next',
+                        text: '→  Next',
                         onPressed: () {
                           Get.toNamed(AppRoutes.editAppliances);
                         },

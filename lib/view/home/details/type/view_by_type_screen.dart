@@ -126,16 +126,15 @@ class _DetailsScreenState extends State<ViewByTypeScreen> {
                       break;
                     case 1:
                       onTap = () {
-                        Get.toNamed(AppRoutes.documents);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Coming Soon")),
+                        );
                       };
                       break;
                     case 2:
                       onTap = () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => const OnboardingScreen(),
-                          ),
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Coming Soon")),
                         );
                       };
                       break;
