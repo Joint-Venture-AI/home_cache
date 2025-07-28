@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class TextFieldWigget extends StatelessWidget {
-  const TextFieldWigget({super.key});
+class TextFieldWidget extends StatelessWidget {
+  const TextFieldWidget({super.key});
 
   @override
   Widget build(BuildContext context) {

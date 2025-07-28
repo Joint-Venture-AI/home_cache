@@ -9,7 +9,7 @@ import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
-import 'package:home_cache/view/widget/text_field_wigget.dart';
+import 'package:home_cache/view/widget/text_field_widget.dart';
 import 'package:home_cache/view/widget/tile_button.dart';
 
 class AddProviderScreen extends StatelessWidget {
@@ -38,7 +38,7 @@ class AddProviderScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Company',
@@ -46,7 +46,7 @@ class AddProviderScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Full Name',
@@ -54,7 +54,7 @@ class AddProviderScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
 
               SizedBox(height: 16.h),
               Text(
@@ -63,7 +63,7 @@ class AddProviderScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'URL',
@@ -71,7 +71,7 @@ class AddProviderScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 32.h),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,

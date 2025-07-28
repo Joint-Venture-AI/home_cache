@@ -7,7 +7,7 @@ import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
-import 'package:home_cache/view/widget/text_field_wigget.dart';
+import 'package:home_cache/view/widget/text_field_widget.dart';
 
 class AddDocumentsDetailsScreen extends StatelessWidget {
   const AddDocumentsDetailsScreen({super.key});
@@ -37,7 +37,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Type',
@@ -45,7 +45,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Brand/Company',
@@ -53,7 +53,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Url',
@@ -61,7 +61,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Note',
@@ -69,7 +69,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 48.h),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50.w),

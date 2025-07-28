@@ -6,7 +6,7 @@ import 'package:home_cache/constants/colors.dart' show AppColors, secondary;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/text_field_wigget.dart';
+import 'package:home_cache/view/widget/text_field_widget.dart';
 
 class DocumentsDetailsScreen extends StatefulWidget {
   const DocumentsDetailsScreen({super.key});
@@ -146,7 +146,7 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
-                TextFieldWigget(),
+                TextFieldWidget(),
                 SizedBox(height: 16.h),
                 Text(
                   'Type',
@@ -154,7 +154,7 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
-                TextFieldWigget(),
+                TextFieldWidget(),
                 SizedBox(height: 16.h),
                 Text(
                   'Brand/Company',
@@ -162,7 +162,7 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
-                TextFieldWigget(),
+                TextFieldWidget(),
                 SizedBox(height: 16.h),
                 Text(
                   'Url',
@@ -170,7 +170,7 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
-                TextFieldWigget(),
+                TextFieldWidget(),
                 SizedBox(height: 16.h),
                 Text(
                   'Note',
@@ -179,7 +179,7 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                 ),
 
                 SizedBox(height: 6.h),
-                TextFieldWigget(),
+                TextFieldWidget(),
               ],
             ],
           ),

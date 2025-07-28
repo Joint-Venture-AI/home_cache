@@ -156,7 +156,6 @@ class _AppliancesScreenState extends State<AppliancesScreen> {
             ),
             SizedBox(height: 20.h),
 
-            // Category Buttons (3 per row)
             Wrap(
               alignment: WrapAlignment.center,
               spacing: 6.w,

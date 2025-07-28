@@ -8,7 +8,7 @@ import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/doccument_slider.dart';
 import 'package:home_cache/view/widget/past_appoinment_tile.dart';
-import 'package:home_cache/view/widget/text_field_wigget.dart';
+import 'package:home_cache/view/widget/text_field_widget.dart';
 
 class AddAppliancesScreen extends StatefulWidget {
   const AddAppliancesScreen({super.key});
@@ -97,7 +97,7 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Location',
@@ -105,14 +105,14 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Notes',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               if (isPastExpanded) ...[
                 PastAppointmentsTile(date: "June 18, 2025", status: "AC Check"),

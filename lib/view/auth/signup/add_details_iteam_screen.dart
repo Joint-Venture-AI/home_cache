@@ -6,7 +6,7 @@ import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
-import 'package:home_cache/view/widget/text_field_wigget.dart';
+import 'package:home_cache/view/widget/text_field_widget.dart';
 
 class AddDetailsIteamScreen extends StatelessWidget {
   const AddDetailsIteamScreen({super.key});
@@ -41,7 +41,7 @@ class AddDetailsIteamScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Last Serviced',
@@ -49,7 +49,7 @@ class AddDetailsIteamScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
               SizedBox(height: 16.h),
               Text(
                 'Note',
@@ -57,7 +57,7 @@ class AddDetailsIteamScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWigget(),
+              TextFieldWidget(),
 
               SizedBox(height: 120.h),
               Row(

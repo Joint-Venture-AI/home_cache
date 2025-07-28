@@ -108,7 +108,10 @@ class _DetailsScreenState extends State<RoomScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // DialogRoom(),
+                      showDialog(
+                        context: context,
+                        builder: (context) => const DialogRoom(),
+                      );
                     },
                     style: TextButton.styleFrom(
                       backgroundColor: AppColors.primary,
