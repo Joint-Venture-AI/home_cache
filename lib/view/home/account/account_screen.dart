@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors, primary;
+import 'package:home_cache/constants/colors.dart'
+    show AppColors, primary, secondary;
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/view/widget/setting_tile.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -73,22 +75,32 @@ class AccountScreen extends StatelessWidget {
                 ),
               ),
               Divider(color: AppColors.primary),
-              ListTile(
+              SizedBox(height: 12.h),
+              SettingsTile(
                 leading: Image.asset(
                   "assets/images/subcription.png",
                   width: 24.w,
                 ),
-                title: Text(
-                  'Tile Title',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                ),
-                trailing: Icon(
-                  Icons.arrow_forward_ios,
-                  size: 16,
-                ), // or Icons.chevron_right
-                onTap: () {
-                  // Handle tile tap
-                },
+                title: 'Subscription',
+                onTap: () {},
+              ),
+              SizedBox(height: 12.h),
+              SettingsTile(
+                leading: Image.asset("assets/images/bell.png", width: 24.w),
+                title: 'Profile Settings',
+                onTap: () {},
+              ),
+              SizedBox(height: 12.h),
+              SettingsTile(
+                leading: Image.asset("assets/images/lock.png", width: 24.w),
+                title: 'Product Support',
+                onTap: () {},
+              ),
+              SizedBox(height: 12.h),
+              SettingsTile(
+                leading: Image.asset("assets/images/group.png", width: 24.w),
+                title: 'Household Management',
+                onTap: () {},
               ),
             ],
           ),
