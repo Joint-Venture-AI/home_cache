@@ -177,7 +177,9 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                   style: TextStyles.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
+
                 SizedBox(height: 6.h),
+                TextFieldWigget(),
               ],
             ],
           ),

@@ -5,37 +5,30 @@ import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/auth/onboarding_screen.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
-class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+class ViewByTypeScreen extends StatefulWidget {
+  const ViewByTypeScreen({super.key});
 
   @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
+  State<ViewByTypeScreen> createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _DetailsScreenState extends State<ViewByTypeScreen> {
   int selectedIndex = -1;
 
   // List of tile data
   final List<Map<String, dynamic>> tiles = [
     {
-      'title': 'Provides',
-      'iconPath': 'assets/images/baseboard.png',
+      'title': 'Appliances',
+      'iconPath': 'assets/images/appliances.png',
       'index': 0,
     },
+    {'title': 'Utility', 'iconPath': 'assets/images/utility.png', 'index': 1},
+    {'title': 'Paint', 'iconPath': 'assets/images/paint.png', 'index': 2},
     {
-      'title': 'Documents',
-      'iconPath': 'assets/images/documents.png',
-      'index': 1,
-    },
-    {
-      'title': 'View By Room',
-      'iconPath': 'assets/images/bydoor.png',
-      'index': 2,
-    },
-    {
-      'title': 'View By Type',
-      'iconPath': 'assets/images/bytype.png',
+      'title': 'Materials',
+      'iconPath': 'assets/images/materials.png',
       'index': 3,
     },
   ];
@@ -98,6 +91,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBarBack(),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -105,13 +99,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 80.h),
               Text(
-                'View Details',
-                style: TextStyles.bold.copyWith(
-                  color: AppColors.black,
-                  fontSize: 24.sp,
-                ),
+                'View By Type',
+                style: TextStyles.bold.copyWith(color: AppColors.secondary),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 40.h),
@@ -131,7 +121,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   switch (index) {
                     case 0:
                       onTap = () {
-                        Get.toNamed(AppRoutes.provider);
+                        Get.toNamed(AppRoutes.appliances);
                       };
                       break;
                     case 1:
@@ -152,7 +142,9 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     case 3:
                     default:
                       onTap = () {
-                        Get.toNamed(AppRoutes.viewByType);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Coming Soon")),
+                        );
                       };
                       break;
                   }

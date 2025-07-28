@@ -24,6 +24,9 @@ import 'package:home_cache/view/home/details/documents/documents_screen.dart';
 import 'package:home_cache/view/home/details/documents/preview_document_screen.dart';
 import 'package:home_cache/view/home/details/provider/add_provider_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_details_screen.dart';
+import 'package:home_cache/view/home/details/type/appliances/appliances_screen.dart';
+import 'package:home_cache/view/home/details/type/appliances/edit_appliances_screen.dart';
+import 'package:home_cache/view/home/details/type/view_by_type_screen.dart';
 import 'package:home_cache/view/home/home/home_health_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_screen.dart';
 import 'package:home_cache/view/splash_screen.dart';
@@ -56,6 +59,9 @@ class AppRoutes {
   static const previewDocument = '/preview-document';
   static const addDocumentsDetails = '/add-documents-details';
   static const documentsDetails = '/documents-details';
+  static const viewByType = '/view-by-type';
+  static const appliances = '/appliances';
+  static const editAppliances = '/edit-appliances';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -103,5 +109,8 @@ class AppRoutes {
       page: () => const AddDocumentsDetailsScreen(),
     ),
     GetPage(name: documentsDetails, page: () => const DocumentsDetailsScreen()),
+    GetPage(name: viewByType, page: () => const ViewByTypeScreen()),
+    GetPage(name: appliances, page: () => const AppliancesScreen()),
+    GetPage(name: editAppliances, page: () => const EditAppliancesScreen()),
   ];
 }
