@@ -24,6 +24,9 @@ import 'package:home_cache/view/home/details/documents/documents_screen.dart';
 import 'package:home_cache/view/home/details/documents/preview_document_screen.dart';
 import 'package:home_cache/view/home/details/provider/add_provider_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_details_screen.dart';
+import 'package:home_cache/view/home/details/room/add_new_room_iteam_screen.dart';
+import 'package:home_cache/view/home/details/room/add_room_screen.dart';
+import 'package:home_cache/view/home/details/room/edit_room_details_screen.dart';
 import 'package:home_cache/view/home/details/room/room_screen.dart';
 import 'package:home_cache/view/home/details/type/appliances/appliances_screen.dart';
 import 'package:home_cache/view/home/details/type/appliances/add_appliances_screen.dart';
@@ -66,6 +69,9 @@ class AppRoutes {
   static const addAppliances = '/add-appliances';
   static const editAppliances = '/edit-appliances';
   static const room = '/room';
+  static const addRoom = '/add-room';
+  static const editRoomDetails = '/edit-room-details';
+  static const addNewRoomIteam = '/add-new-room-iteam';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -118,5 +124,8 @@ class AppRoutes {
     GetPage(name: addAppliances, page: () => const AddAppliancesScreen()),
     GetPage(name: editAppliances, page: () => const EditAppliancesScreen()),
     GetPage(name: room, page: () => const RoomScreen()),
+    GetPage(name: addRoom, page: () => const AddRoomScreen()),
+    GetPage(name: editRoomDetails, page: () => const EditRoomDetailsScreen()),
+    GetPage(name: addNewRoomIteam, page: () => const AddNewRoomIteamScreen()),
   ];
 }

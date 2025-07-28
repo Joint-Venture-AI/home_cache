@@ -4,7 +4,8 @@ import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/home/details/room/dialog_room.dart';
+import 'package:home_cache/view/home/details/room/add_room_dialog.dart';
+import 'package:home_cache/view/home/details/room/add_room_team_dialog.dart';
 
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
@@ -110,7 +111,7 @@ class _DetailsScreenState extends State<RoomScreen> {
                     onPressed: () {
                       showDialog(
                         context: context,
-                        builder: (context) => const DialogRoom(),
+                        builder: (context) => const AddRoomDialog(),
                       );
                     },
                     style: TextButton.styleFrom(
@@ -147,29 +148,23 @@ class _DetailsScreenState extends State<RoomScreen> {
                   switch (index) {
                     case 0:
                       onTap = () {
-                        Get.toNamed(AppRoutes.appliances);
+                        Get.toNamed(AppRoutes.editRoomDetails);
                       };
                       break;
                     case 1:
                       onTap = () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Coming Soon")),
-                        );
+                        Get.toNamed(AppRoutes.editRoomDetails);
                       };
                       break;
                     case 2:
                       onTap = () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Coming Soon")),
-                        );
+                        Get.toNamed(AppRoutes.editRoomDetails);
                       };
                       break;
                     case 3:
                     default:
                       onTap = () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Coming Soon")),
-                        );
+                        Get.toNamed(AppRoutes.editRoomDetails);
                       };
                       break;
                   }
