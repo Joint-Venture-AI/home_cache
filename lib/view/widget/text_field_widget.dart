@@ -6,20 +6,26 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: 48.h,
-      decoration: BoxDecoration(
-        color: Colors.grey[200],
-        borderRadius: BorderRadius.circular(12.r),
-      ),
       child: TextField(
         decoration: InputDecoration(
-          border: InputBorder.none,
+          filled: true,
+          fillColor: Colors.grey[200],
           contentPadding: EdgeInsets.symmetric(
             horizontal: 16.w,
             vertical: 12.h,
           ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: Colors.grey, width: 1.w),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12.r),
+            borderSide: BorderSide(color: Colors.grey, width: 1.5.w),
+          ),
         ),
+        style: TextStyle(color: Colors.black),
       ),
     );
   }
