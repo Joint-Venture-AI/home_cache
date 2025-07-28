@@ -4,39 +4,30 @@ import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/auth/onboarding_screen.dart';
+import 'package:home_cache/view/home/details/room/dialog_room.dart';
 
-class DetailsScreen extends StatefulWidget {
-  const DetailsScreen({super.key});
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
+
+class RoomScreen extends StatefulWidget {
+  const RoomScreen({super.key});
 
   @override
-  State<DetailsScreen> createState() => _DetailsScreenState();
+  State<RoomScreen> createState() => _DetailsScreenState();
 }
 
-class _DetailsScreenState extends State<DetailsScreen> {
+class _DetailsScreenState extends State<RoomScreen> {
   int selectedIndex = -1;
 
-  // List of tile data
   final List<Map<String, dynamic>> tiles = [
+    {'title': 'Primary', 'iconPath': 'assets/images/primary.png', 'index': 0},
+    {'title': 'Kithchen', 'iconPath': 'assets/images/kitchen.png', 'index': 1},
+    {'title': 'Bath 1', 'iconPath': 'assets/images/bath.png', 'index': 2},
+    {'title': 'Dining', 'iconPath': 'assets/images/dining.png', 'index': 3},
+    {'title': 'Bath 2', 'iconPath': 'assets/images/bath.png', 'index': 4},
     {
-      'title': 'Provides',
-      'iconPath': 'assets/images/baseboard.png',
-      'index': 0,
-    },
-    {
-      'title': 'Documents',
-      'iconPath': 'assets/images/documents.png',
-      'index': 1,
-    },
-    {
-      'title': 'View By Room',
-      'iconPath': 'assets/images/bydoor.png',
-      'index': 2,
-    },
-    {
-      'title': 'View By Type',
-      'iconPath': 'assets/images/bytype.png',
-      'index': 3,
+      'title': 'Living Room',
+      'iconPath': 'assets/images/livingroom.png',
+      'index': 5,
     },
   ];
 
@@ -98,6 +89,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBarBack(),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -105,14 +97,35 @@ class _DetailsScreenState extends State<DetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 80.h),
-              Text(
-                'View Details',
-                style: TextStyles.bold.copyWith(
-                  color: AppColors.black,
-                  fontSize: 24.sp,
-                ),
-                textAlign: TextAlign.center,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(width: 40.w),
+                  Text(
+                    'View By Room',
+                    style: TextStyles.bold.copyWith(color: AppColors.secondary),
+                    textAlign: TextAlign.center,
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      // DialogRoom(),
+                    },
+                    style: TextButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 6.h,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.r),
+                      ),
+                    ),
+                    child: Text(
+                      '+ Add',
+                      style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                    ),
+                  ),
+                ],
               ),
               SizedBox(height: 40.h),
               GridView.builder(
@@ -131,23 +144,29 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   switch (index) {
                     case 0:
                       onTap = () {
-                        Get.toNamed(AppRoutes.provider);
+                        Get.toNamed(AppRoutes.appliances);
                       };
                       break;
                     case 1:
                       onTap = () {
-                        Get.toNamed(AppRoutes.documents);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Coming Soon")),
+                        );
                       };
                       break;
                     case 2:
                       onTap = () {
-                        Get.toNamed(AppRoutes.room);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Coming Soon")),
+                        );
                       };
                       break;
                     case 3:
                     default:
                       onTap = () {
-                        Get.toNamed(AppRoutes.viewByType);
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(content: Text("Coming Soon")),
+                        );
                       };
                       break;
                   }

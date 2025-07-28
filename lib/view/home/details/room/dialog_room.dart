@@ -8,8 +8,8 @@ import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
-class DialogAppliance extends StatelessWidget {
-  const DialogAppliance({super.key});
+class DialogRoom extends StatelessWidget {
+  const DialogRoom({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -133,7 +133,7 @@ class DialogAppliance extends StatelessWidget {
                       TextWidgetButton(
                         text: '→  Next',
                         onPressed: () {
-                          Get.toNamed(AppRoutes.addAppliances);
+                          Get.toNamed(AppRoutes.editAppliances);
                         },
                       ),
                     ],

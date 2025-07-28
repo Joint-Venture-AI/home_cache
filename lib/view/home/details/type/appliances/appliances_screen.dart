@@ -132,7 +132,10 @@ class _AppliancesScreenState extends State<AppliancesScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Get.toNamed(AppRoutes.addDocuments);
+                    showDialog(
+                      context: context,
+                      builder: (context) => const DialogAppliance(),
+                    );
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: AppColors.primary,
@@ -231,10 +234,7 @@ class _AppliancesScreenState extends State<AppliancesScreen> {
                             trailing: IconButton(
                               icon: Icon(Icons.edit, color: AppColors.black),
                               onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => const DialogAppliance(),
-                                );
+                                Get.toNamed(AppRoutes.editAppliances);
                               },
                             ),
                           ),
