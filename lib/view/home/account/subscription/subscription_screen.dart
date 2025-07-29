@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/instance_manager.dart';
 import 'package:home_cache/constants/colors.dart'
     show AppColors, primary, secondary;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/widget/setting_tile.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:home_cache/view/widget/subscription_tile_widget.dart';
 
-class AccountScreen extends StatelessWidget {
-  const AccountScreen({super.key});
+class SubscriptionScreen extends StatelessWidget {
+  const SubscriptionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBarBack(),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -23,7 +25,7 @@ class AccountScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Account Management',
+                'Subscription',
                 style: TextStyles.bold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),
@@ -79,33 +81,13 @@ class AccountScreen extends StatelessWidget {
               ),
               Divider(color: AppColors.primary),
               SizedBox(height: 12.h),
-              SettingsTile(
-                leading: Image.asset(
-                  "assets/images/subcription.png",
-                  width: 24.w,
-                ),
-                title: 'Subscription',
+              SubscriptionTileWidget(
+                title: 'Annual Subscription',
+                paymentMethod: 'Mastercard',
+                renewalDate: '1/1/2026',
                 onTap: () {
-                  Get.toNamed(AppRoutes.subscription);
+                  Get.toNamed(AppRoutes.billingAddress);
                 },
-              ),
-              SizedBox(height: 12.h),
-              SettingsTile(
-                leading: Image.asset("assets/images/bell.png", width: 24.w),
-                title: 'Profile Settings',
-                onTap: () {},
-              ),
-              SizedBox(height: 12.h),
-              SettingsTile(
-                leading: Image.asset("assets/images/lock.png", width: 24.w),
-                title: 'Product Support',
-                onTap: () {},
-              ),
-              SizedBox(height: 12.h),
-              SettingsTile(
-                leading: Image.asset("assets/images/group.png", width: 24.w),
-                title: 'Household Management',
-                onTap: () {},
               ),
             ],
           ),

@@ -15,6 +15,8 @@ import 'package:home_cache/view/auth/signup/select_iteam_screen.dart';
 
 import 'package:home_cache/view/auth/signup/signup_screen.dart';
 import 'package:home_cache/view/auth/signup/track_list_screen.dart';
+import 'package:home_cache/view/home/account/subscription/billing_address_screen.dart';
+import 'package:home_cache/view/home/account/subscription/subscription_screen.dart';
 import 'package:home_cache/view/home/bottom_nav_bar.dart';
 import 'package:home_cache/view/home/chat/chat_screen.dart';
 import 'package:home_cache/view/home/details/documents/add_documents_details_screen.dart';
@@ -72,6 +74,8 @@ class AppRoutes {
   static const addRoom = '/add-room';
   static const editRoomDetails = '/edit-room-details';
   static const addNewRoomIteam = '/add-new-room-iteam';
+  static const subscription = '/subscription';
+  static const billingAddress = '/billing-address';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -127,5 +131,7 @@ class AppRoutes {
     GetPage(name: addRoom, page: () => const AddRoomScreen()),
     GetPage(name: editRoomDetails, page: () => const EditRoomDetailsScreen()),
     GetPage(name: addNewRoomIteam, page: () => const AddNewRoomIteamScreen()),
+    GetPage(name: subscription, page: () => const SubscriptionScreen()),
+    GetPage(name: billingAddress, page: () => const BillingAddressScreen()),
   ];
 }
