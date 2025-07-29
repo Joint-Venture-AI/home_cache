@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/payment_selector_widget.dart';
+import 'package:home_cache/view/widget/subscription_plan_widget.dart';
+import 'package:home_cache/view/widget/text_button_widget.dart';
 
 class BillingAddressScreen extends StatefulWidget {
   const BillingAddressScreen({super.key});
@@ -13,7 +18,8 @@ class BillingAddressScreen extends StatefulWidget {
 }
 
 class _BillingAddressScreenState extends State<BillingAddressScreen> {
-  String selectedMethod = 'mastercard'; // default selected method
+  String selectedPaymentMethod = 'mastercard';
+  String selectedSubscriptionPlan = 'annual';
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +38,7 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12.h),
+
               Text(
                 'Billing Address',
                 style: TextStyles.medium.copyWith(
@@ -40,6 +47,8 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
                 ),
                 textAlign: TextAlign.start,
               ),
+              SizedBox(height: 8.h),
+
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
                 decoration: BoxDecoration(
@@ -65,6 +74,8 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
                 ),
               ),
               SizedBox(height: 16.h),
+
+              /// Payment Method Section
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -89,26 +100,97 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
               PaymentSelectorWidget(
                 logoPath: 'assets/images/master.png',
                 title: 'Mastercard',
-                isSelected: selectedMethod == 'mastercard',
+                isSelected: selectedPaymentMethod == 'mastercard',
                 onTap: () {
                   setState(() {
-                    selectedMethod = 'mastercard';
+                    selectedPaymentMethod = 'mastercard';
                   });
                 },
               ),
               SizedBox(height: 12.h),
+
               PaymentSelectorWidget(
                 logoPath: 'assets/images/visa.png',
                 title: 'Visa',
-                isSelected: selectedMethod == 'visa',
+                isSelected: selectedPaymentMethod == 'visa',
                 onTap: () {
                   setState(() {
-                    selectedMethod = 'visa';
+                    selectedPaymentMethod = 'visa';
                   });
                 },
               ),
+              SizedBox(height: 12.h),
 
-              SizedBox(height: 100.h),
+              PaymentSelectorWidget(
+                logoPath: 'assets/images/paypal.png',
+                title: 'Paypal',
+                isSelected: selectedPaymentMethod == 'paypal',
+                onTap: () {
+                  setState(() {
+                    selectedPaymentMethod = 'paypal';
+                  });
+                },
+              ),
+              SizedBox(height: 12.h),
+
+              PaymentSelectorWidget(
+                logoPath: 'assets/images/apple.png',
+                title: 'Apple Pay',
+                isSelected: selectedPaymentMethod == 'applepay',
+                onTap: () {
+                  setState(() {
+                    selectedPaymentMethod = 'applepay';
+                  });
+                },
+              ),
+              SizedBox(height: 24.h),
+
+              Text(
+                'Subscription Plan',
+                style: TextStyles.medium.copyWith(
+                  color: AppColors.black,
+                  fontSize: 20.sp,
+                ),
+                textAlign: TextAlign.start,
+              ),
+              SizedBox(height: 12.h),
+
+              SubscriptionPlanWidget(
+                title: 'Annual',
+                subtitle: 'Renews (1/1/2026)',
+                isSelected: selectedSubscriptionPlan == 'annual',
+                onTap: () {
+                  setState(() {
+                    selectedSubscriptionPlan = 'annual';
+                  });
+                },
+              ),
+              SizedBox(height: 12.h),
+
+              SubscriptionPlanWidget(
+                title: 'Monthly',
+                subtitle: '\$84.99/year (\$6.67/month)',
+                isSelected: selectedSubscriptionPlan == 'monthly',
+                onTap: () {
+                  setState(() {
+                    selectedSubscriptionPlan = 'monthly';
+                  });
+                },
+              ),
+              SizedBox(height: 24.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50.w),
+                child: Column(
+                  children: [
+                    TextWidgetButton(
+                      text: 'Confirm',
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.cardInfo);
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),

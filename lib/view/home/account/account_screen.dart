@@ -7,6 +7,7 @@ import 'package:home_cache/constants/colors.dart'
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/setting_tile.dart';
+import 'package:home_cache/view/widget/text_button_widget.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -106,6 +107,20 @@ class AccountScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/group.png", width: 24.w),
                 title: 'Household Management',
                 onTap: () {},
+              ),
+              SizedBox(height: 120.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50.w),
+                child: Column(
+                  children: [
+                    TextWidgetButton(
+                      text: 'Log Out',
+                      onPressed: () {
+                        //  Get.toNamed(AppRoutes.selectHouse);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

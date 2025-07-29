@@ -17,6 +17,7 @@ class DialogAppliance extends StatelessWidget {
     String selectedBrand = 'Samsung';
 
     return AlertDialog(
+      backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(
         'Add an appliance',

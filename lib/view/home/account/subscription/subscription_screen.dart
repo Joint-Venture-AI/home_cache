@@ -8,6 +8,7 @@ import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/subscription_tile_widget.dart';
+import 'package:home_cache/view/widget/text_button_widget.dart';
 
 class SubscriptionScreen extends StatelessWidget {
   const SubscriptionScreen({super.key});
@@ -88,6 +89,20 @@ class SubscriptionScreen extends StatelessWidget {
                 onTap: () {
                   Get.toNamed(AppRoutes.billingAddress);
                 },
+              ),
+              SizedBox(height: 360.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50.w),
+                child: Column(
+                  children: [
+                    TextWidgetButton(
+                      text: 'Log Out',
+                      onPressed: () {
+                        //  Get.toNamed(AppRoutes.selectHouse);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

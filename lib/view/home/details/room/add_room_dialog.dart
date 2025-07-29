@@ -16,6 +16,7 @@ class AddRoomDialog extends StatelessWidget {
     String selectedRoom = 'Bedroom';
 
     return AlertDialog(
+      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(
         'Add a room',
@@ -84,7 +85,7 @@ class AddRoomDialog extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.lightgrey),
+                    border: Border.all(color: AppColors.surface),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: DropdownButton<String>(

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
 
-class PaymentSelectorWidget extends StatelessWidget {
-  final String logoPath;
+class SubscriptionPlanWidget extends StatelessWidget {
   final String title;
+  final String subtitle;
   final bool isSelected;
   final VoidCallback? onTap;
 
-  const PaymentSelectorWidget({
+  const SubscriptionPlanWidget({
     super.key,
-    required this.logoPath,
     required this.title,
+    required this.subtitle,
     this.isSelected = false,
     this.onTap,
   });
@@ -21,7 +21,7 @@ class PaymentSelectorWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
         decoration: BoxDecoration(
           color: Colors.white,
           border: Border.all(
@@ -32,14 +32,30 @@ class PaymentSelectorWidget extends StatelessWidget {
         ),
         child: Row(
           children: [
-            Image.asset(logoPath, width: 32.w, height: 32.w),
-            SizedBox(width: 12.w),
             Expanded(
-              child: Text(
-                title,
-                style: TextStyle(fontSize: 16.sp, color: Colors.black),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 16.sp,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black,
+                    ),
+                  ),
+                  SizedBox(width: 10.w),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: AppColors.secondary,
+                    ),
+                  ),
+                ],
               ),
             ),
+
             Container(
               width: 20.w,
               height: 20.w,

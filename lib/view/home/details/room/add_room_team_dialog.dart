@@ -16,6 +16,7 @@ class AddRoomTeamDialog extends StatelessWidget {
     String selectedRoom = 'Bedroom';
 
     return AlertDialog(
+      backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(
         'Add an iteam',
