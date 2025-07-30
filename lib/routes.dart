@@ -12,9 +12,9 @@ import 'package:home_cache/view/auth/signup/onboardingSignup/select_reponsible_t
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_type_of_house_screen.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_water_supply_type_screen.dart';
 import 'package:home_cache/view/auth/signup/select_iteam_screen.dart';
-
 import 'package:home_cache/view/auth/signup/signup_screen.dart';
 import 'package:home_cache/view/auth/signup/track_list_screen.dart';
+import 'package:home_cache/view/home/account/profilesetting/profile_setting_screen.dart';
 import 'package:home_cache/view/home/account/subscription/billing_address_screen.dart';
 import 'package:home_cache/view/home/account/subscription/card_info_screen.dart';
 import 'package:home_cache/view/home/account/subscription/subscription_screen.dart';
@@ -78,6 +78,7 @@ class AppRoutes {
   static const subscription = '/subscription';
   static const billingAddress = '/billing-address';
   static const cardInfo = '/card-info';
+  static const profileSetting = '/profile-setting';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -136,5 +137,6 @@ class AppRoutes {
     GetPage(name: subscription, page: () => const SubscriptionScreen()),
     GetPage(name: billingAddress, page: () => const BillingAddressScreen()),
     GetPage(name: cardInfo, page: () => const CardInfoScreen()),
+    GetPage(name: profileSetting, page: () => const ProfileSettingScreen()),
   ];
 }

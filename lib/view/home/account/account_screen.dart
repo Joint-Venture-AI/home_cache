@@ -94,7 +94,9 @@ class AccountScreen extends StatelessWidget {
               SettingsTile(
                 leading: Image.asset("assets/images/bell.png", width: 24.w),
                 title: 'Profile Settings',
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.profileSetting);
+                },
               ),
               SizedBox(height: 12.h),
               SettingsTile(
