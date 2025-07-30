@@ -14,7 +14,10 @@ import 'package:home_cache/view/auth/signup/onboardingSignup/select_water_supply
 import 'package:home_cache/view/auth/signup/select_iteam_screen.dart';
 import 'package:home_cache/view/auth/signup/signup_screen.dart';
 import 'package:home_cache/view/auth/signup/track_list_screen.dart';
+import 'package:home_cache/view/home/account/profilesetting/edit_contact_information_screen.dart';
+import 'package:home_cache/view/home/account/profilesetting/privacy_policy_screen.dart';
 import 'package:home_cache/view/home/account/profilesetting/profile_setting_screen.dart';
+import 'package:home_cache/view/home/account/profilesetting/terms_of_use_screen.dart';
 import 'package:home_cache/view/home/account/subscription/billing_address_screen.dart';
 import 'package:home_cache/view/home/account/subscription/card_info_screen.dart';
 import 'package:home_cache/view/home/account/subscription/subscription_screen.dart';
@@ -79,6 +82,9 @@ class AppRoutes {
   static const billingAddress = '/billing-address';
   static const cardInfo = '/card-info';
   static const profileSetting = '/profile-setting';
+  static const privacyPolicy = '/privacy-policy';
+  static const termsOfUse = '/terms-of-use';
+  static const editContactInfo = '/edit-contact-info';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -138,5 +144,11 @@ class AppRoutes {
     GetPage(name: billingAddress, page: () => const BillingAddressScreen()),
     GetPage(name: cardInfo, page: () => const CardInfoScreen()),
     GetPage(name: profileSetting, page: () => const ProfileSettingScreen()),
+    GetPage(name: privacyPolicy, page: () => const PrivacyPolicyScreen()),
+    GetPage(name: termsOfUse, page: () => const TermsOfUseScreen()),
+    GetPage(
+      name: editContactInfo,
+      page: () => const EditContactInformationScreen(),
+    ),
   ];
 }

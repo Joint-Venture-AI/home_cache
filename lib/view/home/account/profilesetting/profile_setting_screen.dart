@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/setting_tile.dart';
 
@@ -34,7 +37,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 ),
                 title: 'Privacy Policy',
                 onTap: () {
-                  //Get.toNamed(AppRoutes.subscription);
+                  Get.toNamed(AppRoutes.privacyPolicy);
                 },
               ),
               SizedBox(height: 12.h),
@@ -42,7 +45,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/terms.png", width: 24.w),
                 title: 'Terms of Use',
                 onTap: () {
-                  //Get.toNamed(AppRoutes.subscription);
+                  Get.toNamed(AppRoutes.termsOfUse);
                 },
               ),
               SizedBox(height: 12.h),
@@ -50,7 +53,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/profile.png", width: 24.w),
                 title: 'Edit Contact Information',
                 onTap: () {
-                  //Get.toNamed(AppRoutes.subscription);
+                  Get.toNamed(AppRoutes.editContactInfo);
                 },
               ),
               SizedBox(height: 12.h),
