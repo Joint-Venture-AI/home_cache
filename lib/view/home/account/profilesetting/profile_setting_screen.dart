@@ -61,7 +61,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/pass.png", width: 24.w),
                 title: 'Password Settings',
                 onTap: () {
-                  //Get.toNamed(AppRoutes.subscription);
+                  Get.toNamed(AppRoutes.passwordSettings);
                 },
               ),
               SizedBox(height: 12.h),
@@ -69,7 +69,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/Settings.png", width: 24.w),
                 title: 'Delete Account',
                 onTap: () {
-                  //Get.toNamed(AppRoutes.subscription);
+                  Get.toNamed(AppRoutes.deleteAccount);
                 },
               ),
               SizedBox(height: 12.h),

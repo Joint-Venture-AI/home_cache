@@ -102,7 +102,9 @@ class AccountScreen extends StatelessWidget {
               SettingsTile(
                 leading: Image.asset("assets/images/lock.png", width: 24.w),
                 title: 'Product Support',
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.productSupport);
+                },
               ),
               SizedBox(height: 12.h),
               SettingsTile(

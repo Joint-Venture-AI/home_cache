@@ -14,7 +14,10 @@ import 'package:home_cache/view/auth/signup/onboardingSignup/select_water_supply
 import 'package:home_cache/view/auth/signup/select_iteam_screen.dart';
 import 'package:home_cache/view/auth/signup/signup_screen.dart';
 import 'package:home_cache/view/auth/signup/track_list_screen.dart';
+import 'package:home_cache/view/home/account/productsupport/product_support_screen.dart';
+import 'package:home_cache/view/home/account/profilesetting/delete_account_screen.dart';
 import 'package:home_cache/view/home/account/profilesetting/edit_contact_information_screen.dart';
+import 'package:home_cache/view/home/account/profilesetting/password_settings_screen.dart';
 import 'package:home_cache/view/home/account/profilesetting/privacy_policy_screen.dart';
 import 'package:home_cache/view/home/account/profilesetting/profile_setting_screen.dart';
 import 'package:home_cache/view/home/account/profilesetting/terms_of_use_screen.dart';
@@ -85,6 +88,9 @@ class AppRoutes {
   static const privacyPolicy = '/privacy-policy';
   static const termsOfUse = '/terms-of-use';
   static const editContactInfo = '/edit-contact-info';
+  static const passwordSettings = '/password-settings';
+  static const deleteAccount = '/delete-account';
+  static const productSupport = '/product-support';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -150,5 +156,8 @@ class AppRoutes {
       name: editContactInfo,
       page: () => const EditContactInformationScreen(),
     ),
+    GetPage(name: passwordSettings, page: () => const PasswordSettingsScreen()),
+    GetPage(name: deleteAccount, page: () => const DeleteAccountScreen()),
+    GetPage(name: productSupport, page: () => const ProductSupportScreen()),
   ];
 }

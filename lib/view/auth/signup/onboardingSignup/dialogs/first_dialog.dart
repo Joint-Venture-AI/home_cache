@@ -40,8 +40,8 @@ class FirstDialog extends StatelessWidget {
             SizedBox(height: 20.h),
             Image.asset(
               "assets/images/touch.png",
-              height: 150.h,
-              width: 150.w,
+              height: 120.h,
+              width: 120.w,
               fit: BoxFit.contain,
             ),
             SizedBox(height: 20.h),
