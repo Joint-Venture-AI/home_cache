@@ -110,7 +110,9 @@ class AccountScreen extends StatelessWidget {
               SettingsTile(
                 leading: Image.asset("assets/images/group.png", width: 24.w),
                 title: 'Household Management',
-                onTap: () {},
+                onTap: () {
+                  Get.toNamed(AppRoutes.householdManagement);
+                },
               ),
               SizedBox(height: 120.h),
               Padding(
