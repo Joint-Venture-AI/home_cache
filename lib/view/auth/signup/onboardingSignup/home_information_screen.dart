@@ -25,7 +25,7 @@ class HomeInformationScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Would you like to enter your address to get some basic information about your Home?',
+                'Would You Like To Enter Your Address To Get Some Basic Information About Your Home?',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 24.sp,

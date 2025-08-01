@@ -32,7 +32,7 @@ class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
             children: [
               SizedBox(height: 2.h),
               Text(
-                'What powers your home?',
+                'What Powers Your Home?',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,

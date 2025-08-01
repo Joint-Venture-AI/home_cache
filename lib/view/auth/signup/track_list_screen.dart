@@ -25,7 +25,7 @@ class TrackListScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'List anything you want to keep track of',
+                'List Anything You Want To Keep Track Of',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,
@@ -34,7 +34,7 @@ class TrackListScreen extends StatelessWidget {
               ),
               SizedBox(height: 32.h),
               Text(
-                'we included some things to help you get started!',
+                'We included some things to help you get started!',
                 style: TextStyles.medium.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),

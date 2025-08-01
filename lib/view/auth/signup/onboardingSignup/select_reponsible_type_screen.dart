@@ -34,7 +34,7 @@ class _SelectPowerTypeScreenState extends State<SelectResponsibleTypeScreen> {
             children: [
               SizedBox(height: 2.h),
               Text(
-                'You or the city?',
+                'You Or The City?',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,

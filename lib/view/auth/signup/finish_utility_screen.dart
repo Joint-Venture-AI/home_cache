@@ -24,7 +24,7 @@ class FinishUtilityScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Now that we’ve finished your utilities, let’s take a look inside the house',
+                'Now That We’ve Finished Your Utilities, Let’s Take A Look Inside The House',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,

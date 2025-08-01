@@ -33,7 +33,7 @@ class _SelectPowerTypeScreenState extends State<SelectHeatPowerTypeScreen> {
             children: [
               SizedBox(height: 2.h),
               Text(
-                'How is your heat powered?',
+                'How Is Your heat Powered?',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,

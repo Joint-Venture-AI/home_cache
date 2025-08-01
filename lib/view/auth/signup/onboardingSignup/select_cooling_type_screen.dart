@@ -32,7 +32,7 @@ class _SelectPowerTypeScreenState extends State<SelectCoolingTypeScreen> {
             children: [
               SizedBox(height: 2.h),
               Text(
-                'Next, let’s cover your utilities',
+                'Next, Let’s Cover Your Utilities',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,

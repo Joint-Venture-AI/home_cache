@@ -71,7 +71,7 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
               ),
               SizedBox(height: 2.h),
               Text(
-                'What type of house do you live in?',
+                'What Type Of House Do You Live In?',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,
