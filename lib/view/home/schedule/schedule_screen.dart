@@ -3,6 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/view/home/schedule/dialog/add_task_dialog.dart';
+import 'package:home_cache/view/widget/task_tile_widget.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
@@ -23,9 +25,10 @@ class ScheduleScreen extends StatelessWidget {
                 style: TextStyles.bold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),
+              SizedBox(height: 16.h),
               Row(
                 children: [
-                  Spacer(),
+                  const Spacer(),
                   Container(
                     width: 30.w,
                     height: 30.w,
@@ -37,7 +40,7 @@ class ScheduleScreen extends StatelessWidget {
                         BoxShadow(
                           color: Colors.black.withOpacity(0.5),
                           blurRadius: 2,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -49,34 +52,54 @@ class ScheduleScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(width: 8.w),
-                  Container(
-                    width: 30.w,
-                    height: 30.w,
-                    padding: EdgeInsets.all(6.r),
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8.r),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.5),
-                          blurRadius: 2,
-                          offset: Offset(0, 2),
+                  GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.vertical(
+                            top: Radius.circular(20.r),
+                          ),
                         ),
-                      ],
-                    ),
-                    child: SvgPicture.asset(
-                      'assets/icons/add.svg',
-                      width: 10.w,
-                      height: 10.w,
-                      color: AppColors.primary,
+                        builder: (_) => const AddTaskDialog(),
+                      );
+                    },
+                    child: Container(
+                      width: 30.w,
+                      height: 30.w,
+                      padding: EdgeInsets.all(6.r),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8.r),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.5),
+                            blurRadius: 2,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
+                      ),
+                      child: SvgPicture.asset(
+                        'assets/icons/add.svg',
+                        width: 10.w,
+                        height: 10.w,
+                        color: AppColors.primary,
+                      ),
                     ),
                   ),
                 ],
               ),
+              SizedBox(height: 24.h),
               Text(
                 'Upcoming Tasks',
                 style: TextStyles.bold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
+              ),
+              SizedBox(height: 12.h),
+              TaskTileWidget(
+                date: 'August 17, 2024',
+                taskName: 'Gutter Cleaning',
+                iconPath: 'assets/icons/link.svg',
               ),
             ],
           ),

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 
 class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const AppBarWidget({super.key});
@@ -37,17 +40,22 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
             ],
           ),
           const Spacer(),
-          Container(
-            height: 32.h,
-            width: 48.w,
-            decoration: BoxDecoration(
-              color: AppColors.primary,
-              shape: BoxShape.circle,
-            ),
-            padding: EdgeInsets.all(5.w),
-            child: SvgPicture.asset(
-              "assets/icons/bell.svg",
-              fit: BoxFit.contain,
+          GestureDetector(
+            onTap: () {
+              Get.toNamed(AppRoutes.notifications);
+            },
+            child: Container(
+              height: 32.h,
+              width: 48.w,
+              decoration: BoxDecoration(
+                color: AppColors.primary,
+                shape: BoxShape.circle,
+              ),
+              padding: EdgeInsets.all(5.w),
+              child: SvgPicture.asset(
+                "assets/icons/bell.svg",
+                fit: BoxFit.contain,
+              ),
             ),
           ),
         ],

@@ -44,6 +44,7 @@ import 'package:home_cache/view/home/details/type/appliances/edit_appliances_scr
 import 'package:home_cache/view/home/details/type/view_by_type_screen.dart';
 import 'package:home_cache/view/home/home/home_health_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_screen.dart';
+import 'package:home_cache/view/home/home/notification/notification_screen.dart';
 import 'package:home_cache/view/splash_screen.dart';
 
 class AppRoutes {
@@ -93,6 +94,7 @@ class AppRoutes {
   static const deleteAccount = '/delete-account';
   static const productSupport = '/product-support';
   static const householdManagement = '/household-management';
+  static const notifications = '/notifications';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -165,5 +167,6 @@ class AppRoutes {
       name: householdManagement,
       page: () => const HouseholdManagementScreen(),
     ),
+    GetPage(name: notifications, page: () => const NotificationScreen()),
   ];
 }
