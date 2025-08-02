@@ -152,7 +152,6 @@ class _HomeScreenState extends State<HomeScreen> {
 
                   SizedBox(height: 20.h),
 
-                  // Upcoming
                   if (isSelected[0]) ...[
                     TaskListTile(
                       title: "HVAC Service",

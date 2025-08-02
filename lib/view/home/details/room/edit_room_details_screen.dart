@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/home/details/room/add_room_team_dialog.dart';
-import 'package:home_cache/view/home/details/type/appliances/dialog_appliance.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class EditRoomDetailsScreen extends StatefulWidget {

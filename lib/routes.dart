@@ -44,6 +44,7 @@ import 'package:home_cache/view/home/details/type/appliances/edit_appliances_scr
 import 'package:home_cache/view/home/details/type/view_by_type_screen.dart';
 import 'package:home_cache/view/home/home/home_health_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_screen.dart';
+import 'package:home_cache/view/home/home/notification/notification_details_screen.dart';
 import 'package:home_cache/view/home/home/notification/notification_screen.dart';
 import 'package:home_cache/view/splash_screen.dart';
 
@@ -95,6 +96,7 @@ class AppRoutes {
   static const productSupport = '/product-support';
   static const householdManagement = '/household-management';
   static const notifications = '/notifications';
+  static const notificationDetails = '/notification-details';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -168,5 +170,9 @@ class AppRoutes {
       page: () => const HouseholdManagementScreen(),
     ),
     GetPage(name: notifications, page: () => const NotificationScreen()),
+    GetPage(
+      name: notificationDetails,
+      page: () => const NotificationDetailsScreen(),
+    ),
   ];
 }

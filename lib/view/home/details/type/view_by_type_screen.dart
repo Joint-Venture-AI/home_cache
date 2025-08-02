@@ -4,7 +4,6 @@ import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/auth/onboarding_screen.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class ViewByTypeScreen extends StatefulWidget {
