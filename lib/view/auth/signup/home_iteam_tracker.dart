@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/data/rooms.dart';
@@ -20,7 +21,6 @@ class _TrackListScreenState extends State<TrackListScreen> {
   String _searchQuery = '';
   List<String> _suggestions = [];
 
-  // Function to generate suggestions based on search query
   void _updateSuggestions(String query) {
     setState(() {
       _searchQuery = query;
@@ -30,17 +30,15 @@ class _TrackListScreenState extends State<TrackListScreen> {
       }
       _suggestions = [];
       for (var room in rooms) {
-        // Add room name if it matches
         if (room.name.toLowerCase().contains(query.toLowerCase())) {
           _suggestions.add(room.name);
         }
-        // Add items if they match
         _suggestions.addAll(
           room.items.where(
               (item) => item.toLowerCase().contains(query.toLowerCase())),
         );
       }
-      // Remove duplicates and sort
+
       _suggestions = _suggestions.toSet().toList()..sort();
     });
   }
@@ -73,6 +71,7 @@ class _TrackListScreenState extends State<TrackListScreen> {
               ),
               SizedBox(height: 16.h),
               IconSearchBarWidget(
+                hintText: 'Search rooms or items...',
                 onChanged: _updateSuggestions,
                 suggestions: _suggestions,
               ),
@@ -106,44 +105,64 @@ class _TrackListScreenState extends State<TrackListScreen> {
   }
 }
 
-// Sample IconSearchBarWidget implementation
 class IconSearchBarWidget extends StatelessWidget {
-  final Function(String) onChanged;
+  final String hintText;
+  final Function(String)? onChanged;
   final List<String> suggestions;
 
   const IconSearchBarWidget({
     super.key,
-    required this.onChanged,
-    required this.suggestions,
-    required String hintText,
+    this.hintText = 'Search...',
+    this.onChanged,
+    this.suggestions = const [],
   });
 
   @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         TextField(
-          decoration: InputDecoration(
-            hintText: 'Search rooms or items...',
-            prefixIcon: Icon(Icons.search, color: AppColors.secondary),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.sp),
-              borderSide: BorderSide(color: AppColors.secondary),
-            ),
-            filled: true,
-            fillColor: AppColors.surface,
-          ),
           onChanged: onChanged,
+          decoration: InputDecoration(
+            hintText: hintText,
+            border: InputBorder.none,
+            filled: true,
+            fillColor: AppColors.white,
+            prefixIcon: Padding(
+              padding: EdgeInsets.all(12.w),
+              child: SvgPicture.asset(
+                'assets/icons/search.svg',
+                width: 20.w,
+                height: 20.h,
+              ),
+            ),
+            suffixIcon: Padding(
+              padding: EdgeInsets.all(12.w),
+              child: SvgPicture.asset(
+                'assets/icons/mic.svg',
+                width: 20.w,
+                height: 20.h,
+              ),
+            ),
+            contentPadding: EdgeInsets.symmetric(vertical: 0.h),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: Colors.grey, width: 2.w),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide(color: Colors.grey, width: 2.w),
+            ),
+          ),
         ),
         if (suggestions.isNotEmpty) ...[
           SizedBox(height: 8.h),
           Container(
             constraints: BoxConstraints(maxHeight: 200.h),
             decoration: BoxDecoration(
-              color: AppColors.surface,
-              border: Border.all(color: AppColors.secondary),
-              borderRadius: BorderRadius.circular(8.sp),
+              color: AppColors.white,
+              border: Border.all(color: Colors.grey),
+              borderRadius: BorderRadius.circular(12.r),
             ),
             child: ListView.builder(
               shrinkWrap: true,
@@ -155,8 +174,7 @@ class IconSearchBarWidget extends StatelessWidget {
                     style: TextStyles.medium.copyWith(color: AppColors.black),
                   ),
                   onTap: () {
-                    // Handle suggestion tap (e.g., update search field or navigate)
-                    onChanged(suggestions[index]);
+                    onChanged?.call(suggestions[index]);
                   },
                 );
               },
