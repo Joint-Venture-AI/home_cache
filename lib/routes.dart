@@ -3,7 +3,7 @@ import 'package:home_cache/view/auth/login/login_screen.dart';
 import 'package:home_cache/view/auth/onboarding_screen.dart';
 import 'package:home_cache/view/auth/signup/add_details_iteam_screen.dart';
 import 'package:home_cache/view/auth/signup/finish_utility_screen.dart';
-import 'package:home_cache/view/auth/signup/onboardingSignup/home_information_screen.dart';
+import 'package:home_cache/view/auth/signup/onboardingSignup/address_form_screen.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_cooling_type_screen.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_heat_power_type_screen.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_heating_type.dart';
@@ -104,7 +104,7 @@ class AppRoutes {
     GetPage(name: login, page: () => const LoginScreen()),
     GetPage(name: signup, page: () => const SignupScreen()),
     GetPage(name: selectHouse, page: () => const SelectTypeOfHouseScreen()),
-    GetPage(name: homeInfo, page: () => const HomeInformationScreen()),
+    GetPage(name: homeInfo, page: () => const AddressFormScreen()),
     GetPage(name: selectPowerType, page: () => const SelectPowerTypeScreen()),
     GetPage(
       name: selectWaterSupply,

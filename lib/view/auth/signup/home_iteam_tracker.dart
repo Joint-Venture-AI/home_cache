@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:home_cache/view/widget/icon_search_bar_widget.dart'
+    show IconSearchBarWidget;
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
 
@@ -20,6 +21,7 @@ class TrackListScreen extends StatefulWidget {
 class _TrackListScreenState extends State<TrackListScreen> {
   String _searchQuery = '';
   List<String> _suggestions = [];
+  List<String> _selectedItems = [];
 
   void _updateSuggestions(String query) {
     setState(() {
@@ -35,12 +37,33 @@ class _TrackListScreenState extends State<TrackListScreen> {
         }
         _suggestions.addAll(
           room.items.where(
-              (item) => item.toLowerCase().contains(query.toLowerCase())),
+            (item) => item.toLowerCase().contains(query.toLowerCase()),
+          ),
         );
       }
 
-      _suggestions = _suggestions.toSet().toList()..sort();
+      _suggestions = _suggestions.toSet().toList()
+        ..removeWhere(_selectedItems.contains)
+        ..sort();
     });
+  }
+
+  void _onSuggestionTap(String value) {
+    setState(() {
+      if (!_selectedItems.contains(value)) {
+        _selectedItems.add(value);
+        _searchQuery = '';
+        _suggestions = [];
+      }
+    });
+  }
+
+  void _removeLastItem() {
+    if (_selectedItems.isNotEmpty) {
+      setState(() {
+        _selectedItems.removeLast();
+      });
+    }
   }
 
   @override
@@ -52,7 +75,6 @@ class _TrackListScreenState extends State<TrackListScreen> {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24.sp),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
@@ -74,114 +96,54 @@ class _TrackListScreenState extends State<TrackListScreen> {
                 hintText: 'Search rooms or items...',
                 onChanged: _updateSuggestions,
                 suggestions: _suggestions,
+                onSuggestionTap: _onSuggestionTap,
               ),
-              SizedBox(height: 340.h),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextButtonWidgetLight(
-                      text: 'Skip',
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.finishUtility);
-                      },
-                    ),
-                  ),
-                  SizedBox(width: 16.w),
-                  Expanded(
-                    child: TextWidgetButton(
-                      text: '→  Next  ',
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.selectIteam);
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              SizedBox(height: 16.h),
+              if (_selectedItems.isNotEmpty)
+                Wrap(
+                  spacing: 8.w,
+                  runSpacing: 8.h,
+                  children: List.generate(_selectedItems.length, (index) {
+                    final item = _selectedItems[index];
+                    final isLast = index == _selectedItems.length - 1;
+                    return Chip(
+                      label: Text(item),
+                      backgroundColor: AppColors.lightgrey,
+                      deleteIcon:
+                          isLast ? Icon(Icons.close, size: 18.sp) : null,
+                      onDeleted: isLast ? _removeLastItem : null,
+                    );
+                  }),
+                ),
+              SizedBox(height: 32.h),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class IconSearchBarWidget extends StatelessWidget {
-  final String hintText;
-  final Function(String)? onChanged;
-  final List<String> suggestions;
-
-  const IconSearchBarWidget({
-    super.key,
-    this.hintText = 'Search...',
-    this.onChanged,
-    this.suggestions = const [],
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextField(
-          onChanged: onChanged,
-          decoration: InputDecoration(
-            hintText: hintText,
-            border: InputBorder.none,
-            filled: true,
-            fillColor: AppColors.white,
-            prefixIcon: Padding(
-              padding: EdgeInsets.all(12.w),
-              child: SvgPicture.asset(
-                'assets/icons/search.svg',
-                width: 20.w,
-                height: 20.h,
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.fromLTRB(24.w, 24.h, 24.w, 60.h),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextButtonWidgetLight(
+                text: 'Skip',
+                onPressed: () {
+                  Get.toNamed(AppRoutes.finishUtility);
+                },
               ),
             ),
-            suffixIcon: Padding(
-              padding: EdgeInsets.all(12.w),
-              child: SvgPicture.asset(
-                'assets/icons/mic.svg',
-                width: 20.w,
-                height: 20.h,
+            SizedBox(width: 16.w),
+            Expanded(
+              child: TextWidgetButton(
+                text: '→  Next  ',
+                onPressed: () {
+                  Get.toNamed(AppRoutes.selectIteam);
+                },
               ),
             ),
-            contentPadding: EdgeInsets.symmetric(vertical: 0.h),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
-              borderSide: BorderSide(color: Colors.grey, width: 2.w),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12.r),
-              borderSide: BorderSide(color: Colors.grey, width: 2.w),
-            ),
-          ),
+          ],
         ),
-        if (suggestions.isNotEmpty) ...[
-          SizedBox(height: 8.h),
-          Container(
-            constraints: BoxConstraints(maxHeight: 200.h),
-            decoration: BoxDecoration(
-              color: AppColors.white,
-              border: Border.all(color: Colors.grey),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: suggestions.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    suggestions[index],
-                    style: TextStyles.medium.copyWith(color: AppColors.black),
-                  ),
-                  onTap: () {
-                    onChanged?.call(suggestions[index]);
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ],
+      ),
     );
   }
 }
