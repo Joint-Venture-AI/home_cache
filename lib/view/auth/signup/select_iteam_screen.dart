@@ -87,8 +87,6 @@ class _SelectIteamScreenState extends State<SelectIteamScreen> {
               SizedBox(height: 32.h),
               Image.asset("assets/images/item.png", height: 90.h),
               SizedBox(height: 32.h),
-
-              // SEARCH FIELD
               IconSearchBarWidget(
                 hintText: "Search items...",
                 onChanged: _updateSuggestions,
@@ -96,7 +94,6 @@ class _SelectIteamScreenState extends State<SelectIteamScreen> {
                 onSuggestionTap: _onSuggestionTap,
               ),
               SizedBox(height: 16.h),
-
               if (_selectedItems.isNotEmpty)
                 Wrap(
                   spacing: 8.w,
@@ -113,7 +110,6 @@ class _SelectIteamScreenState extends State<SelectIteamScreen> {
                     );
                   }),
                 ),
-
               SizedBox(height: 32.h),
             ],
           ),

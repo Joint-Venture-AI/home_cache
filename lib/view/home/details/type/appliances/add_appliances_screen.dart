@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_navigation/get_navigation.dart';
-import 'package:get/instance_manager.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors, primaryLight;
+import 'package:get/get.dart';
+import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
@@ -20,6 +19,17 @@ class AddAppliancesScreen extends StatefulWidget {
 class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
   bool isPastExpanded = false;
 
+  late String selectedType;
+  late String selectedLocation;
+
+  @override
+  void initState() {
+    super.initState();
+    final args = Get.arguments as Map<String, dynamic>?;
+    selectedType = args?['type'] ?? 'Unknown';
+    selectedLocation = args?['location'] ?? 'Unknown';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +39,6 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24.sp),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
@@ -37,7 +46,7 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Refrigerator',
+                      selectedType,
                       style: TextStyles.bold.copyWith(color: AppColors.black),
                       textAlign: TextAlign.center,
                     ),
@@ -94,23 +103,24 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
               Text(
                 'Type',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: selectedType,
+              ),
               SizedBox(height: 16.h),
               Text(
                 'Location',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: selectedLocation,
+              ),
               SizedBox(height: 16.h),
               Text(
                 'Notes',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
               ),
               TextFieldWidget(),
               SizedBox(height: 16.h),
@@ -136,7 +146,14 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
                     child: IconButton(
                       icon: Icon(Icons.add, color: Colors.white, size: 18.sp),
                       onPressed: () {
-                        Get.toNamed(AppRoutes.editAppliances);
+                        // Pass selectedType and selectedLocation as arguments
+                        Get.toNamed(
+                          AppRoutes.editAppliances,
+                          arguments: {
+                            'type': selectedType,
+                            'location': selectedLocation,
+                          },
+                        );
                       },
                       padding: EdgeInsets.zero,
                       splashRadius: 20.r,
