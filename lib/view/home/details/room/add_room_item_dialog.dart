@@ -5,21 +5,27 @@ import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
+import 'package:home_cache/view/model/room.dart'; // import your Room model
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
-class AddRoomTeamDialog extends StatelessWidget {
-  const AddRoomTeamDialog({super.key});
+// Assume `rooms` is imported or accessible here
+import 'package:home_cache/constants/data/rooms.dart'; // your rooms list
+
+class AddRoomItemDialog extends StatelessWidget {
+  const AddRoomItemDialog({super.key});
 
   @override
   Widget build(BuildContext context) {
-    String selectedItem = 'Bed';
-    String selectedRoom = 'Bedroom';
+    // Default selected values
+    String selectedRoom = rooms.isNotEmpty ? rooms[0].name : '';
+    List<String> availableItems = rooms.isNotEmpty ? rooms[0].items : [];
+    String selectedItem = availableItems.isNotEmpty ? availableItems[0] : '';
 
     return AlertDialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(
-        'Add an iteam',
+        'Add an item',
         style: TextStyles.bold.copyWith(color: AppColors.black),
         textAlign: TextAlign.center,
       ),
@@ -51,24 +57,15 @@ class AddRoomTeamDialog extends StatelessWidget {
                       color: AppColors.secondary,
                       size: 18.sp,
                     ),
-                    items:
-                        [
-                          'Bed',
-                          'Chair',
-                          'Table',
-                          'Wardrobe',
-                          'Couch',
-                          'Lamp',
-                          'Shelf',
-                        ].map((value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(color: AppColors.black),
-                            ),
-                          );
-                        }).toList(),
+                    items: availableItems.map((value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (newValue) {
                       setState(() {
                         selectedItem = newValue!;
@@ -97,26 +94,26 @@ class AddRoomTeamDialog extends StatelessWidget {
                       color: AppColors.secondary,
                       size: 18.sp,
                     ),
-                    items:
-                        [
-                          'Bedroom',
-                          'Living Room',
-                          'Kitchen',
-                          'Bathroom',
-                          'Dining Room',
-                          'Office',
-                        ].map((value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(color: AppColors.black),
-                            ),
-                          );
-                        }).toList(),
+                    items: rooms.map((room) {
+                      return DropdownMenuItem(
+                        value: room.name,
+                        child: Text(
+                          room.name,
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (newValue) {
                       setState(() {
                         selectedRoom = newValue!;
+                        // Update available items for this new room
+                        final matchedRoom = rooms.firstWhere(
+                          (room) => room.name == selectedRoom,
+                          orElse: () => Room(name: '', items: []),
+                        );
+                        availableItems = matchedRoom.items;
+                        selectedItem =
+                            availableItems.isNotEmpty ? availableItems[0] : '';
                       });
                     },
                   ),
@@ -129,7 +126,14 @@ class AddRoomTeamDialog extends StatelessWidget {
                       TextWidgetButton(
                         text: '→  Next',
                         onPressed: () {
-                          Get.toNamed(AppRoutes.addNewRoomIteam);
+                          // Pass selected data as needed:
+                          Get.toNamed(
+                            AppRoutes.addNewRoomIteam,
+                            arguments: {
+                              'selectedRoom': selectedRoom,
+                              'selectedItem': selectedItem,
+                            },
+                          );
                         },
                       ),
                     ],

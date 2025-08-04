@@ -5,29 +5,54 @@ import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/home/details/room/add_room_dialog.dart';
-
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class RoomScreen extends StatefulWidget {
   const RoomScreen({super.key});
 
   @override
-  State<RoomScreen> createState() => _DetailsScreenState();
+  State<RoomScreen> createState() => _RoomScreenState();
 }
 
-class _DetailsScreenState extends State<RoomScreen> {
+class _RoomScreenState extends State<RoomScreen> {
   int selectedIndex = -1;
 
   final List<Map<String, dynamic>> tiles = [
-    {'title': 'Primary', 'iconPath': 'assets/images/primary.png', 'index': 0},
-    {'title': 'Kithchen', 'iconPath': 'assets/images/kitchen.png', 'index': 1},
-    {'title': 'Bath 1', 'iconPath': 'assets/images/bath.png', 'index': 2},
-    {'title': 'Dining', 'iconPath': 'assets/images/dining.png', 'index': 3},
-    {'title': 'Bath 2', 'iconPath': 'assets/images/bath.png', 'index': 4},
+    {
+      'title': 'Primary',
+      'iconPath': 'assets/images/primary.png',
+      'index': 0,
+      'type': 'Living Room',
+    },
+    {
+      'title': 'Kitchen',
+      'iconPath': 'assets/images/kitchen.png',
+      'index': 1,
+      'type': 'Kitchen',
+    },
+    {
+      'title': 'Bath 1',
+      'iconPath': 'assets/images/bath.png',
+      'index': 2,
+      'type': 'Bathroom',
+    },
+    {
+      'title': 'Dining',
+      'iconPath': 'assets/images/dining.png',
+      'index': 3,
+      'type': 'Dining',
+    },
+    {
+      'title': 'Bath 2',
+      'iconPath': 'assets/images/bath.png',
+      'index': 4,
+      'type': 'Bathroom',
+    },
     {
       'title': 'Living Room',
       'iconPath': 'assets/images/livingroom.png',
       'index': 5,
+      'type': 'Living Room',
     },
   ];
 
@@ -51,9 +76,7 @@ class _DetailsScreenState extends State<RoomScreen> {
         decoration: BoxDecoration(
           color: AppColors.lightgrey,
           border: Border.all(
-            color: selectedIndex == index
-                ? AppColors.lightgrey
-                : AppColors.lightgrey,
+            color: AppColors.lightgrey,
             width: selectedIndex == index ? 2.w : 1.w,
           ),
           borderRadius: BorderRadius.circular(12.r),
@@ -67,7 +90,6 @@ class _DetailsScreenState extends State<RoomScreen> {
           ],
         ),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(iconPath, height: 52.h, width: 52.w),
@@ -95,7 +117,6 @@ class _DetailsScreenState extends State<RoomScreen> {
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -104,7 +125,6 @@ class _DetailsScreenState extends State<RoomScreen> {
                   Text(
                     'View By Room',
                     style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                    textAlign: TextAlign.center,
                   ),
                   TextButton(
                     onPressed: () {
@@ -142,38 +162,20 @@ class _DetailsScreenState extends State<RoomScreen> {
                 ),
                 itemCount: tiles.length,
                 itemBuilder: (context, index) {
-                  VoidCallback onTap;
-
-                  switch (index) {
-                    case 0:
-                      onTap = () {
-                        Get.toNamed(AppRoutes.editRoomDetails);
-                      };
-                      break;
-                    case 1:
-                      onTap = () {
-                        Get.toNamed(AppRoutes.editRoomDetails);
-                      };
-                      break;
-                    case 2:
-                      onTap = () {
-                        Get.toNamed(AppRoutes.editRoomDetails);
-                      };
-                      break;
-                    case 3:
-                    default:
-                      onTap = () {
-                        Get.toNamed(AppRoutes.editRoomDetails);
-                      };
-                      break;
-                  }
-
                   return _buildTile(
                     context,
                     tiles[index]['title'],
                     tiles[index]['iconPath'],
                     tiles[index]['index'],
-                    onTap,
+                    () {
+                      Get.toNamed(
+                        AppRoutes.editRoomDetails,
+                        arguments: {
+                          'roomName': tiles[index]['title'],
+                          'roomType': tiles[index]['type'], // matches Room.name
+                        },
+                      );
+                    },
                   );
                 },
               ),

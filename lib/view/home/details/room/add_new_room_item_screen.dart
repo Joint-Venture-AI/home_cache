@@ -1,20 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors, primaryLight;
+import 'package:get/get.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-
 import 'package:home_cache/view/widget/text_field_widget.dart';
 
-class AddNewRoomIteamScreen extends StatefulWidget {
-  const AddNewRoomIteamScreen({super.key});
+class AddNewRoomItemScreen extends StatefulWidget {
+  const AddNewRoomItemScreen({super.key});
 
   @override
-  State<AddNewRoomIteamScreen> createState() => _ProviderDetailsScreenState();
+  State<AddNewRoomItemScreen> createState() => _AddNewRoomItemScreenState();
 }
 
-class _ProviderDetailsScreenState extends State<AddNewRoomIteamScreen> {
-  bool isPastExpanded = false;
+class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
+  late String selectedItem;
+  late String selectedRoom;
+
+  final TextEditingController roomController = TextEditingController();
+  final TextEditingController locationController = TextEditingController();
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = Get.arguments as Map<String, dynamic>?;
+
+    selectedItem = args?['selectedItem'] ?? 'Item';
+    selectedRoom = args?['selectedRoom'] ?? 'Room';
+
+    roomController.text = selectedRoom;
+    locationController.text = selectedRoom;
+  }
+
+  @override
+  void dispose() {
+    roomController.dispose();
+    locationController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +56,7 @@ class _ProviderDetailsScreenState extends State<AddNewRoomIteamScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Paint',
+                      selectedItem,
                       style: TextStyles.bold.copyWith(color: AppColors.black),
                       textAlign: TextAlign.center,
                     ),
@@ -87,68 +110,101 @@ class _ProviderDetailsScreenState extends State<AddNewRoomIteamScreen> {
                 ),
               ),
               SizedBox(height: 6.h),
+
+              // Brand
               Text(
                 'Brand',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: 'Enter brand name',
+              ),
               SizedBox(height: 16.h),
+
+              // Brand Line
               Text(
                 'Brand Line',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: 'Enter brand line',
+              ),
               SizedBox(height: 16.h),
+
+              // Type
               Text(
                 'Type',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
-              TextFieldWidget(),
+              SizedBox(height: 6.h),
+              TextFieldWidget(
+                hintText: 'Enter type',
+              ),
               SizedBox(height: 16.h),
+
+              // Color
               Text(
                 'Color',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: 'Enter color',
+              ),
               SizedBox(height: 16.h),
+
+              // Finish
               Text(
                 'Finish',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: 'Enter finish',
+              ),
               SizedBox(height: 16.h),
+
+              // Room
               Text(
                 'Room',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: 'Enter room name',
+              ),
               SizedBox(height: 16.h),
+
+              // Location
               Text(
                 'Location',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: 'Enter location',
+              ),
               SizedBox(height: 16.h),
+
+              // Last Painted
               Text(
                 'Last Painted',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: 'Enter last painted date',
+              ),
             ],
           ),
         ),

@@ -34,7 +34,7 @@ import 'package:home_cache/view/home/details/documents/documents_screen.dart';
 import 'package:home_cache/view/home/details/documents/preview_document_screen.dart';
 import 'package:home_cache/view/home/details/provider/add_provider_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_details_screen.dart';
-import 'package:home_cache/view/home/details/room/add_new_room_iteam_screen.dart';
+import 'package:home_cache/view/home/details/room/add_new_room_item_screen.dart';
 import 'package:home_cache/view/home/details/room/add_room_screen.dart';
 import 'package:home_cache/view/home/details/room/edit_room_details_screen.dart';
 import 'package:home_cache/view/home/details/room/room_screen.dart';
@@ -151,7 +151,7 @@ class AppRoutes {
     GetPage(name: room, page: () => const RoomScreen()),
     GetPage(name: addRoom, page: () => const AddRoomScreen()),
     GetPage(name: editRoomDetails, page: () => const EditRoomDetailsScreen()),
-    GetPage(name: addNewRoomIteam, page: () => const AddNewRoomIteamScreen()),
+    GetPage(name: addNewRoomIteam, page: () => const AddNewRoomItemScreen()),
     GetPage(name: subscription, page: () => const SubscriptionScreen()),
     GetPage(name: billingAddress, page: () => const BillingAddressScreen()),
     GetPage(name: cardInfo, page: () => const CardInfoScreen()),
