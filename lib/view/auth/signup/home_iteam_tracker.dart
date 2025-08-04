@@ -5,10 +5,7 @@ import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/auth/signup/home_iteam_tracker.dart';
-import 'package:home_cache/view/model/room.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/icon_search_bar_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
 
@@ -22,7 +19,6 @@ class TrackListScreen extends StatefulWidget {
 class _TrackListScreenState extends State<TrackListScreen> {
   String _searchQuery = '';
   List<String> _suggestions = [];
-  final TextEditingController _searchController = TextEditingController();
 
   // Function to generate suggestions based on search query
   void _updateSuggestions(String query) {
@@ -47,23 +43,6 @@ class _TrackListScreenState extends State<TrackListScreen> {
       // Remove duplicates and sort
       _suggestions = _suggestions.toSet().toList()..sort();
     });
-  }
-
-  // Handle suggestion tap
-  void _onSuggestionTap(String suggestion) {
-    setState(() {
-      _searchQuery = suggestion;
-      _searchController.text = suggestion;
-      _suggestions = []; // Optionally clear suggestions after selection
-    });
-    // Optional: Navigate or perform action with the selected suggestion
-    // Example: Get.toNamed(AppRoutes.selectIteam, arguments: suggestion);
-  }
-
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
   }
 
   @override
@@ -94,35 +73,9 @@ class _TrackListScreenState extends State<TrackListScreen> {
               ),
               SizedBox(height: 16.h),
               IconSearchBarWidget(
-                hintText: 'Search rooms or items...',
                 onChanged: _updateSuggestions,
-                suggestions: [],
+                suggestions: _suggestions,
               ),
-              if (_suggestions.isNotEmpty) ...[
-                SizedBox(height: 8.h),
-                Container(
-                  constraints: BoxConstraints(maxHeight: 200.h),
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    border: Border.all(color: Colors.grey, width: 2.w),
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: _suggestions.length,
-                    itemBuilder: (context, index) {
-                      return ListTile(
-                        title: Text(
-                          _suggestions[index],
-                          style: TextStyles.medium
-                              .copyWith(color: AppColors.black),
-                        ),
-                        onTap: () => _onSuggestionTap(_suggestions[index]),
-                      );
-                    },
-                  ),
-                ),
-              ],
               SizedBox(height: 340.h),
               Row(
                 children: [
@@ -149,6 +102,68 @@ class _TrackListScreenState extends State<TrackListScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+// Sample IconSearchBarWidget implementation
+class IconSearchBarWidget extends StatelessWidget {
+  final Function(String) onChanged;
+  final List<String> suggestions;
+
+  const IconSearchBarWidget({
+    super.key,
+    required this.onChanged,
+    required this.suggestions,
+    required String hintText,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        TextField(
+          decoration: InputDecoration(
+            hintText: 'Search rooms or items...',
+            prefixIcon: Icon(Icons.search, color: AppColors.secondary),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(8.sp),
+              borderSide: BorderSide(color: AppColors.secondary),
+            ),
+            filled: true,
+            fillColor: AppColors.surface,
+          ),
+          onChanged: onChanged,
+        ),
+        if (suggestions.isNotEmpty) ...[
+          SizedBox(height: 8.h),
+          Container(
+            constraints: BoxConstraints(maxHeight: 200.h),
+            decoration: BoxDecoration(
+              color: AppColors.surface,
+              border: Border.all(color: AppColors.secondary),
+              borderRadius: BorderRadius.circular(8.sp),
+            ),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: suggestions.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    suggestions[index],
+                    style: TextStyles.medium.copyWith(color: AppColors.black),
+                  ),
+                  onTap: () {
+                    // Handle suggestion tap (e.g., update search field or navigate)
+                    onChanged(suggestions[index]);
+                  },
+                );
+              },
+            ),
+          ),
+        ],
+      ],
     );
   }
 }

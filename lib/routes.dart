@@ -13,7 +13,7 @@ import 'package:home_cache/view/auth/signup/onboardingSignup/select_type_of_hous
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_water_supply_type_screen.dart';
 import 'package:home_cache/view/auth/signup/select_iteam_screen.dart';
 import 'package:home_cache/view/auth/signup/signup_screen.dart';
-import 'package:home_cache/view/auth/signup/track_list_screen.dart';
+import 'package:home_cache/view/auth/signup/home_iteam_tracker.dart';
 import 'package:home_cache/view/home/account/householdmanagement/household_management_screen.dart';
 import 'package:home_cache/view/home/account/productsupport/product_support_screen.dart';
 import 'package:home_cache/view/home/account/profilesetting/delete_account_screen.dart';
