@@ -56,7 +56,6 @@ class _UserManagementTabState extends State<UserManagementTab> {
           ],
         ),
         SizedBox(height: 12.h),
-
         if (isAddingUser)
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -74,13 +73,21 @@ class _UserManagementTabState extends State<UserManagementTab> {
                     SizedBox(height: 6.h),
                     Row(
                       children: [
-                        Expanded(child: TextFieldWidget()),
+                        Expanded(
+                            child: TextFieldWidget(
+                          hintText: 'First Name',
+                        )),
                         SizedBox(width: 12.w),
-                        Expanded(child: TextFieldWidget()),
+                        Expanded(
+                            child: TextFieldWidget(
+                          hintText: 'Last Name',
+                        )),
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    TextFieldWidget(),
+                    TextFieldWidget(
+                      hintText: 'Email',
+                    ),
                     SizedBox(height: 24.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50.w),

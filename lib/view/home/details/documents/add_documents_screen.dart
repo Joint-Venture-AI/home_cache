@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:home_cache/view/widget/text_button_widget.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AddDocumentsScreen extends StatefulWidget {
   const AddDocumentsScreen({super.key});
@@ -27,7 +26,6 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
   ];
 
   String? _selectedType;
-
   final ImagePicker _picker = ImagePicker();
 
   Future<void> _pickFromGallery() async {
@@ -54,34 +52,25 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
           padding: EdgeInsets.all(24.sp),
           child: Column(
             children: [
-              Text(
-                'New Document',
-                style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                textAlign: TextAlign.center,
-              ),
+              Text('New Document',
+                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
+                  textAlign: TextAlign.center),
               SizedBox(height: 24.h),
-              Text(
-                'What type of document are you uploading?',
-                style: TextStyles.medium.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
+              Text('What type of document are you uploading?',
+                  style: TextStyles.medium.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.center),
               SizedBox(height: 24.h),
               DropdownButtonFormField<String>(
                 value: _selectedType,
                 decoration: InputDecoration(
-                  contentPadding: EdgeInsets.symmetric(
-                    horizontal: 16.w,
-                    vertical: 14.h,
-                  ),
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                    borderSide: BorderSide(color: AppColors.primary),
-                  ),
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide(color: AppColors.primary)),
                 ),
-                icon: Icon(
-                  Icons.keyboard_arrow_down_rounded,
-                  color: AppColors.secondary,
-                ),
+                icon: Icon(Icons.keyboard_arrow_down_rounded,
+                    color: AppColors.secondary),
                 hint: Text('Select Document Type', style: TextStyles.medium),
                 items: _documentTypes.map((String type) {
                   return DropdownMenuItem<String>(
@@ -89,147 +78,91 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                     child: Text(type, style: TextStyles.regular),
                   );
                 }).toList(),
-                onChanged: (value) {
-                  setState(() {
-                    _selectedType = value;
-                  });
-                },
+                onChanged: (value) => setState(() => _selectedType = value),
               ),
               SizedBox(height: 32.h),
-              Text(
-                'Upload your document',
-                style: TextStyles.medium.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
+              Text('Upload your document',
+                  style: TextStyles.medium.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.center),
               SizedBox(height: 32.h),
 
-              // Upload from Gallery
+              // Gallery Upload
               InkWell(
                 borderRadius: BorderRadius.circular(16),
                 onTap: _pickFromGallery,
-                child: Container(
-                  width: 120.w,
-                  height: 120.w, // Square shape
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 8,
-                        spreadRadius: 2,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/upload.png",
-                        height: 48.w,
-                        width: 48.w,
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBox(height: 8.h),
-                      Text(
-                        'Upload',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 16.h),
-              Text(
-                'Or',
-                style: TextStyles.medium.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
+                child: _uploadButton('Upload', 'assets/images/upload.png'),
               ),
               SizedBox(height: 16.h),
+              Text('Or',
+                  style: TextStyles.medium.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.center),
+              SizedBox(height: 16.h),
 
-              // Use Camera
+              // Camera Capture
               InkWell(
                 borderRadius: BorderRadius.circular(16),
                 onTap: _captureWithCamera,
-                child: Container(
-                  width: 120.w,
-                  height: 120.w, // Square shape
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black26,
-                        blurRadius: 8,
-                        spreadRadius: 2,
-                        offset: Offset(0, 4),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/images/camera.png",
-                        height: 48.w,
-                        width: 48.w,
-                        fit: BoxFit.contain,
-                      ),
-                      SizedBox(height: 8.h),
-                      Text(
-                        'Use Camera',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14.sp,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                child: _uploadButton('Use Camera', 'assets/images/camera.png'),
               ),
               SizedBox(height: 16.h),
-              Text(
-                'Or',
-                style: TextStyles.medium.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
+              Text('Or',
+                  style: TextStyles.medium.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.center),
               SizedBox(height: 16.h),
+
               InkWell(
-                onTap: () {
-                  // Get.to(() => YourTargetScreen()); // Replace with your target screen
-                },
-                child: Text(
-                  'Manually Enter Your Details',
-                  style: TextStyles.regular.copyWith(
-                    color: AppColors.secondary,
-                  ),
-                  textAlign: TextAlign.center,
-                ),
+                onTap: () {},
+                child: Text('Manually Enter Your Details',
+                    style:
+                        TextStyles.regular.copyWith(color: AppColors.secondary),
+                    textAlign: TextAlign.center),
               ),
               SizedBox(height: 16.h),
+
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50.w),
-                child: Column(
-                  children: [
-                    TextWidgetButton(
-                      text: '→  Next',
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.previewDocument);
-                      },
-                    ),
-                  ],
+                child: TextWidgetButton(
+                  text: '→  Next',
+                  onPressed: () {
+                    if (_selectedType != null) {
+                      Get.toNamed(AppRoutes.previewDocument,
+                          arguments: {'type': _selectedType});
+                    }
+                  },
                 ),
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _uploadButton(String label, String assetPath) {
+    return Container(
+      width: 120.w,
+      height: 120.w,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+              color: Colors.black26,
+              blurRadius: 8,
+              spreadRadius: 2,
+              offset: Offset(0, 4))
+        ],
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(assetPath,
+              height: 48.w, width: 48.w, fit: BoxFit.contain),
+          SizedBox(height: 8.h),
+          Text(label,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w600)),
+        ],
       ),
     );
   }

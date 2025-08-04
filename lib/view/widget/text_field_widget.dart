@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:home_cache/constants/colors.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final String? hintText;
@@ -13,7 +14,7 @@ class TextFieldWidget extends StatelessWidget {
       child: TextField(
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(color: Colors.grey[600]),
+          hintStyle: TextStyle(color: AppColors.black.withOpacity(.7)),
           filled: true,
           fillColor: Colors.grey[200],
           contentPadding: EdgeInsets.symmetric(

@@ -60,7 +60,6 @@ class ProviderScreen extends StatelessWidget {
                   ),
                 ],
               ),
-
               SizedBox(height: 24.h),
               Text(
                 'Search Poviders',
@@ -71,7 +70,8 @@ class ProviderScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              IconSearchBarWidget(onChanged: (value) {}),
+              IconSearchBarWidget(
+                  hintText: 'Search providers by name or service'),
               SizedBox(height: 24.h),
               Row(
                 children: [
