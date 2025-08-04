@@ -30,7 +30,7 @@ class TextFieldWidget extends StatelessWidget {
             borderSide: BorderSide(color: Colors.grey, width: 1.5.w),
           ),
         ),
-        style: TextStyle(color: Colors.black),
+        style: const TextStyle(color: Colors.black),
       ),
     );
   }
