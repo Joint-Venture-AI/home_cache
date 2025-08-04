@@ -125,9 +125,7 @@ class _DetailsScreenState extends State<ViewByTypeScreen> {
                       break;
                     case 1:
                       onTap = () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Coming Soon")),
-                        );
+                        Get.toNamed(AppRoutes.utility);
                       };
                       break;
                     case 2:
@@ -140,9 +138,7 @@ class _DetailsScreenState extends State<ViewByTypeScreen> {
                     case 3:
                     default:
                       onTap = () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("Coming Soon")),
-                        );
+                        Get.toNamed(AppRoutes.material);
                       };
                       break;
                   }

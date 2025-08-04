@@ -1,37 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
-class MaterialScreen extends StatefulWidget {
-  const MaterialScreen({super.key});
+class UtilityScreen extends StatefulWidget {
+  const UtilityScreen({super.key});
 
   @override
-  State<MaterialScreen> createState() => _StructureScreenState();
+  State<UtilityScreen> createState() => _UtilityScreenState();
 }
 
-class _StructureScreenState extends State<MaterialScreen> {
+class _UtilityScreenState extends State<UtilityScreen> {
   final List<String> categories = [
-    "Foundation",
-    "Framing",
-    "Roofing",
-    "Siding",
-    "Windows",
-    "Doors",
-    "Garage Door",
-    "Insulation",
-    "Drywall",
-    "Flooring",
-    "Trim",
-    "Decking",
-    "Fencing",
-    "Driveway",
-    "Patio",
-    "Water Softener",
-    "Plumbing",
+    'Power Type',
+    'Water Supply',
+    'Heating',
+    'Cooling',
+    'Heat Power Source',
+    'Other',
   ];
 
   int selectedCategoryIndex = 0;
@@ -42,42 +29,67 @@ class _StructureScreenState extends State<MaterialScreen> {
     });
   }
 
-  final List<Map<String, dynamic>> structureItems = [
+  final List<Map<String, String>> utilityComponents = [
     {
-      'title': 'Foundation Inspection',
-      'subtitle': 'Slab-on-grade, Concrete',
-      'date': '15 Mar 25',
-      'category': 'Foundation',
+      'category': 'Power Type',
+      'component': 'Electric',
+      'service': 'Yes',
+      'cadence': 'Annually',
+      'season': 'Summer',
+      'leadTime': '1 month',
+      'initialAlert':
+          'Time to inspect your electrical system and test breakers.',
+      'reminderAlert': 'Reminder: Electrical panel service due this month.',
     },
     {
-      'title': 'Roof Inspection',
-      'subtitle': 'Gable, Asphalt',
-      'date': '10 Sep 24',
-      'category': 'Roofing',
+      'category': 'Water Supply',
+      'component': 'Well',
+      'service': 'Yes',
+      'cadence': 'Annually',
+      'season': 'Spring',
+      'leadTime': '1 month',
+      'initialAlert': 'Time to test well water and inspect pump system.',
+      'reminderAlert': 'Reminder: Time to test well water quality.',
     },
     {
-      'title': 'Window Caulking',
-      'subtitle': 'Double-Hung, Vinyl',
-      'date': '12 Apr 25',
-      'category': 'Windows',
+      'category': 'Heating',
+      'component': 'Furnace',
+      'service': 'Yes',
+      'cadence': 'Annually',
+      'season': 'Fall',
+      'leadTime': '1 month',
+      'initialAlert': 'Furnace check due… clean filters and test operation.',
+      'reminderAlert': 'Reminder: Furnace maintenance due… stay warm safely.',
     },
     {
-      'title': 'Deck Power Wash',
-      'subtitle': 'Raised, Composite',
-      'date': '01 May 25',
-      'category': 'Decking',
+      'category': 'Cooling',
+      'component': 'Central AC',
+      'service': 'Yes',
+      'cadence': 'Annually',
+      'season': 'Spring',
+      'leadTime': '1 month',
+      'initialAlert': 'Central AC inspection due… change filters and test.',
+      'reminderAlert': 'Reminder: Central AC service needed this month.',
     },
+    {
+      'category': 'Other',
+      'component': 'Sewage Septic',
+      'service': 'Yes',
+      'cadence': '3 years',
+      'season': 'Fall',
+      'leadTime': '1 month',
+      'initialAlert': 'Septic tank pumping and inspection due.',
+      'reminderAlert': 'Reminder: Septic tank pumping due… schedule now.',
+    },
+    // Add more rows as needed
   ];
 
   @override
   Widget build(BuildContext context) {
-    String normalize(String s) => s.toLowerCase().replaceAll(' ', '');
-    final normalizedSelectedCategory =
-        normalize(categories[selectedCategoryIndex]);
-    final filteredItems = structureItems.where((item) {
-      final normalizedCategory = normalize(item['category'].toString());
-      return normalizedCategory == normalizedSelectedCategory;
-    }).toList();
+    final selectedCategory = categories[selectedCategoryIndex];
+    final filteredUtilities = utilityComponents
+        .where((item) => item['category'] == selectedCategory)
+        .toList();
 
     return Scaffold(
       appBar: AppBarBack(),
@@ -85,25 +97,25 @@ class _StructureScreenState extends State<MaterialScreen> {
       body: Padding(
         padding: EdgeInsets.all(24.sp),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 40.w),
                 Text(
-                  'Material',
+                  'Utilities',
                   style: TextStyles.bold.copyWith(color: AppColors.secondary),
                   textAlign: TextAlign.center,
                 ),
                 TextButton(
-                  onPressed: () {
-                    // Get.toNamed(AppRoutes.addDocuments);
-                  },
+                  onPressed: () {},
                   style: TextButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 6.h,
+                    ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.r),
                     ),
@@ -117,7 +129,7 @@ class _StructureScreenState extends State<MaterialScreen> {
             ),
             SizedBox(height: 20.h),
             Wrap(
-              alignment: WrapAlignment.spaceEvenly,
+              alignment: WrapAlignment.center,
               spacing: 6.w,
               runSpacing: 8.h,
               children: List.generate(categories.length, (index) {
@@ -142,52 +154,41 @@ class _StructureScreenState extends State<MaterialScreen> {
                 );
               }),
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 24.h),
             Text(
-              'View All',
+              'Reminders',
               style: TextStyles.medium.copyWith(color: AppColors.black),
-              textAlign: TextAlign.start,
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 16.h),
             Expanded(
-              child: filteredItems.isEmpty
+              child: filteredUtilities.isEmpty
                   ? Center(
                       child: Text(
-                        'No items in this category.',
+                        'No reminders in this category.',
                         style:
                             TextStyles.medium.copyWith(color: AppColors.black),
                       ),
                     )
                   : ListView.separated(
-                      itemCount: filteredItems.length,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 12.h),
+                      itemCount: filteredUtilities.length,
+                      separatorBuilder: (_, __) => SizedBox(height: 12.h),
                       itemBuilder: (context, index) {
-                        final item = filteredItems[index];
+                        final item = filteredUtilities[index];
                         return Container(
                           decoration: BoxDecoration(
                             color: AppColors.lightgrey,
                             borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(
-                                color: AppColors.lightgrey, width: 1),
+                            border: Border.all(color: AppColors.lightgrey),
                           ),
                           child: ListTile(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 24.w),
                             title: Text(
-                              item['title'],
+                              item['component']!,
                               style:
-                                  TextStyles.medium.copyWith(fontSize: 20.sp),
+                                  TextStyles.medium.copyWith(fontSize: 18.sp),
                             ),
                             subtitle: Text(
-                              item['subtitle'],
+                              '${item['cadence']} • ${item['season']} • ${item['leadTime']}',
                               style: TextStyle(fontSize: 12.sp),
-                            ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.edit, color: AppColors.black),
-                              onPressed: () {
-                                // TODO: Show structure dialog form
-                              },
                             ),
                           ),
                         );

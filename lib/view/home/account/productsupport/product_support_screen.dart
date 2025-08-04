@@ -32,7 +32,9 @@ class ProductSupportScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: 'Enter Email',
+              ),
               SizedBox(height: 16.h),
               Text(
                 'Subject Line',
@@ -40,7 +42,9 @@ class ProductSupportScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                hintText: 'Enter Subject',
+              ),
               SizedBox(height: 16.h),
               Text(
                 'Details',
@@ -48,7 +52,27 @@ class ProductSupportScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextField(
+                minLines: 6,
+                maxLines: 6,
+                decoration: InputDecoration(
+                  hintText: 'Enter Details',
+                  hintStyle: TextStyle(color: AppColors.black.withOpacity(.7)),
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                    borderSide: BorderSide(color: Colors.grey, width: 1.w),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                    borderSide: BorderSide(color: Colors.grey, width: 1.5.w),
+                  ),
+                ),
+                style: const TextStyle(color: Colors.black),
+              ),
               SizedBox(height: 16.h),
             ],
           ),

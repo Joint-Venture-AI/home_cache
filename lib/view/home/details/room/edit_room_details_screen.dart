@@ -29,7 +29,6 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
     roomName = args?['roomName'] ?? 'Room';
     roomType = args?['roomType'] ?? 'Room';
 
-    // Find the room in the rooms list by matching name
     final matchedRoom = rooms.firstWhere(
       (room) => room.name == roomType,
       orElse: () => Room(name: roomType, items: []),

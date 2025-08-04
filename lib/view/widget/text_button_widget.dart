@@ -26,7 +26,6 @@ class TextWidgetButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
-
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
           ),

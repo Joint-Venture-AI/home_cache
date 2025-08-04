@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:home_cache/view/auth/login/login_screen.dart';
 import 'package:home_cache/view/auth/onboarding_screen.dart';
@@ -41,6 +42,8 @@ import 'package:home_cache/view/home/details/room/room_screen.dart';
 import 'package:home_cache/view/home/details/type/appliances/appliances_screen.dart';
 import 'package:home_cache/view/home/details/type/appliances/add_appliances_screen.dart';
 import 'package:home_cache/view/home/details/type/appliances/edit_appliances_screen.dart';
+import 'package:home_cache/view/home/details/type/materials/material_screen.dart';
+import 'package:home_cache/view/home/details/type/utility/utility_screen.dart';
 import 'package:home_cache/view/home/details/type/view_by_type_screen.dart';
 import 'package:home_cache/view/home/home/home_health_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_screen.dart';
@@ -97,6 +100,8 @@ class AppRoutes {
   static const householdManagement = '/household-management';
   static const notifications = '/notifications';
   static const notificationDetails = '/notification-details';
+  static const utility = '/utility';
+  static const material = '/material';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -173,6 +178,14 @@ class AppRoutes {
     GetPage(
       name: notificationDetails,
       page: () => const NotificationDetailsScreen(),
+    ),
+    GetPage(
+      name: utility,
+      page: () => const UtilityScreen(),
+    ),
+    GetPage(
+      name: material,
+      page: () => const MaterialScreen(),
     ),
   ];
 }
