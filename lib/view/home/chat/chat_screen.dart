@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -21,10 +22,13 @@ class ChatMessage {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _controller = TextEditingController();
   final List<ChatMessage> _messages = [];
+  late stt.SpeechToText _speech;
+  bool _isListening = false;
 
   @override
   void initState() {
     super.initState();
+    _speech = stt.SpeechToText();
 
     _messages.addAll([
       ChatMessage(text: 'Should I service my HVAC system?', isMe: true),
@@ -45,6 +49,36 @@ class _ChatScreenState extends State<ChatScreen> {
       _messages.add(ChatMessage(text: text, isMe: true));
       _controller.clear();
     });
+  }
+
+  void _listen() async {
+    if (!_isListening) {
+      bool available = await _speech.initialize(
+        onStatus: (val) {
+          if (val == 'done') {
+            setState(() => _isListening = false);
+          }
+        },
+        onError: (val) {
+          debugPrint('Speech error: $val');
+          setState(() => _isListening = false);
+        },
+      );
+
+      if (available) {
+        setState(() => _isListening = true);
+        _speech.listen(
+          onResult: (val) {
+            setState(() {
+              _controller.text = val.recognizedWords;
+            });
+          },
+        );
+      }
+    } else {
+      setState(() => _isListening = false);
+      _speech.stop();
+    }
   }
 
   @override
@@ -100,14 +134,13 @@ class _ChatScreenState extends State<ChatScreen> {
                                     child: Image.asset(
                                       'assets/images/outline.png',
                                       width: 24.r,
-
                                       errorBuilder:
                                           (context, error, stackTrace) {
-                                            return const Icon(
-                                              Icons.error,
-                                              color: Colors.red,
-                                            );
-                                          },
+                                        return const Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                        );
+                                      },
                                     ),
                                   ),
                                   Text(
@@ -163,12 +196,20 @@ class _ChatScreenState extends State<ChatScreen> {
                     SizedBox(width: 8.w),
                     IconButton(
                       icon: SvgPicture.asset(
-                        'assets/icons/mics.svg',
+                        'assets/icons/uparrow.svg',
                         color: AppColors.black,
-                        width: 24.w,
                         height: 20.h,
                       ),
                       onPressed: _sendMessage,
+                    ),
+                    IconButton(
+                      icon: SvgPicture.asset(
+                        'assets/icons/mics.svg',
+                        color:
+                            _isListening ? AppColors.primary : AppColors.black,
+                        height: 20.h,
+                      ),
+                      onPressed: _listen,
                     ),
                   ],
                 ),
@@ -183,6 +224,7 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   void dispose() {
     _controller.dispose();
+    _speech.stop();
     super.dispose();
   }
 }
