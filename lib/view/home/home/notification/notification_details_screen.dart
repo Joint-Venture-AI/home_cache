@@ -6,6 +6,7 @@ import 'package:home_cache/constants/colors.dart'
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:home_cache/view/widget/assigned_person_tile.dart';
 import 'package:home_cache/view/widget/provider_list_tile.dart';
 
 class NotificationDetailsScreen extends StatefulWidget {
@@ -164,7 +165,6 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
               ),
               SizedBox(height: 12.h),
 
-              // Assigned To row with toggle arrow icon
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -208,7 +208,21 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                   padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
                   child: Column(
                     children: [
-                      //Assign person name
+                      AssignedPersonTile(
+                        name: 'Vanessa Alvarez',
+                        role: 'House Resident',
+                        onEdit: () {},
+                      ),
+                      AssignedPersonTile(
+                        name: 'Jess Soyak',
+                        role: 'House Owner',
+                        onEdit: () {},
+                      ),
+                      AssignedPersonTile(
+                        name: 'Ahsan Bari',
+                        role: 'House Resident',
+                        onEdit: () {},
+                      ),
                     ],
                   ),
                 ),

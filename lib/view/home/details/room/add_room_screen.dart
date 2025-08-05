@@ -122,8 +122,6 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                 onChanged: _filterItems,
               ),
               SizedBox(height: 16.h),
-
-              // Show filtered suggestions ONLY when searching and results exist
               if (_searchQuery.isNotEmpty && filteredItems.isNotEmpty)
                 Container(
                   constraints: BoxConstraints(maxHeight: 200.h),
@@ -160,10 +158,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                     textAlign: TextAlign.center,
                   ),
                 ),
-
               SizedBox(height: 16.h),
-
-              // Selected chips with grey background
               if (selectedItems.isNotEmpty)
                 Wrap(
                   spacing: 8.w,
@@ -177,9 +172,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                     );
                   }).toList(),
                 ),
-
               SizedBox(height: 32.h),
-
               Row(
                 children: [
                   SizedBox(width: 180.w),

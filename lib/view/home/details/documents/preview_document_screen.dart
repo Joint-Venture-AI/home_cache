@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ class PreviewDocumentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, dynamic> args = Get.arguments ?? {};
     final String? docType = args['type'];
+    final String? imagePath = args['imagePath'];
 
     return Scaffold(
       appBar: const AppBarBack(),
@@ -28,16 +30,29 @@ class PreviewDocumentScreen extends StatelessWidget {
                   style: TextStyles.bold.copyWith(color: AppColors.secondary),
                   textAlign: TextAlign.center),
               SizedBox(height: 10.h),
+
+              // 📸 Show image if exists
               Container(
                 height: 400.h,
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(12.r)),
-                child: Center(
-                    child: Text('Document Preview',
-                        style: TextStyle(
-                            fontSize: 16.sp, fontWeight: FontWeight.w500))),
+                  border: Border.all(color: Colors.grey),
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+                child: imagePath != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(12.r),
+                        child: Image.file(
+                          File(imagePath),
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
+                      )
+                    : Center(
+                        child: Text('No Document Selected',
+                            style: TextStyle(
+                                fontSize: 16.sp, fontWeight: FontWeight.w500))),
               ),
+
               SizedBox(height: 20.h),
               Text('Is this your document?',
                   style: TextStyles.medium.copyWith(color: AppColors.black)),
@@ -54,8 +69,10 @@ class PreviewDocumentScreen extends StatelessWidget {
                 child: TextWidgetButton(
                   text: '→  Next',
                   onPressed: () {
-                    Get.toNamed(AppRoutes.addDocumentsDetails,
-                        arguments: {'type': docType});
+                    Get.toNamed(AppRoutes.addDocumentsDetails, arguments: {
+                      'type': docType,
+                      'imagePath': imagePath,
+                    });
                   },
                 ),
               ),

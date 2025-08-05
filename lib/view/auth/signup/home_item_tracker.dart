@@ -86,10 +86,13 @@ class _TrackListScreenState extends State<TrackListScreen> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 32.h),
-              Text(
-                'We included some things to help you get started!',
-                style: TextStyles.medium.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30.w),
+                child: Text(
+                  'We Included Some Things To Help You Get Started',
+                  style: TextStyles.medium.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.center,
+                ),
               ),
               SizedBox(height: 16.h),
               IconSearchBarWidget(
@@ -105,13 +108,15 @@ class _TrackListScreenState extends State<TrackListScreen> {
                   runSpacing: 8.h,
                   children: List.generate(_selectedItems.length, (index) {
                     final item = _selectedItems[index];
-                    final isLast = index == _selectedItems.length - 1;
                     return Chip(
                       label: Text(item),
                       backgroundColor: AppColors.lightgrey,
-                      deleteIcon:
-                          isLast ? Icon(Icons.close, size: 18.sp) : null,
-                      onDeleted: isLast ? _removeLastItem : null,
+                      deleteIcon: Icon(Icons.close, size: 18.sp),
+                      onDeleted: () {
+                        setState(() {
+                          _selectedItems.removeAt(index);
+                        });
+                      },
                     );
                   }),
                 ),

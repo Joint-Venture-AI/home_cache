@@ -18,8 +18,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
   // List of tile data
   final List<Map<String, dynamic>> tiles = [
     {
-      'title': 'Provides',
-      'iconPath': 'assets/images/baseboard.png',
+      'title': 'Providers',
+      'iconPath': 'assets/images/providers.png',
       'index': 0,
     },
     {

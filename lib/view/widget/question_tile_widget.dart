@@ -35,7 +35,7 @@ class _QuestionTileState extends State<QuestionTile> {
                   child: Text(
                     widget.question,
                     style: TextStyle(
-                      fontSize: 16.sp,
+                      fontSize: 14.sp,
                       fontWeight: FontWeight.bold,
                       color: Colors.black,
                     ),
@@ -50,7 +50,6 @@ class _QuestionTileState extends State<QuestionTile> {
               ],
             ),
           ),
-          //  SizedBox(height: 8.h),
           if (_isExpanded)
             Text(
               widget.answer,

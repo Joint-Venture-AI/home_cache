@@ -100,13 +100,15 @@ class _SelectIteamScreenState extends State<SelectItemScreen> {
                   runSpacing: 8.h,
                   children: List.generate(_selectedItems.length, (index) {
                     final item = _selectedItems[index];
-                    final isLast = index == _selectedItems.length - 1;
                     return Chip(
                       label: Text(item),
                       backgroundColor: AppColors.lightgrey,
-                      deleteIcon:
-                          isLast ? Icon(Icons.close, size: 18.sp) : null,
-                      onDeleted: isLast ? _removeLastItem : null,
+                      deleteIcon: Icon(Icons.close, size: 18.sp),
+                      onDeleted: () {
+                        setState(() {
+                          _selectedItems.removeAt(index);
+                        });
+                      },
                     );
                   }),
                 ),

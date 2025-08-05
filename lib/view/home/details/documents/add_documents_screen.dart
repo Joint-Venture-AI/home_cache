@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -27,18 +28,19 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
 
   String? _selectedType;
   final ImagePicker _picker = ImagePicker();
+  XFile? _pickedImage;
 
   Future<void> _pickFromGallery() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
-      print('Picked image from gallery: ${image.path}');
+      setState(() => _pickedImage = image);
     }
   }
 
   Future<void> _captureWithCamera() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
     if (image != null) {
-      print('Captured image from camera: ${image.path}');
+      setState(() => _pickedImage = image);
     }
   }
 
@@ -60,14 +62,17 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                   style: TextStyles.medium.copyWith(color: AppColors.black),
                   textAlign: TextAlign.center),
               SizedBox(height: 24.h),
+
+              // Dropdown for document type
               DropdownButtonFormField<String>(
                 value: _selectedType,
                 decoration: InputDecoration(
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                      borderSide: BorderSide(color: AppColors.primary)),
+                    borderRadius: BorderRadius.circular(12.r),
+                    borderSide: BorderSide(color: AppColors.primary),
+                  ),
                 ),
                 icon: Icon(Icons.keyboard_arrow_down_rounded,
                     color: AppColors.secondary),
@@ -81,34 +86,56 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                 onChanged: (value) => setState(() => _selectedType = value),
               ),
               SizedBox(height: 32.h),
+
               Text('Upload your document',
                   style: TextStyles.medium.copyWith(color: AppColors.black),
                   textAlign: TextAlign.center),
               SizedBox(height: 32.h),
 
-              // Gallery Upload
-              InkWell(
-                borderRadius: BorderRadius.circular(16),
-                onTap: _pickFromGallery,
-                child: _uploadButton('Upload', 'assets/images/upload.png'),
-              ),
-              SizedBox(height: 16.h),
-              Text('Or',
-                  style: TextStyles.medium.copyWith(color: AppColors.black),
-                  textAlign: TextAlign.center),
-              SizedBox(height: 16.h),
+              if (_pickedImage != null) ...[
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16),
+                  child: Image.file(
+                    File(_pickedImage!.path),
+                    width: 200.w,
+                    height: 200.w,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                TextButton(
+                  onPressed: () => setState(() => _pickedImage = null),
+                  child: Text('Remove Image',
+                      style: TextStyles.regular
+                          .copyWith(color: AppColors.secondary)),
+                ),
+                SizedBox(height: 16.h),
+              ] else ...[
+                // Upload Button
+                InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: _pickFromGallery,
+                  child: _uploadButton('Upload', 'assets/images/upload.png'),
+                ),
+                SizedBox(height: 16.h),
+                Text('Or',
+                    style: TextStyles.medium.copyWith(color: AppColors.black),
+                    textAlign: TextAlign.center),
+                SizedBox(height: 16.h),
 
-              // Camera Capture
-              InkWell(
-                borderRadius: BorderRadius.circular(16),
-                onTap: _captureWithCamera,
-                child: _uploadButton('Use Camera', 'assets/images/camera.png'),
-              ),
-              SizedBox(height: 16.h),
-              Text('Or',
-                  style: TextStyles.medium.copyWith(color: AppColors.black),
-                  textAlign: TextAlign.center),
-              SizedBox(height: 16.h),
+                // Camera Button
+                InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: _captureWithCamera,
+                  child:
+                      _uploadButton('Use Camera', 'assets/images/camera.png'),
+                ),
+                SizedBox(height: 16.h),
+                Text('Or',
+                    style: TextStyles.medium.copyWith(color: AppColors.black),
+                    textAlign: TextAlign.center),
+                SizedBox(height: 16.h),
+              ],
 
               InkWell(
                 onTap: () {},
@@ -125,8 +152,10 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                   text: '→  Next',
                   onPressed: () {
                     if (_selectedType != null) {
-                      Get.toNamed(AppRoutes.previewDocument,
-                          arguments: {'type': _selectedType});
+                      Get.toNamed(AppRoutes.previewDocument, arguments: {
+                        'type': _selectedType,
+                        'imagePath': _pickedImage?.path,
+                      });
                     }
                   },
                 ),
@@ -147,10 +176,11 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-              color: Colors.black26,
-              blurRadius: 8,
-              spreadRadius: 2,
-              offset: Offset(0, 4))
+            color: Colors.black26,
+            blurRadius: 8,
+            spreadRadius: 2,
+            offset: Offset(0, 4),
+          )
         ],
       ),
       child: Column(

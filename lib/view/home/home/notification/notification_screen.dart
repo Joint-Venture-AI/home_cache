@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
-import 'package:get/state_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors, lightgrey;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
@@ -26,14 +25,15 @@ class NotificationScreen extends StatelessWidget {
         },
       ),
       SizedBox(height: 12.h),
-
       NotificationTile(
         title: "Due: Roof Inspection",
         description:
             "Your last roof inspection was in 2022, regular inspections are recommended every year to catch potential issues early and protect your home.",
         onMarkDone: () {},
         onDismiss: () {},
-        onTap: () {},
+        onTap: () {
+          Get.toNamed(AppRoutes.notificationDetails);
+        },
       ),
     ];
 
@@ -53,7 +53,6 @@ class NotificationScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.end,
               ),
-
               Text(
                 'Notifications',
                 style: TextStyles.bold.copyWith(
@@ -63,7 +62,6 @@ class NotificationScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12.h),
-
               if (notifications.isNotEmpty)
                 Container(
                   padding: EdgeInsets.all(16.w),
@@ -90,7 +88,6 @@ class NotificationScreen extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12.h),
-
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50.w),
                 child: Column(
