@@ -46,6 +46,7 @@ import 'package:home_cache/view/home/details/type/utility/utility_screen.dart';
 import 'package:home_cache/view/home/details/type/view_by_type_screen.dart';
 import 'package:home_cache/view/home/home/home_health_screen.dart';
 import 'package:home_cache/view/home/details/provider/provider_screen.dart';
+import 'package:home_cache/view/home/home/notification/calendar_screen.dart';
 import 'package:home_cache/view/home/home/notification/notification_details_screen.dart';
 import 'package:home_cache/view/home/home/notification/notification_screen.dart';
 import 'package:home_cache/view/splash_screen.dart';
@@ -101,6 +102,7 @@ class AppRoutes {
   static const notificationDetails = '/notification-details';
   static const utility = '/utility';
   static const material = '/material';
+  static const calendar = '/calendar';
 
   static final pages = [
     GetPage(name: splash, page: () => const SplashScreen()),
@@ -186,5 +188,6 @@ class AppRoutes {
       name: material,
       page: () => const MaterialScreen(),
     ),
+    GetPage(name: calendar, page: () => const CalendarScreen()),
   ];
 }

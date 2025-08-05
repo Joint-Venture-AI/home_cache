@@ -100,7 +100,9 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                     ),
                   ),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Get.toNamed(AppRoutes.calendar);
+                    },
                     child: Container(
                       width: 128.w,
                       padding: EdgeInsets.all(20.sp),
