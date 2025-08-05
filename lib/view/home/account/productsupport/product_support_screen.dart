@@ -71,7 +71,7 @@ class ProductSupportScreen extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.grey, width: 1.5.w),
                   ),
                 ),
-                style: const TextStyle(color: Colors.black),
+                style: const TextStyle(color: Color.fromARGB(255, 243, 90, 90)),
               ),
               SizedBox(height: 16.h),
             ],

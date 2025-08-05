@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:home_cache/view/auth/login/login_screen.dart';
 import 'package:home_cache/view/auth/onboarding_screen.dart';
@@ -12,9 +11,9 @@ import 'package:home_cache/view/auth/signup/onboardingSignup/select_power_type.d
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_reponsible_type_screen.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_type_of_house_screen.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/select_water_supply_type_screen.dart';
-import 'package:home_cache/view/auth/signup/select_iteam_screen.dart';
+import 'package:home_cache/view/auth/signup/select_item_screen.dart';
 import 'package:home_cache/view/auth/signup/signup_screen.dart';
-import 'package:home_cache/view/auth/signup/home_iteam_tracker.dart';
+import 'package:home_cache/view/auth/signup/home_item_tracker.dart';
 import 'package:home_cache/view/home/account/householdmanagement/household_management_screen.dart';
 import 'package:home_cache/view/home/account/productsupport/product_support_screen.dart';
 import 'package:home_cache/view/home/account/profilesetting/delete_account_screen.dart';
@@ -133,7 +132,7 @@ class AppRoutes {
     ),
     GetPage(name: finishUtility, page: () => const FinishUtilityScreen()),
     GetPage(name: trackList, page: () => const TrackListScreen()),
-    GetPage(name: selectIteam, page: () => const SelectIteamScreen()),
+    GetPage(name: selectIteam, page: () => const SelectItemScreen()),
     GetPage(name: addDetailsIteam, page: () => const AddDetailsIteamScreen()),
     GetPage(name: bottomNav, page: () => const BottomNavBar()),
     GetPage(name: homeHealth, page: () => const HomeHealthScreen()),

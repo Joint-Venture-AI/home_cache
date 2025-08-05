@@ -13,7 +13,6 @@ import 'package:home_cache/view/widget/rounded_search_bar.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
-import 'package:home_cache/view/widget/text_field_widget.dart'; // Make sure this is imported
 
 class SelectTypeOfHouseScreen extends StatefulWidget {
   const SelectTypeOfHouseScreen({super.key});

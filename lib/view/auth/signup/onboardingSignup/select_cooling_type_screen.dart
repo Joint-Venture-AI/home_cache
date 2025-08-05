@@ -55,17 +55,16 @@ class _SelectCoolingTypeScreenState extends State<SelectCoolingTypeScreen> {
                 runSpacing: 16.h,
                 children: [
                   _buildTile(
-                      context, "Furnace", "assets/images/furnace.png", 0),
+                      context, "Central AC", "assets/images/furnace.png", 0),
                   _buildTile(
-                      context, "Hydronic", "assets/images/hydonic.png", 1),
+                      context, "Window Unit", "assets/images/hydonic.png", 1),
                   _buildTile(
-                      context, "Radiant", "assets/images/radiant.png", 2),
+                      context, "Mini-Split", "assets/images/radiant.png", 2),
                   _buildTile(
-                      context, "Heatpump", "assets/images/furnace.png", 3),
+                      context, "Evaporative", "assets/images/furnace.png", 3),
                   _buildTile(
-                      context, "Wood Stove", "assets/images/wood.png", 4),
-                  _buildTile(
-                      context, "Baseboard", "assets/images/baseboard.png", 5),
+                      context, "Radiant", "assets/images/furnace.png", 4),
+                  _buildTile(context, "Fans", "assets/images/fans.png", 5),
                 ],
               ),
               SizedBox(height: 20.h),

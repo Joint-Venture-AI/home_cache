@@ -9,14 +9,14 @@ import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/icon_search_bar_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
-class SelectIteamScreen extends StatefulWidget {
-  const SelectIteamScreen({super.key});
+class SelectItemScreen extends StatefulWidget {
+  const SelectItemScreen({super.key});
 
   @override
-  State<SelectIteamScreen> createState() => _SelectIteamScreenState();
+  State<SelectItemScreen> createState() => _SelectIteamScreenState();
 }
 
-class _SelectIteamScreenState extends State<SelectIteamScreen> {
+class _SelectIteamScreenState extends State<SelectItemScreen> {
   String _searchQuery = '';
   List<String> _suggestions = [];
   List<String> _selectedItems = [];

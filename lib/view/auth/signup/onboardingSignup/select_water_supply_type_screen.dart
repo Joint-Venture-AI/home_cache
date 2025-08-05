@@ -56,8 +56,8 @@ class _SelectWaterSupplyTypeScreenState
                 runSpacing: 16.h,
                 children: [
                   _buildTile(context, "Well", "assets/images/well.png", 0),
-                  _buildTile(
-                      context, "Public Utility", "assets/images/public.png", 1),
+                  _buildTile(context, "Public Utility",
+                      "assets/images/publicutility.png", 1),
                   _buildTile(context, "Tank", "assets/images/tank.png", 2),
                   _buildTile(
                       context, "Off The Grid", "assets/images/offgrid.png", 3),
