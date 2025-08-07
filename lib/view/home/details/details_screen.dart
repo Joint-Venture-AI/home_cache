@@ -4,7 +4,6 @@ import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/auth/onboarding_screen.dart';
 
 class DetailsScreen extends StatefulWidget {
   const DetailsScreen({super.key});
@@ -19,8 +18,8 @@ class _DetailsScreenState extends State<DetailsScreen> {
   // List of tile data
   final List<Map<String, dynamic>> tiles = [
     {
-      'title': 'Provides',
-      'iconPath': 'assets/images/baseboard.png',
+      'title': 'Providers',
+      'iconPath': 'assets/images/providers.png',
       'index': 0,
     },
     {

@@ -4,27 +4,34 @@ import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/home/details/type/appliances/dialog_appliance.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class MaterialScreen extends StatefulWidget {
   const MaterialScreen({super.key});
 
   @override
-  State<MaterialScreen> createState() => _AppliancesScreenState();
+  State<MaterialScreen> createState() => _StructureScreenState();
 }
 
-class _AppliancesScreenState extends State<MaterialScreen> {
+class _StructureScreenState extends State<MaterialScreen> {
   final List<String> categories = [
-    "Refrigerator",
-    "Oven",
-    "Washer",
-    "Stove",
-    "Dryer",
-    "Ice Maker",
-    "Dish Washer",
-    "Garbage Disposal",
-    "Micro Wave",
+    "Foundation",
+    "Framing",
+    "Roofing",
+    "Siding",
+    "Windows",
+    "Doors",
+    "Garage Door",
+    "Insulation",
+    "Drywall",
+    "Flooring",
+    "Trim",
+    "Decking",
+    "Fencing",
+    "Driveway",
+    "Patio",
+    "Water Softener",
+    "Plumbing",
   ];
 
   int selectedCategoryIndex = 0;
@@ -35,79 +42,42 @@ class _AppliancesScreenState extends State<MaterialScreen> {
     });
   }
 
-  final List<Map<String, dynamic>> documentTiles = [
+  final List<Map<String, dynamic>> structureItems = [
     {
-      'title': 'LG Fridge Warranty',
-      'subtitle': 'Model LGX1200',
-      'date': '10 Jun 25',
-      'category': 'Refrigerator',
+      'title': 'Foundation Inspection',
+      'subtitle': 'Slab-on-grade, Concrete',
+      'date': '15 Mar 25',
+      'category': 'Foundation',
     },
     {
-      'title': 'Samsung Oven Manual',
-      'subtitle': 'Convection Oven',
-      'date': '22 Aug 25',
-      'category': 'Oven',
+      'title': 'Roof Inspection',
+      'subtitle': 'Gable, Asphalt',
+      'date': '10 Sep 24',
+      'category': 'Roofing',
     },
     {
-      'title': 'Washer Insurance',
-      'subtitle': 'Bosch Washer',
-      'date': '15 May 25',
-      'category': 'Washer',
-    },
-    {
-      'title': 'Gas Stove Receipt',
-      'subtitle': 'GE Brand',
-      'date': '20 Jul 25',
-      'category': 'Stove',
-    },
-    {
-      'title': 'Dryer User Manual',
-      'subtitle': 'Whirlpool',
-      'date': '12 Jun 25',
-      'category': 'Dryer',
-    },
-    {
-      'title': 'Ice Maker Quote',
-      'subtitle': 'Installation',
-      'date': '01 Jul 25',
-      'category': 'Ice Maker',
-    },
-    {
-      'title': 'Dishwasher Invoice',
-      'subtitle': 'LG Smart Dish Washer',
-      'date': '15 Jul 25',
-      'category': 'Dish Washer',
-    },
-    {
-      'title': 'Garbage Disposal Warranty',
-      'subtitle': 'Model GD300',
+      'title': 'Window Caulking',
+      'subtitle': 'Double-Hung, Vinyl',
       'date': '12 Apr 25',
-      'category': 'Garbage Disposal',
+      'category': 'Windows',
     },
     {
-      'title': 'Microwave Manual',
-      'subtitle': 'Panasonic Inverter',
-      'date': '30 May 25',
-      'category': 'Micro Wave',
+      'title': 'Deck Power Wash',
+      'subtitle': 'Raised, Composite',
+      'date': '01 May 25',
+      'category': 'Decking',
     },
   ];
 
   @override
   Widget build(BuildContext context) {
     String normalize(String s) => s.toLowerCase().replaceAll(' ', '');
-
-    final normalizedSelectedCategory = normalize(
-      categories[selectedCategoryIndex],
-    );
-
-    final filteredDocuments = documentTiles.where((doc) {
-      final normalizedDocCategory = normalize(doc['category'].toString());
-      return normalizedDocCategory == normalizedSelectedCategory;
+    final normalizedSelectedCategory =
+        normalize(categories[selectedCategoryIndex]);
+    final filteredItems = structureItems.where((item) {
+      final normalizedCategory = normalize(item['category'].toString());
+      return normalizedCategory == normalizedSelectedCategory;
     }).toList();
-
-    print('Selected category: ${categories[selectedCategoryIndex]}');
-
-    print('Filtered docs count: ${filteredDocuments.length}');
 
     return Scaffold(
       appBar: AppBarBack(),
@@ -117,26 +87,23 @@ class _AppliancesScreenState extends State<MaterialScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Header
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 SizedBox(width: 40.w),
                 Text(
-                  'Appliances',
+                  'Material',
                   style: TextStyles.bold.copyWith(color: AppColors.secondary),
                   textAlign: TextAlign.center,
                 ),
                 TextButton(
                   onPressed: () {
-                    Get.toNamed(AppRoutes.addDocuments);
+                    // Get.toNamed(AppRoutes.addDocuments);
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: AppColors.primary,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 6.h,
-                    ),
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.r),
                     ),
@@ -149,10 +116,8 @@ class _AppliancesScreenState extends State<MaterialScreen> {
               ],
             ),
             SizedBox(height: 20.h),
-
-            // Category Buttons (3 per row)
             Wrap(
-              alignment: WrapAlignment.center,
+              alignment: WrapAlignment.spaceEvenly,
               spacing: 6.w,
               runSpacing: 8.h,
               children: List.generate(categories.length, (index) {
@@ -160,9 +125,8 @@ class _AppliancesScreenState extends State<MaterialScreen> {
                 return ElevatedButton(
                   onPressed: () => selectCategory(index),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: isSelected
-                        ? AppColors.primary
-                        : AppColors.lightgrey,
+                    backgroundColor:
+                        isSelected ? AppColors.primary : AppColors.lightgrey,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10.r),
                     ),
@@ -185,53 +149,44 @@ class _AppliancesScreenState extends State<MaterialScreen> {
               textAlign: TextAlign.start,
             ),
             SizedBox(height: 20.h),
-            // List View
             Expanded(
-              child: filteredDocuments.isEmpty
+              child: filteredItems.isEmpty
                   ? Center(
                       child: Text(
-                        'No appliances in this category.',
-                        style: TextStyles.medium.copyWith(
-                          color: AppColors.black,
-                        ),
+                        'No items in this category.',
+                        style:
+                            TextStyles.medium.copyWith(color: AppColors.black),
                       ),
                     )
                   : ListView.separated(
-                      itemCount: filteredDocuments.length,
+                      itemCount: filteredItems.length,
                       separatorBuilder: (context, index) =>
                           SizedBox(height: 12.h),
                       itemBuilder: (context, index) {
-                        final doc = filteredDocuments[index];
+                        final item = filteredItems[index];
                         return Container(
                           decoration: BoxDecoration(
                             color: AppColors.lightgrey,
                             borderRadius: BorderRadius.circular(12.r),
                             border: Border.all(
-                              color: AppColors.lightgrey,
-                              width: 1,
-                            ),
+                                color: AppColors.lightgrey, width: 1),
                           ),
                           child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(
-                              horizontal: 24.w,
-                            ),
+                            contentPadding:
+                                EdgeInsets.symmetric(horizontal: 24.w),
                             title: Text(
-                              doc['title'],
-                              style: TextStyles.medium.copyWith(
-                                fontSize: 20.sp,
-                              ),
+                              item['title'],
+                              style:
+                                  TextStyles.medium.copyWith(fontSize: 20.sp),
                             ),
                             subtitle: Text(
-                              doc['subtitle'],
+                              item['subtitle'],
                               style: TextStyle(fontSize: 12.sp),
                             ),
                             trailing: IconButton(
                               icon: Icon(Icons.edit, color: AppColors.black),
                               onPressed: () {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => const DialogAppliance(),
-                                );
+                                // TODO: Show structure dialog form
                               },
                             ),
                           ),

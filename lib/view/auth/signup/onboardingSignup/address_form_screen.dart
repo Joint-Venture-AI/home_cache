@@ -9,8 +9,8 @@ import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
 
-class HomeInformationScreen extends StatelessWidget {
-  const HomeInformationScreen({super.key});
+class AddressFormScreen extends StatelessWidget {
+  const AddressFormScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class HomeInformationScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Would you like to enter your address to get some basic information about your Home?',
+                'Would You Like To Enter Your Address To Get Some Basic Information About Your Home?',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 24.sp,
@@ -51,7 +51,6 @@ class HomeInformationScreen extends StatelessWidget {
                               height: 48.h,
                             ),
                           ),
-
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
@@ -69,16 +68,13 @@ class HomeInformationScreen extends StatelessWidget {
                                   decoration: InputDecoration(
                                     hintText: 'Your Address',
                                     hintStyle: TextStyle(fontSize: 20.sp),
-
                                     border: InputBorder.none,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-
                           SizedBox(width: 10.w),
-
                           SvgPicture.asset(
                             'assets/icons/cross.svg',
                             height: 48.h,
@@ -90,7 +86,6 @@ class HomeInformationScreen extends StatelessWidget {
                         thickness: 1.h,
                         height: 6.h,
                       ),
-
                       Container(
                         padding: EdgeInsets.only(
                           top: 18.sp,
@@ -147,7 +142,6 @@ class HomeInformationScreen extends StatelessWidget {
                 ),
                 textAlign: TextAlign.center,
               ),
-
               SizedBox(height: 32.h),
               Row(
                 children: [

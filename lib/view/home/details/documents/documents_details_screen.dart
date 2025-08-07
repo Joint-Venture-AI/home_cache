@@ -16,7 +16,7 @@ class DocumentsDetailsScreen extends StatefulWidget {
 }
 
 class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
-  int selectedToggleIndex = 0; // 0 = Documents, 1 = Details
+  int selectedToggleIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -108,14 +108,12 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                     Image.asset(
                       'assets/images/download.png',
                       width: 24.w,
-
                       fit: BoxFit.cover,
                     ),
                     SizedBox(width: 10),
                     Image.asset(
                       'assets/images/expand.png',
                       width: 24.w,
-
                       fit: BoxFit.cover,
                     ),
                   ],
@@ -177,7 +175,6 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                   style: TextStyles.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
-
                 SizedBox(height: 6.h),
                 TextFieldWidget(),
               ],

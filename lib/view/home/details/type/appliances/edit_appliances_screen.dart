@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors, primaryLight;
+import 'package:get/get.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/doccument_slider.dart';
@@ -11,11 +12,36 @@ class EditAppliancesScreen extends StatefulWidget {
   const EditAppliancesScreen({super.key});
 
   @override
-  State<EditAppliancesScreen> createState() => _ProviderDetailsScreenState();
+  State<EditAppliancesScreen> createState() => _EditAppliancesScreenState();
 }
 
-class _ProviderDetailsScreenState extends State<EditAppliancesScreen> {
+class _EditAppliancesScreenState extends State<EditAppliancesScreen> {
   bool isPastExpanded = false;
+
+  late TextEditingController typeController;
+  late TextEditingController locationController;
+  late TextEditingController notesController;
+
+  @override
+  void initState() {
+    super.initState();
+    final args = Get.arguments as Map<String, dynamic>? ?? {};
+
+    String initialType = args['type'] ?? 'Refrigerator';
+    String initialLocation = args['location'] ?? 'Kitchen';
+
+    typeController = TextEditingController(text: initialType);
+    locationController = TextEditingController(text: initialLocation);
+    notesController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    typeController.dispose();
+    locationController.dispose();
+    notesController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +52,6 @@ class _ProviderDetailsScreenState extends State<EditAppliancesScreen> {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24.sp),
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Center(
@@ -34,7 +59,7 @@ class _ProviderDetailsScreenState extends State<EditAppliancesScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Refrigerator',
+                      typeController.text,
                       style: TextStyles.bold.copyWith(color: AppColors.black),
                       textAlign: TextAlign.center,
                     ),
@@ -49,31 +74,37 @@ class _ProviderDetailsScreenState extends State<EditAppliancesScreen> {
               ),
               SizedBox(height: 16.h),
               Center(
-                child: Image.asset('assets/images/ref.png', height: 120.h),
+                child: Image.asset('assets/images/camera.png', height: 120.h),
               ),
               SizedBox(height: 16.h),
               Text(
                 'Type',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                //  controller: typeController,
+                hintText: 'Type',
+              ),
               SizedBox(height: 16.h),
               Text(
                 'Location',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                //controller: locationController,
+                hintText: 'Location',
+              ),
               SizedBox(height: 16.h),
               Text(
                 'Notes',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
               ),
-              TextFieldWidget(),
+              TextFieldWidget(
+                //controller: notesController,
+                hintText: 'Notes',
+              ),
               SizedBox(height: 16.h),
               if (isPastExpanded) ...[
                 PastAppointmentsTile(date: "June 18, 2025", status: "AC Check"),

@@ -70,20 +70,31 @@ class HandyChatScreen extends StatelessWidget {
                 ),
                 SizedBox(height: 20.h),
                 QuestionTile(
-                  question: 'Question #1',
-                  answer: 'Question sample 1',
+                  question: 'Why is my circuit breaker constantly tripping?',
+                  answer:
+                      'Common causes include overloaded circuits, short circuits, or faulty appliances. Unplug devices and reset. If it persists, call an electrician.',
                 ),
                 QuestionTile(
-                  question: 'Question #2',
-                  answer: 'Question sample 1',
+                  question: 'How do I prevent mold in my bathroom?',
+                  answer:
+                      'Use ventilation fans, wipe down wet surfaces, keep humidity under 50%, and clean with vinegar or mold cleaners.',
                 ),
                 QuestionTile(
-                  question: 'Question #3',
-                  answer: 'Question sample 1',
+                  question:
+                      'Why is my water pressure low, and how do I fix it?',
+                  answer:
+                      'Check for clogged aerators, leaks, pressure regulator issues, or municipal problems. Clean fixtures and call a plumber if it persists.',
                 ),
                 QuestionTile(
-                  question: 'Question #4',
-                  answer: 'Question sample 1',
+                  question:
+                      'What causes cracks in walls or ceilings, and should I worry?',
+                  answer:
+                      'Hairline cracks are usually from settling and not serious. Large or widening cracks may indicate structural issues and should be evaluated.',
+                ),
+                QuestionTile(
+                  question: 'What should I do to prepare my home for winter?',
+                  answer:
+                      'Seal windows/doors, service heating system, drain outdoor faucets, check roof/gutters, insulate pipes to avoid freezing and energy loss.',
                 ),
                 SizedBox(height: 16.h),
                 Text(

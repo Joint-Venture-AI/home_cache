@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
+
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
@@ -8,6 +9,7 @@ import 'package:home_cache/view/auth/signup/onboardingSignup/dialogs/first_dialo
 import 'package:home_cache/view/auth/signup/onboardingSignup/dialogs/second_dialog.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/dialogs/third_dialog.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:home_cache/view/widget/rounded_search_bar.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
@@ -22,6 +24,8 @@ class SelectTypeOfHouseScreen extends StatefulWidget {
 
 class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
   int? selectedIndex;
+  bool isOtherSelected = false;
+  final TextEditingController otherController = TextEditingController();
 
   @override
   void initState() {
@@ -71,7 +75,7 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
               ),
               SizedBox(height: 2.h),
               Text(
-                'What type of house do you live in?',
+                'What Type Of House Do You Live In?',
                 style: TextStyles.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,
@@ -90,14 +94,26 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
                 ],
               ),
               SizedBox(height: 20.h),
-              Text(
-                'other (not listed),',
-                style: TextStyles.bold.copyWith(
-                  color: AppColors.primary,
-                  fontSize: 20.sp,
-                  decoration: TextDecoration.underline,
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    selectedIndex = null;
+                    isOtherSelected = true;
+                  });
+                },
+                child: Text(
+                  'other (not listed),',
+                  style: TextStyles.bold.copyWith(
+                    color: AppColors.primary,
+                    fontSize: 20.sp,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
               ),
+              if (isOtherSelected) ...[
+                SizedBox(height: 16.h),
+                const RoundedSearchBar(),
+              ],
               SizedBox(height: 72.h),
               Row(
                 children: [
@@ -134,7 +150,10 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
         title: title,
         imageAsset: iconPath,
         isSelected: selectedIndex == index,
-        onTap: () => setState(() => selectedIndex = index),
+        onTap: () => setState(() {
+          selectedIndex = index;
+          isOtherSelected = false;
+        }),
       ),
     );
   }

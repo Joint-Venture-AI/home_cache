@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
@@ -61,7 +60,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/pass.png", width: 24.w),
                 title: 'Password Settings',
                 onTap: () {
-                  //Get.toNamed(AppRoutes.subscription);
+                  Get.toNamed(AppRoutes.passwordSettings);
                 },
               ),
               SizedBox(height: 12.h),
@@ -69,7 +68,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/Settings.png", width: 24.w),
                 title: 'Delete Account',
                 onTap: () {
-                  //Get.toNamed(AppRoutes.subscription);
+                  Get.toNamed(AppRoutes.deleteAccount);
                 },
               ),
               SizedBox(height: 12.h),

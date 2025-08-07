@@ -14,13 +14,13 @@ class DialogAppliance extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String selectedType = 'Refrigerator';
-    String selectedBrand = 'Samsung';
+    String selectedBrand = 'Kitchen';
 
     return AlertDialog(
       backgroundColor: AppColors.surface,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(
-        'Add an appliance',
+        'Add An Appliance',
         style: TextStyles.bold.copyWith(color: AppColors.black),
         textAlign: TextAlign.center,
       ),
@@ -52,26 +52,46 @@ class DialogAppliance extends StatelessWidget {
                       color: AppColors.secondary,
                       size: 18.sp,
                     ),
-                    items:
-                        [
-                          'Refrigerator',
-                          'Oven',
-                          'Washer',
-                          'Stove',
-                          'Dryer',
-                          'Ice Maker',
-                          'Dish Washer',
-                          'Garbage Disposal',
-                          'Microwave',
-                        ].map((value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(color: AppColors.black),
-                            ),
-                          );
-                        }).toList(),
+                    items: [
+                      'Thermostat',
+                      'Ceiling Fan',
+                      'Humidifier / Dehumidifier',
+                      'Air Purifier',
+                      'Space Heater',
+                      'Portable Air Conditioner',
+                      'Central Vacuum System',
+                      'Radon Mitigation',
+                      'Refrigerator',
+                      'Freezer',
+                      'Stove / Range',
+                      'Wall Oven',
+                      'Cooktop',
+                      'Microwave',
+                      'Dishwasher',
+                      'Range Hood / Vent',
+                      'Garbage Disposal',
+                      'Trash Compactor',
+                      'Warming Drawer',
+                      'Sink',
+                      'Washing Machine',
+                      'Dryer',
+                      'Shower',
+                      'Bathtub',
+                      'Toilet',
+                      'Steam Shower',
+                      'Sauna',
+                      'Garage Doors',
+                      'Electric Vehicle Charger',
+                      'Ice Maker',
+                    ].map((value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (newValue) {
                       setState(() {
                         selectedType = newValue!;
@@ -90,7 +110,7 @@ class DialogAppliance extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
                     border: Border.all(color: AppColors.lightgrey),
-                    borderRadius: BorderRadius.circular(8), // Less round
+                    borderRadius: BorderRadius.circular(8),
                   ),
                   child: DropdownButton<String>(
                     value: selectedBrand,
@@ -101,24 +121,30 @@ class DialogAppliance extends StatelessWidget {
                       color: AppColors.secondary,
                       size: 18.sp,
                     ),
-                    items:
-                        [
-                          'Samsung',
-                          'LG',
-                          'Whirlpool',
-                          'GE',
-                          'Bosch',
-                          'Frigidaire',
-                          'KitchenAid',
-                        ].map((value) {
-                          return DropdownMenuItem(
-                            value: value,
-                            child: Text(
-                              value,
-                              style: TextStyle(color: AppColors.black),
-                            ),
-                          );
-                        }).toList(),
+                    items: [
+                      'Kitchen',
+                      'Dining',
+                      'Living Room',
+                      'Bedroom',
+                      'Bathroom',
+                      'Laundry',
+                      'Office',
+                      'Basement',
+                      'Garage',
+                      'Gym',
+                      'Mudroom',
+                      'Mediaroom',
+                      'Playroom',
+                      'Sunroom',
+                    ].map((value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(
+                          value,
+                          style: TextStyle(color: AppColors.black),
+                        ),
+                      );
+                    }).toList(),
                     onChanged: (newValue) {
                       setState(() {
                         selectedBrand = newValue!;
@@ -134,7 +160,13 @@ class DialogAppliance extends StatelessWidget {
                       TextWidgetButton(
                         text: '→  Next',
                         onPressed: () {
-                          Get.toNamed(AppRoutes.addAppliances);
+                          Get.toNamed(
+                            AppRoutes.addAppliances,
+                            arguments: {
+                              'type': selectedType,
+                              'location': selectedBrand,
+                            },
+                          );
                         },
                       ),
                     ],
