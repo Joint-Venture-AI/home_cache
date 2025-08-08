@@ -17,6 +17,8 @@ class SelectItemScreen extends StatefulWidget {
 }
 
 class _SelectIteamScreenState extends State<SelectItemScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
   String _searchQuery = '';
   List<String> _suggestions = [];
   List<String> _selectedItems = [];
@@ -51,6 +53,7 @@ class _SelectIteamScreenState extends State<SelectItemScreen> {
       if (!_selectedItems.contains(value)) {
         _selectedItems.add(value);
         _searchQuery = '';
+        _searchController.clear();
         _suggestions = [];
       }
     });
@@ -88,6 +91,7 @@ class _SelectIteamScreenState extends State<SelectItemScreen> {
               Image.asset("assets/images/item.png", height: 90.h),
               SizedBox(height: 32.h),
               IconSearchBarWidget(
+                controller: _searchController,
                 hintText: "Search items...",
                 onChanged: _updateSuggestions,
                 suggestions: _suggestions,

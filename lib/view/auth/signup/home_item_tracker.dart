@@ -19,6 +19,8 @@ class TrackListScreen extends StatefulWidget {
 }
 
 class _TrackListScreenState extends State<TrackListScreen> {
+  final TextEditingController _searchController = TextEditingController();
+
   String _searchQuery = '';
   List<String> _suggestions = [];
   List<String> _selectedItems = [];
@@ -52,7 +54,8 @@ class _TrackListScreenState extends State<TrackListScreen> {
     setState(() {
       if (!_selectedItems.contains(value)) {
         _selectedItems.add(value);
-        _searchQuery = '';
+        _searchQuery = "";
+        _searchController.clear();
         _suggestions = [];
       }
     });
@@ -96,6 +99,7 @@ class _TrackListScreenState extends State<TrackListScreen> {
               ),
               SizedBox(height: 16.h),
               IconSearchBarWidget(
+                controller: _searchController,
                 hintText: 'Search rooms or items...',
                 onChanged: _updateSuggestions,
                 suggestions: _suggestions,

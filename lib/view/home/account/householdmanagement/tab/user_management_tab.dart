@@ -16,12 +16,19 @@ class UserManagementTab extends StatefulWidget {
 class _UserManagementTabState extends State<UserManagementTab> {
   bool isAddingUser = false;
 
+  final List<Map<String, String>> users = [
+    {'name': 'Vanessa Alvarez', 'role': 'House Resident'},
+    {'name': 'Ahsan Bari', 'role': 'House Resident'},
+    {'name': 'Bob T. Builder', 'role': 'House Resident'},
+    {'name': 'Thomas T.T. Engine', 'role': 'House Resident'},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        // Header Row
         Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -58,7 +65,6 @@ class _UserManagementTabState extends State<UserManagementTab> {
         SizedBox(height: 12.h),
         if (isAddingUser)
           Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
                 height: 218.h,
@@ -74,32 +80,22 @@ class _UserManagementTabState extends State<UserManagementTab> {
                     Row(
                       children: [
                         Expanded(
-                            child: TextFieldWidget(
-                          hintText: 'First Name',
-                        )),
+                          child: TextFieldWidget(hintText: 'First Name'),
+                        ),
                         SizedBox(width: 12.w),
                         Expanded(
-                            child: TextFieldWidget(
-                          hintText: 'Last Name',
-                        )),
+                          child: TextFieldWidget(hintText: 'Last Name'),
+                        ),
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    TextFieldWidget(
-                      hintText: 'Email',
-                    ),
+                    TextFieldWidget(hintText: 'Email'),
                     SizedBox(height: 24.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50.w),
-                      child: Column(
-                        children: [
-                          TextWidgetButton(
-                            text: 'Send Invite',
-                            onPressed: () {
-                              // Get.toNamed(AppRoutes.selectHouse);
-                            },
-                          ),
-                        ],
+                      child: TextWidgetButton(
+                        text: 'Send Invite',
+                        onPressed: () {},
                       ),
                     ),
                   ],
@@ -108,29 +104,21 @@ class _UserManagementTabState extends State<UserManagementTab> {
             ],
           )
         else
-          Column(
-            children: [
-              UserManagementTile(
-                fullName: 'Vanessa Alvarez',
-                role: 'House Resident',
-                onTap: () {},
-              ),
-              UserManagementTile(
-                fullName: 'Ahsan Bari',
-                role: 'House Resident',
-                onTap: () {},
-              ),
-              UserManagementTile(
-                fullName: 'Bob T. Builder',
-                role: 'House Resident',
-                onTap: () {},
-              ),
-              UserManagementTile(
-                fullName: 'Thomas T.T. Engine',
-                role: 'House Resident',
-                onTap: () {},
-              ),
-            ],
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16.w),
+            child: ListView.builder(
+              physics: ClampingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: users.length,
+              itemBuilder: (context, index) {
+                final user = users[index];
+                return UserManagementTile(
+                  onTap: () {},
+                  fullName: user['name']!,
+                  role: user['role']!,
+                );
+              },
+            ),
           ),
       ],
     );

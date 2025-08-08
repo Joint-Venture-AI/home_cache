@@ -5,6 +5,7 @@ import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 
 class IconSearchBarWidget extends StatelessWidget {
+  final TextEditingController? controller;
   final String hintText;
   final Function(String)? onChanged;
   final List<String> suggestions;
@@ -16,6 +17,7 @@ class IconSearchBarWidget extends StatelessWidget {
     this.onChanged,
     this.suggestions = const [],
     this.onSuggestionTap,
+    this.controller,
   });
 
   @override
@@ -23,6 +25,7 @@ class IconSearchBarWidget extends StatelessWidget {
     return Column(
       children: [
         TextField(
+          controller: controller,
           onChanged: onChanged,
           decoration: InputDecoration(
             hintText: hintText,
