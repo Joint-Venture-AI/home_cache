@@ -21,6 +21,8 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
   bool _isNameVisible = false;
   bool _isNotificationSettingsVisible = false;
 
+  Person? _selectedPerson;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -167,6 +169,7 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
               ),
               SizedBox(height: 12.h),
 
+              // In your first page
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -188,19 +191,35 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                       ),
                     ],
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isNameVisible = !_isNameVisible;
-                      });
-                    },
-                    child: Icon(
-                      _isNameVisible
-                          ? Icons.arrow_drop_up
-                          : Icons.arrow_drop_down,
-                      color: AppColors.primary,
-                      size: 24.sp,
-                    ),
+                  Row(
+                    children: [
+                      // Show selected name when expanded
+                      if (_isNameVisible && _selectedPerson != null)
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.w),
+                          child: Text(
+                            _selectedPerson!.name,
+                            style: TextStyles.regular.copyWith(
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            _isNameVisible = !_isNameVisible;
+                          });
+                        },
+                        child: Icon(
+                          _isNameVisible
+                              ? Icons.arrow_drop_up
+                              : Icons.arrow_drop_down,
+                          color: AppColors.primary,
+                          size: 24.sp,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -211,19 +230,35 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                   child: Column(
                     children: [
                       AssignedPersonTile(
-                        name: 'Vanessa Alvarez',
-                        role: 'House Resident',
-                        onEdit: () {},
-                      ),
-                      AssignedPersonTile(
-                        name: 'Jess Soyak',
-                        role: 'House Owner',
-                        onEdit: () {},
-                      ),
-                      AssignedPersonTile(
-                        name: 'Ahsan Bari',
-                        role: 'House Resident',
-                        onEdit: () {},
+                        name: _selectedPerson?.name ?? 'Select a person',
+                        role: _selectedPerson?.role ?? '',
+                        onEdit: () async {
+                          // Navigate to selection page and wait for result
+                          final selected = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => PersonSelectionPage(
+                                currentSelection: _selectedPerson,
+                                people: [
+                                  Person(
+                                      name: 'Vanessa Alvarez',
+                                      role: 'House Resident'),
+                                  Person(
+                                      name: 'Jess Soyak', role: 'House Owner'),
+                                  Person(
+                                      name: 'Ahsan Bari',
+                                      role: 'House Resident'),
+                                ],
+                              ),
+                            ),
+                          );
+
+                          if (selected != null) {
+                            setState(() {
+                              _selectedPerson = selected;
+                            });
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -280,6 +315,86 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                 ),
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class Person {
+  final String name;
+  final String role;
+
+  Person({required this.name, required this.role});
+}
+
+class PersonSelectionPage extends StatelessWidget {
+  final Person? currentSelection;
+  final List<Person> people;
+
+  const PersonSelectionPage({
+    super.key,
+    required this.currentSelection,
+    required this.people,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBarBack(), // Your custom app bar
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Select Assignee',
+              style: Theme.of(context)
+                  .textTheme
+                  .titleMedium
+                  ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20.sp),
+            ),
+            Text(
+              'Who do you want to assign this task to?',
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+            ),
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView.builder(
+                itemCount: people.length,
+                itemBuilder: (context, index) {
+                  final person = people[index];
+                  final isSelected = person == currentSelection;
+                  return ListTile(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    tileColor: Colors.transparent,
+                    leading: Image.asset('assets/images/person.png'),
+                    title: Text(
+                      person.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    subtitle: Text(
+                      person.role,
+                      style: TextStyle(
+                        color: Colors.grey[600],
+                        fontSize: 14,
+                      ),
+                    ),
+                    onTap: () {
+                      Navigator.pop(context, person);
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
