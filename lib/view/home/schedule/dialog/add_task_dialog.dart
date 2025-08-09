@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/view/home/schedule/schedule_screen.dart';
 
 class AddTaskDialog extends StatefulWidget {
-  const AddTaskDialog({super.key});
+  final Function(Task) onTaskAdded;
+
+  const AddTaskDialog({
+    super.key,
+    required this.onTaskAdded,
+  });
 
   @override
   State<AddTaskDialog> createState() => _AddTaskDialogState();
@@ -16,6 +21,8 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
   DateTime? _selectedDate;
   bool _repeats = false;
   String? _selectedFrequency;
+  String? _selectedAssignee;
+  bool _isEditingTaskName = false;
 
   final List<String> _frequencies = [
     'Weekly',
@@ -28,13 +35,29 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
     'Annually',
     'Biannually',
   ];
-  final TextEditingController _taskNameController = TextEditingController(
-    text: 'Task Name',
-  );
-  bool _isEditingTaskName = false;
+
+  final TextEditingController _taskNameController = TextEditingController();
+  final List<Map<String, String>> _assignees = [
+    {'name': 'Jess Soyak', 'role': 'House Owner'},
+    {'name': 'Vanessa Alvarez', 'role': 'House Resident'},
+    {'name': 'Ahsan Bari', 'role': 'House Resident'},
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+    _taskNameController.text = 'New Task';
+  }
+
+  @override
+  void dispose() {
+    _taskNameController.dispose();
+    super.dispose();
+  }
 
   String get _dateText {
-    if (_selectedDate == null) return '';
+    if (_selectedDate == null) return 'Select date';
     return '${_selectedDate!.month.toString().padLeft(2, '0')}/'
         '${_selectedDate!.day.toString().padLeft(2, '0')}/'
         '${_selectedDate!.year}';
@@ -65,10 +88,30 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
     );
 
     if (picked != null && picked != _selectedDate) {
-      setState(() {
-        _selectedDate = picked;
-      });
+      setState(() => _selectedDate = picked);
     }
+  }
+
+  void _saveTask() {
+    if (_taskNameController.text.isEmpty || _selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please fill all required fields')),
+      );
+      return;
+    }
+
+    final newTask = Task(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      title: _taskNameController.text,
+      date: _selectedDate!,
+      iconPath: 'assets/icons/task_default.svg',
+      assignedTo: _selectedAssignee ?? _assignees.first['name']!,
+      repeats: _repeats,
+      frequency: _selectedFrequency,
+    );
+
+    widget.onTaskAdded(newTask);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -98,26 +141,25 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                             isDense: true,
                             contentPadding: EdgeInsets.zero,
                           ),
-                          onSubmitted: (_) {
-                            setState(() => _isEditingTaskName = false);
-                          },
+                          onSubmitted: (_) =>
+                              setState(() => _isEditingTaskName = false),
                         ),
                       )
-                    : Text(
-                        _taskNameController.text,
-                        style: TextStyles.regular.copyWith(fontSize: 20.sp),
+                    : Expanded(
+                        child: Text(
+                          _taskNameController.text,
+                          style: TextStyles.regular.copyWith(fontSize: 20.sp),
+                        ),
                       ),
-                const Spacer(),
                 GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isEditingTaskName = true;
-                    });
-                  },
-                  child: SvgPicture.asset(
-                    'assets/icons/add.svg',
-                    width: 16.w,
-                    color: AppColors.primary,
+                  onTap: () => setState(() => _isEditingTaskName = true),
+                  child: Padding(
+                    padding: EdgeInsets.all(8.w),
+                    child: SvgPicture.asset(
+                      'assets/icons/edit.svg',
+                      width: 16.w,
+                      color: AppColors.primary,
+                    ),
                   ),
                 ),
               ],
@@ -125,37 +167,67 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
             SizedBox(height: 16.h),
             Divider(color: Colors.grey[400], thickness: 1, height: 1),
             SizedBox(height: 16.h),
+
+            // Date Picker
             TextField(
               readOnly: true,
               onTap: _pickDate,
               decoration: InputDecoration(
-                labelText: 'Date',
+                labelText: 'Date*',
                 hintText: 'mm/dd/yyyy',
                 floatingLabelBehavior: FloatingLabelBehavior.always,
                 filled: true,
                 fillColor: AppColors.lightgrey,
-                contentPadding: EdgeInsets.symmetric(
-                  horizontal: 12.w,
-                  vertical: 10.h,
-                ),
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(2.r),
                   borderSide: BorderSide(color: AppColors.primary, width: 1.0),
                 ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(2.r),
-                  borderSide: BorderSide(color: AppColors.primary, width: 1.0),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(2.r),
-                  borderSide: BorderSide(color: AppColors.primary, width: 1.5),
-                ),
+                suffixIcon: Icon(Icons.calendar_today, size: 20.w),
               ),
               controller: TextEditingController(text: _dateText),
             ),
 
             SizedBox(height: 20.h),
 
+            // Assignee Selection
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Assignee',
+                  style: TextStyles.regular.copyWith(fontSize: 16.sp),
+                ),
+                SizedBox(height: 8.h),
+                DropdownButtonFormField<String>(
+                  value: _selectedAssignee,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor: AppColors.lightgrey,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(2.r),
+                      borderSide: BorderSide(color: AppColors.primary),
+                    ),
+                  ),
+                  items: _assignees.map((assignee) {
+                    return DropdownMenuItem(
+                      value: assignee['name'],
+                      child: Text('${assignee['name']} (${assignee['role']})'),
+                    );
+                  }).toList(),
+                  onChanged: (value) =>
+                      setState(() => _selectedAssignee = value),
+                  hint: Text('Select assignee'),
+                ),
+              ],
+            ),
+
+            SizedBox(height: 20.h),
+
+            // Repeats Toggle
             Row(
               children: [
                 Checkbox(
@@ -164,9 +236,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                   onChanged: (bool? value) {
                     setState(() {
                       _repeats = value ?? false;
-                      if (!_repeats) {
-                        _selectedFrequency = null;
-                      }
+                      if (!_repeats) _selectedFrequency = null;
                     });
                   },
                 ),
@@ -177,83 +247,60 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
               ],
             ),
 
-            if (_repeats)
-              Padding(
-                padding: EdgeInsets.only(top: 8.h),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'Frequency',
-                      style: TextStyles.regular.copyWith(
-                        color: AppColors.black,
-                      ),
-                      textAlign: TextAlign.start,
-                    ),
-                    DropdownButtonFormField<String>(
-                      value: _selectedFrequency,
-                      decoration: InputDecoration(
-                        hintText: 'Value',
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(2.r),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(2.r),
-                          borderSide: BorderSide(color: AppColors.primary),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(2.r),
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
-                            width: 1.w,
-                          ),
-                        ),
-                        contentPadding: EdgeInsets.symmetric(
-                          horizontal: 12.w,
-                          vertical: 10.h,
-                        ),
-                      ),
-                      items: _frequencies
-                          .map(
-                            (freq) => DropdownMenuItem(
-                              value: freq,
-                              child: Text(freq),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedFrequency = value;
-                        });
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            SizedBox(height: 40.h),
-            Row(
-              children: [
-                const Spacer(),
-                GestureDetector(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: Text(
-                    'Cancel',
-                    style: TextStyles.regular.copyWith(
-                      color: AppColors.primary,
-                    ),
+            // Frequency Selection (conditional)
+            if (_repeats) ...[
+              SizedBox(height: 8.h),
+              DropdownButtonFormField<String>(
+                value: _selectedFrequency,
+                decoration: InputDecoration(
+                  labelText: 'Frequency',
+                  filled: true,
+                  fillColor: AppColors.lightgrey,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(2.r),
+                    borderSide: BorderSide(color: AppColors.primary),
                   ),
                 ),
-                SizedBox(width: 20.w),
-                GestureDetector(
-                  onTap: () {
-                    Get.back();
-                  },
+                items: _frequencies.map((freq) {
+                  return DropdownMenuItem(
+                    value: freq,
+                    child: Text(freq),
+                  );
+                }).toList(),
+                onChanged: (value) =>
+                    setState(() => _selectedFrequency = value),
+                hint: Text('Select frequency'),
+              ),
+            ],
+
+            SizedBox(height: 40.h),
+
+            // Action Buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                TextButton(
+                  onPressed: () => Navigator.of(context).pop(),
                   child: Text(
-                    'Ok',
-                    style: TextStyles.regular.copyWith(
-                      color: AppColors.primary,
+                    'CANCEL',
+                    style:
+                        TextStyles.regular.copyWith(color: AppColors.primary),
+                  ),
+                ),
+                SizedBox(width: 16.w),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(4.r),
                     ),
+                  ),
+                  onPressed: _saveTask,
+                  child: Text(
+                    'SAVE',
+                    style: TextStyles.regular.copyWith(color: Colors.white),
                   ),
                 ),
               ],
