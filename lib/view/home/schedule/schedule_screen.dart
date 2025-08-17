@@ -125,16 +125,7 @@ class ScheduleScreen extends StatefulWidget {
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
-  List<Task> _tasks = [
-    Task(
-      id: '1',
-      title: 'Gutter Cleaning',
-      date: DateTime(2024, 8, 17),
-      iconPath: 'assets/icons/link.svg',
-      assignedTo: 'Jess Soyak',
-    ),
-    // Add more sample tasks if needed
-  ];
+  List<Task> _tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -240,7 +231,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
         return TaskTileWidget(
           date: _formatDate(task.date),
           taskName: task.title,
-          iconPath: task.iconPath,
+          iconPath: task.iconPath ?? 'assets/icons/add.svg',
           assignedTo: task.assignedTo,
           onDelete: () => _deleteTask(task.id),
         );
