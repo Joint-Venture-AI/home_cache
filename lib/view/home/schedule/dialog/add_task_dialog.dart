@@ -130,9 +130,9 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
             SizedBox(height: 20.h),
             Row(
               children: [
-                _isEditingTaskName
-                    ? Expanded(
-                        child: TextField(
+                Expanded(
+                  child: _isEditingTaskName
+                      ? TextField(
                           controller: _taskNameController,
                           autofocus: true,
                           style: TextStyles.regular.copyWith(fontSize: 20.sp),
@@ -141,16 +141,23 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                             isDense: true,
                             contentPadding: EdgeInsets.zero,
                           ),
-                          onSubmitted: (_) =>
-                              setState(() => _isEditingTaskName = false),
+                          onSubmitted: (_) {
+                            setState(() => _isEditingTaskName = false);
+                          },
+                          onEditingComplete: () {
+                            FocusScope.of(context).unfocus();
+                            setState(() => _isEditingTaskName = false);
+                          },
+                        )
+                      : GestureDetector(
+                          onTap: () =>
+                              setState(() => _isEditingTaskName = true),
+                          child: Text(
+                            _taskNameController.text,
+                            style: TextStyles.regular.copyWith(fontSize: 20.sp),
+                          ),
                         ),
-                      )
-                    : Expanded(
-                        child: Text(
-                          _taskNameController.text,
-                          style: TextStyles.regular.copyWith(fontSize: 20.sp),
-                        ),
-                      ),
+                ),
                 GestureDetector(
                   onTap: () => setState(() => _isEditingTaskName = true),
                   child: Padding(
@@ -164,6 +171,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                 ),
               ],
             ),
+
             SizedBox(height: 16.h),
             Divider(color: Colors.grey[400], thickness: 1, height: 1),
             SizedBox(height: 16.h),

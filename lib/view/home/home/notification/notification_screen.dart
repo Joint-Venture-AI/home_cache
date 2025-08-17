@@ -266,10 +266,10 @@ class NotificationScreen extends StatelessWidget {
                         Text(
                           'Looking For Older Tasks?',
                           style:
-                              TextStyles.bold.copyWith(color: AppColors.black),
+                              TextStyles.bold.copyWith(color: AppColors.black, fontSize: 24),
                           textAlign: TextAlign.center,
                         ),
-                        SizedBox(height: 12.h),
+                        SizedBox(height: 10.h),
                         Padding(
                           padding: EdgeInsets.symmetric(horizontal: 50.w),
                           child: Column(
@@ -277,7 +277,8 @@ class NotificationScreen extends StatelessWidget {
                               TextWidgetButton(
                                 text: 'View Home Wealth Dash',
                                 onPressed: () {
-                                  Get.offAll(HomeScreen());
+                                  // Get.offAll(HomeScreen());
+                                  Navigator.pop(context);
                                 },
                               ),
                               SizedBox(height: 20.h),

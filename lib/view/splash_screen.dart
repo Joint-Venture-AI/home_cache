@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/widget/animation_widget.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -16,7 +15,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(milliseconds: 2300), () {
       Get.offNamed(AppRoutes.onboard);
     });
   }
@@ -29,7 +28,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Image.asset('assets/logos/logo.png', width: 197.w),
+            Image.asset('assets/homecache_logo.gif', width: 197.w),
             SizedBox(height: 24.h),
             Image.asset('assets/logos/tagline.png', width: 188.w),
           ],

@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:home_cache/constants/colors.dart';
 
-class TaskTileWidget extends StatelessWidget {
+class TaskTileWidget extends StatefulWidget {
   final String date;
   final String taskName;
   final String iconPath;
@@ -22,6 +22,19 @@ class TaskTileWidget extends StatelessWidget {
   });
 
   @override
+  State<TaskTileWidget> createState() => _TaskTileWidgetState();
+}
+
+class _TaskTileWidgetState extends State<TaskTileWidget> {
+  bool _isLinked = false; // track toggle state
+
+  void _toggleIcon() {
+    setState(() {
+      _isLinked = !_isLinked;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -29,7 +42,7 @@ class TaskTileWidget extends StatelessWidget {
         Row(
           children: [
             Text(
-              date,
+              widget.date,
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
@@ -37,19 +50,19 @@ class TaskTileWidget extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            if (onDelete != null)
-              IconButton(
-                icon: SvgPicture.asset(
-                  'assets/icons/delete.svg',
-                  width: 18.w,
-                  height: 18.h,
-                  color: AppColors.error,
-                ),
-                onPressed: onDelete,
-                padding: EdgeInsets.zero,
-                constraints: const BoxConstraints(),
-              ),
-            if (onEdit != null) ...[
+            if (widget.onDelete != null)
+              // IconButton(
+              //   icon: SvgPicture.asset(
+              //     'assets/icons/delete.svg',
+              //     width: 18.w,
+              //     height: 18.h,
+              //     color: AppColors.error,
+              //   ),
+              //   onPressed: widget.onDelete,
+              //   padding: EdgeInsets.zero,
+              //   constraints: const BoxConstraints(),
+              // ),
+            if (widget.onEdit != null) ...[
               SizedBox(width: 8.w),
               IconButton(
                 icon: SvgPicture.asset(
@@ -58,7 +71,7 @@ class TaskTileWidget extends StatelessWidget {
                   height: 18.h,
                   color: AppColors.primary,
                 ),
-                onPressed: onEdit,
+                onPressed: widget.onEdit,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
               ),
@@ -68,21 +81,39 @@ class TaskTileWidget extends StatelessWidget {
         SizedBox(height: 4.h),
         Row(
           children: [
-            Text(
-              '• $taskName',
-              style: TextStyle(
-                fontSize: 14.sp,
-                fontWeight: FontWeight.w600,
-                color: AppColors.black,
+            Expanded(
+              child: Text(
+                '• ${widget.taskName}',
+                style: TextStyle(
+                  fontSize: 14.sp,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.black,
+                ),
               ),
             ),
-            const Spacer(),
             SvgPicture.asset(
-              iconPath,
+              widget.iconPath,
               width: 18.w,
               height: 18.h,
               color: AppColors.primary,
             ),
+            SizedBox(width: 8.w),
+            GestureDetector(
+              onTap: () {
+                if (!_isLinked) {
+                  setState(() {
+                    _isLinked = true; // only set true once
+                  });
+                }
+              },
+              child: SvgPicture.asset(
+                _isLinked ? 'assets/icons/link.svg' : 'assets/icons/add.svg',
+                width: 18.w,
+                height: 18.h,
+                color: AppColors.primary,
+              ),
+            ),
+
           ],
         ),
         SizedBox(height: 4.h),
@@ -96,7 +127,7 @@ class TaskTileWidget extends StatelessWidget {
             ),
             SizedBox(width: 4.w),
             Text(
-              assignedTo,
+              widget.assignedTo,
               style: TextStyle(
                 fontSize: 12.sp,
                 color: AppColors.grey,

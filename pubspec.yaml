@@ -37,6 +37,7 @@ flutter:
     - assets/logos/
     - assets/icons/
     - assets/images/
+    - assets/
 
   fonts:
     - family: LeagueSpartan

@@ -75,9 +75,8 @@ class _MainBottomNavScreenState extends State<BottomNavBar> {
                       _labels[index],
                       style: TextStyle(
                         fontSize: 12.sp,
-                        fontWeight: isSelected
-                            ? FontWeight.bold
-                            : FontWeight.normal,
+                        fontWeight:
+                            isSelected ? FontWeight.bold : FontWeight.normal,
                         color: isSelected ? AppColors.primary : Colors.grey,
                       ),
                     ),

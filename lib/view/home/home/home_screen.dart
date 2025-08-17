@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/utils.dart';
 import 'package:home_cache/constants/colors.dart';
@@ -26,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  final TaskController controller = Get.put(TaskController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             GestureDetector(
-              onTap: () {
-                Get.toNamed(AppRoutes.homeHealth);
-              },
+              onTap: () => Get.toNamed('/homeHealth'),
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColors.lightgrey.withOpacity(.7),
@@ -47,19 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
                       color: Colors.black.withOpacity(0.3),
                       spreadRadius: 2,
                       blurRadius: 10,
-                      offset: Offset(0, 4),
+                      offset: const Offset(0, 4),
                     ),
                   ],
                 ),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     SizedBox(height: 10.h),
                     Image.asset("assets/images/dash.png", height: 240.h),
-                    // HomeHealthScore(
-                    //   percentage: 80,
-                    //   subtitle: 'Home Health Score',
-                    // ),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 24.w),
                       child: Column(
@@ -79,7 +75,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               fontSize: 18.sp,
                             ),
                           ),
-                          SizedBox(height: 10.h),
                         ],
                       ),
                     ),
@@ -88,105 +83,94 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            SizedBox(height: 10.h),
+
+            // Tasks Section
             Padding(
-              padding: EdgeInsets.all(24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    'Tasks',
-                    style: TextStyles.medium.copyWith(
-                      color: AppColors.black,
-                      fontSize: 18.sp,
+              padding: const EdgeInsets.all(24),
+              child: Obx(() {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'Tasks',
+                      style: TextStyles.medium.copyWith(
+                        color: AppColors.black,
+                        fontSize: 18.sp,
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 10.h),
+                    SizedBox(height: 10.h),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () => selectOption(0),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: isSelected[0]
-                                ? AppColors.primary
-                                : AppColors.lightgrey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                    // Toggle Buttons
+                    Row(
+                      children: [
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => controller.selectOption(0),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: controller.selectedIndex.value == 0
+                                  ? AppColors.primary
+                                  : AppColors.lightgrey,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            'Upcoming',
-                            style: TextStyle(
-                              color:
-                                  isSelected[0] ? Colors.white : Colors.black,
-                              fontSize: 16.sp,
+                            child: Text(
+                              'Upcoming',
+                              style: TextStyle(
+                                color: controller.selectedIndex.value == 0
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 16.sp,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 12.w),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () => selectOption(1),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: isSelected[1]
-                                ? AppColors.primary
-                                : AppColors.lightgrey,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
+                        SizedBox(width: 12.w),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () => controller.selectOption(1),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: controller.selectedIndex.value == 1
+                                  ? AppColors.primary
+                                  : AppColors.lightgrey,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            'Overdue',
-                            style: TextStyle(
-                              color:
-                                  isSelected[1] ? Colors.white : Colors.black,
-                              fontSize: 16.sp,
+                            child: Text(
+                              'Overdue',
+                              style: TextStyle(
+                                color: controller.selectedIndex.value == 1
+                                    ? Colors.white
+                                    : Colors.black,
+                                fontSize: 16.sp,
+                              ),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+
+                    SizedBox(height: 20.h),
+
+                    // Task List
+                    if (controller.isLoading.value)
+                      const Center(child: CircularProgressIndicator())
+                    else if (controller.filteredTasks.isEmpty)
+                      const Center(child: Text("No tasks found"))
+                    else
+                      Column(
+                        children: controller.filteredTasks
+                            .map((task) => TaskListTile(
+                          title: task.title,
+                          date: task.date,
+                          onTap: () => Get.toNamed(AppRoutes.notificationDetails),
+                        ))
+                            .toList(),
                       ),
-                    ],
-                  ),
-
-                  SizedBox(height: 20.h),
-
-                  if (isSelected[0]) ...[
-                    TaskListTile(
-                      title: "HVAC Service",
-                      date: "Due Today: 3/10/25",
-                      onTap: () {},
-                    ),
-                    TaskListTile(
-                      title: "HVAC Service",
-                      date: "Due Today: 3/12/25",
-                      onTap: () {},
-                    ),
-                    TaskListTile(
-                      title: "HVAC Service",
-                      date: "Due Today: 3/9/25",
-                      onTap: () {},
-                    ),
                   ],
-
-                  // Content for Overdue
-                  if (isSelected[1]) ...[
-                    TaskListTile(
-                      title: "HVAC Service",
-                      date: "Overdue",
-                      onTap: () {},
-                    ),
-                    TaskListTile(
-                      title: "HVAC Service",
-                      date: "Due Today",
-                      onTap: () {},
-                    ),
-                  ],
-                ],
-              ),
+                );
+              }),
             ),
           ],
         ),
@@ -248,5 +232,66 @@ class HomeHealthScore extends StatelessWidget {
         SizedBox(height: 10),
       ],
     );
+  }
+}
+
+class Task {
+  final String title;
+  final String date;
+  final String status; // e.g., upcoming, overdue
+
+  Task({required this.title, required this.date, required this.status});
+
+  factory Task.fromJson(Map<String, dynamic> json) {
+    return Task(
+      title: json['title'] ?? '',
+      date: json['date'] ?? '',
+      status: json['status'] ?? 'upcoming',
+    );
+  }
+}
+
+
+
+
+///controller
+class TaskController extends GetxController {
+  var tasks = <Task>[].obs;
+  var isLoading = false.obs;
+  var selectedIndex = 0.obs; // 0 = Upcoming, 1 = Overdue
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchTasks();
+  }
+
+  void fetchTasks() async {
+    try {
+      isLoading.value = true;
+      // Example mock API response (replace with real API call)
+      await Future.delayed(const Duration(seconds: 1));
+      final response = [
+        {"title": "HVAC Service", "date": "3/10/25", "status": "upcoming"},
+        {"title": "Roof Check", "date": "3/12/25", "status": "upcoming"},
+        {"title": "Filter Change", "date": "3/9/25", "status": "overdue"},
+      ];
+
+      tasks.value = response.map((e) => Task.fromJson(e)).toList();
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  List<Task> get filteredTasks {
+    if (selectedIndex.value == 0) {
+      return tasks.where((t) => t.status == "upcoming").toList();
+    } else {
+      return tasks.where((t) => t.status == "overdue").toList();
+    }
+  }
+
+  void selectOption(int index) {
+    selectedIndex.value = index;
   }
 }
