@@ -1,3 +1,4 @@
+import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:home_cache/view/auth/login/login_screen.dart';
 import 'package:home_cache/view/auth/onboarding_screen.dart';
@@ -32,8 +33,9 @@ import 'package:home_cache/view/home/details/documents/add_documents_screen.dart
 import 'package:home_cache/view/home/details/documents/documents_details_screen.dart';
 import 'package:home_cache/view/home/details/documents/documents_screen.dart';
 import 'package:home_cache/view/home/details/documents/preview_document_screen.dart';
-import 'package:home_cache/view/home/details/provider/add_provider_screen.dart';
-import 'package:home_cache/view/home/details/provider/provider_details_screen.dart';
+import 'package:home_cache/view/home/details/providers/add_provider_screen.dart';
+import 'package:home_cache/view/home/details/providers/provider_details_screen.dart';
+import 'package:home_cache/view/home/details/providers/provider_screen.dart';
 import 'package:home_cache/view/home/details/room/add_new_room_item_screen.dart';
 import 'package:home_cache/view/home/details/room/add_room_screen.dart';
 import 'package:home_cache/view/home/details/room/edit_room_details_screen.dart';
@@ -45,7 +47,6 @@ import 'package:home_cache/view/home/details/type/materials/material_screen.dart
 import 'package:home_cache/view/home/details/type/utility/utility_screen.dart';
 import 'package:home_cache/view/home/details/type/view_by_type_screen.dart';
 import 'package:home_cache/view/home/home/home_health_screen.dart';
-import 'package:home_cache/view/home/details/provider/provider_screen.dart';
 import 'package:home_cache/view/home/home/notification/calendar_screen.dart';
 import 'package:home_cache/view/home/home/notification/notification_details_screen.dart';
 import 'package:home_cache/view/home/home/notification/notification_screen.dart';
@@ -71,9 +72,9 @@ class AppRoutes {
   static const bottomNav = '/bottom-nav';
   static const homeHealth = '/home-health';
   static const chat = '/chat';
-  static const provider = '/provider';
-  static const providerDetails = '/provider-details';
-  static const addProvider = '/add-provider';
+  static const provider = '/providers';
+  static const providerDetails = '/providers-details';
+  static const addProvider = '/add-providers';
   static const documents = '/documents';
   static const addDocuments = '/add-documents';
   static const previewDocument = '/preview-document';
@@ -139,10 +140,10 @@ class AppRoutes {
     GetPage(name: bottomNav, page: () => const BottomNavBar()),
     GetPage(name: homeHealth, page: () => const HomeHealthScreen()),
     GetPage(name: chat, page: () => const ChatScreen()),
-    GetPage(name: provider, page: () => const ProviderScreen()),
-    GetPage(name: providerDetails, page: () => const ProviderDetailsScreen()),
-    GetPage(name: addProvider, page: () => const AddProviderScreen()),
-    GetPage(name: documents, page: () => const DocumentsScreen()),
+    GetPage(name: provider, page: () => const ProviderScreen(),),
+    GetPage(name: providerDetails, page: () => const ProviderDetailsScreen(providerId: '',)),
+    GetPage(name: addProvider, page: () => AddProviderScreen()),
+    GetPage(name: documents, page: () => DocumentsScreen()),
     GetPage(name: addDocuments, page: () => const AddDocumentsScreen()),
     GetPage(name: previewDocument, page: () => const PreviewDocumentScreen()),
     GetPage(

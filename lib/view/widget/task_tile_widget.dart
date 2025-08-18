@@ -65,12 +65,13 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
             if (widget.onEdit != null) ...[
               SizedBox(width: 8.w),
               IconButton(
-                icon: SvgPicture.asset(
-                  'assets/icons/edit.svg',
-                  width: 18.w,
-                  height: 18.h,
-                  color: AppColors.primary,
-                ),
+                icon: Icon(Icons.edit, size: 18.h, color: AppColors.primary,),
+                // icon: SvgPicture.asset(
+                //   'assets/icons/edit.svg',
+                //   width: 18.w,
+                //   height: 18.h,
+                //   color: AppColors.primary,
+                // ),
                 onPressed: widget.onEdit,
                 padding: EdgeInsets.zero,
                 constraints: const BoxConstraints(),
@@ -120,7 +121,7 @@ class _TaskTileWidgetState extends State<TaskTileWidget> {
         Row(
           children: [
             SvgPicture.asset(
-              'assets/icons/profile.svg',
+              'assets/icons/account.svg',
               width: 14.w,
               height: 14.h,
               color: AppColors.grey,

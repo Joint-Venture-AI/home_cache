@@ -1,13 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
-import 'package:home_cache/constants/colors.dart'
-    show AppColors, black, primary;
+import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/assigned_person_tile.dart';
 import 'package:home_cache/view/widget/provider_list_tile.dart';
+
+/// Mock API service (replace with real repo/providers later)
+class NotificationService {
+  Future<Map<String, dynamic>> fetchNotificationDetails() async {
+    await Future.delayed(const Duration(milliseconds: 500));
+    return {
+      "title": "Change Your Air Filters",
+      "lastServiceDate": "Jan. 1, 2023",
+      "providerName": "HVAC Pros",
+      "providerLastUsed": "Used on Jul 15, 2025",
+      "providerRating": 4,
+    };
+  }
+
+  Future<void> assignPerson(Person person) async {
+    await Future.delayed(const Duration(milliseconds: 300));
+    // API call: assign person
+  }
+}
 
 class NotificationDetailsScreen extends StatefulWidget {
   const NotificationDetailsScreen({super.key});
@@ -22,6 +40,15 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
   bool _isNotificationSettingsVisible = false;
 
   Person? _selectedPerson;
+  late Future<Map<String, dynamic>> _notificationDetails;
+
+  final NotificationService _service = NotificationService();
+
+  @override
+  void initState() {
+    super.initState();
+    _notificationDetails = _service.fetchNotificationDetails();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,298 +56,275 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
       appBar: AppBarBack(),
       backgroundColor: AppColors.surface,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(24.sp),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
-                'Change Your Air Filters',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 24.h),
+        child: FutureBuilder<Map<String, dynamic>>(
+          future: _notificationDetails,
+          builder: (context, snapshot) {
+            if (!snapshot.hasData) {
+              return const Center(child: CircularProgressIndicator());
+            }
 
-              // ... other UI widgets unchanged (Schedule, Link Meeting, etc.) ...
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            final data = snapshot.data!;
+            return SingleChildScrollView(
+              padding: EdgeInsets.all(24.sp),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
+                  /// Title
                   Text(
-                    'Schedule',
+                    data["title"],
                     style: TextStyles.bold.copyWith(color: AppColors.black),
                     textAlign: TextAlign.center,
                   ),
-                  Container(
-                    height: 40.h,
-                    width: 40.h,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.check, color: Colors.white, size: 20.sp),
-                  ),
+                  SizedBox(height: 24.h),
+
+                  /// Schedule Status
+                  _buildScheduleSection(),
+
+                  SizedBox(height: 32.h),
+
+                  /// Quick Actions
+                  _buildQuickActions(),
+
+                  SizedBox(height: 48.h),
+
+                  /// Last Service
+                  _buildLastServiceSection(data),
+
+                  SizedBox(height: 20.h),
+
+                  /// Assigned To
+                  _buildAssignedSection(),
+
+                  SizedBox(height: 48.h),
+
+                  /// Notification Settings
+                  _buildNotificationSettings(),
                 ],
               ),
-              SizedBox(height: 12.h),
-              Text(
-                'No schedule currently linked.',
-                style: TextStyles.regular.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: 32.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {},
-                    child: Container(
-                      width: 128.w,
-                      padding: EdgeInsets.all(20.w),
-                      decoration: BoxDecoration(
-                        color: AppColors.lightgrey,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/images/link.png',
-                            height: 48.h,
-                            fit: BoxFit.contain,
-                          ),
-                          SizedBox(height: 12.h),
-                          Text(
-                            'Link Meeting',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.black.withOpacity(.8),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      Get.toNamed(AppRoutes.calendar);
-                    },
-                    child: Container(
-                      width: 128.w,
-                      padding: EdgeInsets.all(20.sp),
-                      decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(
-                            'assets/images/calender.png',
-                            height: 48.h,
-                            fit: BoxFit.contain,
-                          ),
-                          SizedBox(height: 12.h),
-                          Text(
-                            'Schedule Now',
-                            style: TextStyle(
-                              fontSize: 14.sp,
-                              fontWeight: FontWeight.w500,
-                              color: AppColors.black.withOpacity(.8),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 48.h),
-              Text(
-                'Schedule',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: 12.h),
-              Text(
-                'Last Service On',
-                style: TextStyles.regular.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: 8.h),
-              Text(
-                'Jan. 1, 2023',
-                style: TextStyles.regular.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: 20.h),
-              Text(
-                'Last Service By',
-                style: TextStyles.regular.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
-              ),
-              ProviderListTile(
-                providerName: 'HVAC Pros',
-                lastUsedDate: 'Used on Jul 15, 2025',
-                rating: 2,
-                isFavorite: false,
-                onTap: () {
-                  Get.toNamed(AppRoutes.providerDetails);
-                },
-              ),
-              SizedBox(height: 12.h),
-
-              // In your first page
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset(
-                        'assets/images/profile2.png',
-                        color: AppColors.black,
-                        width: 20.sp,
-                        height: 20.sp,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'Assigned To',
-                        style: TextStyles.regular.copyWith(
-                          color: AppColors.black,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      // Show selected name when expanded
-                      if (_isNameVisible && _selectedPerson != null)
-                        Padding(
-                          padding: EdgeInsets.only(right: 8.w),
-                          child: Text(
-                            _selectedPerson!.name,
-                            style: TextStyles.regular.copyWith(
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ),
-
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            _isNameVisible = !_isNameVisible;
-                          });
-                        },
-                        child: Icon(
-                          _isNameVisible
-                              ? Icons.arrow_drop_up
-                              : Icons.arrow_drop_down,
-                          color: AppColors.primary,
-                          size: 24.sp,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              Divider(color: Colors.grey, thickness: 1.0),
-              if (_isNameVisible)
-                Padding(
-                  padding: EdgeInsets.only(top: 8.h, bottom: 16.h),
-                  child: Column(
-                    children: [
-                      AssignedPersonTile(
-                        name: _selectedPerson?.name ?? 'Select a person',
-                        role: _selectedPerson?.role ?? '',
-                        onEdit: () async {
-                          // Navigate to selection page and wait for result
-                          final selected = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PersonSelectionPage(
-                                currentSelection: _selectedPerson,
-                                people: [
-                                  Person(
-                                      name: 'Vanessa Alvarez',
-                                      role: 'House Resident'),
-                                  Person(
-                                      name: 'Jess Soyak', role: 'House Owner'),
-                                  Person(
-                                      name: 'Ahsan Bari',
-                                      role: 'House Resident'),
-                                ],
-                              ),
-                            ),
-                          );
-
-                          if (selected != null) {
-                            setState(() {
-                              _selectedPerson = selected;
-                            });
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              SizedBox(height: 48.h),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.notifications,
-                        color: AppColors.black,
-                        size: 20.sp,
-                      ),
-                      SizedBox(width: 8.w),
-                      Text(
-                        'Notification Settings',
-                        style: TextStyles.regular.copyWith(
-                          color: AppColors.black,
-                        ),
-                        textAlign: TextAlign.start,
-                      ),
-                    ],
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _isNotificationSettingsVisible =
-                            !_isNotificationSettingsVisible;
-                      });
-                    },
-                    child: Icon(
-                      _isNotificationSettingsVisible
-                          ? Icons.arrow_drop_up
-                          : Icons.arrow_drop_down,
-                      color: AppColors.primary,
-                      size: 24.sp,
-                    ),
-                  ),
-                ],
-              ),
-              Divider(color: Colors.grey, thickness: 1.0),
-              if (_isNotificationSettingsVisible)
-                Padding(
-                  padding: EdgeInsets.only(top: 8.h),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      //settings
-                    ],
-                  ),
-                ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
   }
+
+  Widget _buildScheduleSection() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'Schedule',
+          style: TextStyles.bold.copyWith(color: AppColors.black),
+        ),
+        Container(
+          height: 40.h,
+          width: 40.h,
+          decoration: const BoxDecoration(
+            color: AppColors.primary,
+            shape: BoxShape.circle,
+          ),
+          child: Icon(Icons.check, color: Colors.white, size: 20.sp),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildQuickActions() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        _quickActionTile(
+          title: "Link Meeting",
+          asset: "assets/images/link.png",
+          onTap: () {
+            // TODO: API - Link meeting
+          },
+        ),
+        _quickActionTile(
+          title: "Schedule Now",
+          asset: "assets/images/calender.png",
+          onTap: () {
+            Get.toNamed(AppRoutes.calendar);
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _quickActionTile({
+    required String title,
+    required String asset,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: 128.w,
+        padding: EdgeInsets.all(20.w),
+        decoration: BoxDecoration(
+          color: AppColors.lightgrey,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          children: [
+            Image.asset(asset, height: 48.h, fit: BoxFit.contain),
+            SizedBox(height: 12.h),
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 14.sp,
+                fontWeight: FontWeight.w500,
+                color: AppColors.black.withOpacity(.8),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildLastServiceSection(Map<String, dynamic> data) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text('Last Service On', style: TextStyles.regular),
+        SizedBox(height: 8.h),
+        Text(data["lastServiceDate"], style: TextStyles.regular),
+        SizedBox(height: 20.h),
+        Text('Last Service By', style: TextStyles.regular),
+        ProviderListTile(
+          providerName: data["providerName"],
+          lastUsedDate: data["providerLastUsed"],
+          rating: data["providerRating"],
+          isFavorite: false,
+          onTap: () => Get.toNamed(AppRoutes.providerDetails),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAssignedSection() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.person, size: 20.sp, color: AppColors.black),
+                SizedBox(width: 8.w),
+                Text('Assigned To', style: TextStyles.regular),
+              ],
+            ),
+            Row(
+              children: [
+                if (_isNameVisible && _selectedPerson != null)
+                  Padding(
+                    padding: EdgeInsets.only(right: 8.w),
+                    child: Text(
+                      _selectedPerson!.name,
+                      style:
+                          TextStyles.regular.copyWith(color: AppColors.primary),
+                    ),
+                  ),
+                GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isNameVisible = !_isNameVisible;
+                    });
+                  },
+                  child: Icon(
+                    _isNameVisible
+                        ? Icons.arrow_drop_up
+                        : Icons.arrow_drop_down,
+                    color: AppColors.primary,
+                    size: 24.sp,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        const Divider(color: Colors.grey),
+        if (_isNameVisible)
+          AssignedPersonTile(
+            name: _selectedPerson?.name ?? 'Select a person',
+            role: _selectedPerson?.role ?? '',
+            onEdit: () async {
+              final selected = await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PersonSelectionPage(
+                    currentSelection: _selectedPerson,
+                    people: [
+                      Person(name: 'Vanessa Alvarez', role: 'House Resident'),
+                      Person(name: 'Jess Soyak', role: 'House Owner'),
+                      Person(name: 'Ahsan Bari', role: 'House Resident'),
+                    ],
+                  ),
+                ),
+              );
+              if (selected != null) {
+                await _service.assignPerson(selected);
+                setState(() {
+                  _selectedPerson = selected;
+                });
+              }
+            },
+          ),
+      ],
+    );
+  }
+
+  Widget _buildNotificationSettings() {
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.notifications, color: AppColors.black, size: 20.sp),
+                SizedBox(width: 8.w),
+                Text('Notification Settings', style: TextStyles.regular),
+              ],
+            ),
+            GestureDetector(
+              onTap: () {
+                setState(() {
+                  _isNotificationSettingsVisible =
+                      !_isNotificationSettingsVisible;
+                });
+              },
+              child: Icon(
+                _isNotificationSettingsVisible
+                    ? Icons.arrow_drop_up
+                    : Icons.arrow_drop_down,
+                color: AppColors.primary,
+                size: 24.sp,
+              ),
+            ),
+          ],
+        ),
+        const Divider(color: Colors.grey),
+        if (_isNotificationSettingsVisible)
+          Padding(
+            padding: EdgeInsets.only(top: 8.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                // TODO: Implement actual notification settings UI
+                Text("🔔 Daily reminders"),
+                Text("🔔 Push notifications"),
+              ],
+            ),
+          ),
+      ],
+    );
+  }
 }
 
+/// Person Model
 class Person {
   final String name;
   final String role;
@@ -341,7 +345,7 @@ class PersonSelectionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(), // Your custom app bar
+      appBar: AppBarBack(),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

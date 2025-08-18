@@ -104,7 +104,8 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: _taskNameController.text,
       date: _selectedDate!,
-      iconPath: 'assets/icons/task_default.svg',
+      // iconPath: 'assets/icons/task_default.svg',
+      iconPath: '',
       assignedTo: _selectedAssignee ?? _assignees.first['name']!,
       repeats: _repeats,
       frequency: _selectedFrequency,
@@ -162,11 +163,12 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                   onTap: () => setState(() => _isEditingTaskName = true),
                   child: Padding(
                     padding: EdgeInsets.all(8.w),
-                    child: SvgPicture.asset(
-                      'assets/icons/edit.svg',
-                      width: 16.w,
-                      color: AppColors.primary,
-                    ),
+                    child: Icon(Icons.edit, size: 18.h, color: AppColors.primary,),
+                    // child: SvgPicture.asset(
+                    //   'assets/icons/edit.svg',
+                    //   width: 16.w,
+                    //   color: AppColors.primary,
+                    // ),
                   ),
                 ),
               ],

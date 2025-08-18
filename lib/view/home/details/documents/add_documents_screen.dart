@@ -2,9 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:home_cache/routes.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/view/home/details/documents/documents_screen.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:image_picker/image_picker.dart';
@@ -44,6 +46,83 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
     }
   }
 
+//   void _proceedNext() {
+//     if (_selectedType == null) {
+//       Get.snackbar("Missing Info", "Please select a document type.",
+//           snackPosition: SnackPosition.BOTTOM,
+//           backgroundColor: Colors.redAccent.withOpacity(0.8),
+//           colorText: Colors.white);
+//       return;
+//     }
+//
+//     if (_pickedImage == null) {
+//       Get.snackbar("No Document", "Please upload or capture your document.",
+//           snackPosition: SnackPosition.BOTTOM,
+//           backgroundColor: Colors.orangeAccent.withOpacity(0.8),
+//           colorText: Colors.white);
+//       return;
+//     }
+//
+//     final document = DocumentModel(
+//       type: _selectedType!,
+//       imagePath: _pickedImage?.path,
+//     );
+//
+// // // Add to controller so it updates DocumentsScreen instantly
+// //     final controller = Get.find<DocumentsController>();
+// //     controller.addDocument(document);
+// //
+// // // Navigate or show preview
+// //     Get.toNamed(AppRoutes.previewDocument, arguments: document.toJson());
+//
+//     final controller = Get.find<DocumentsController>();
+//     controller.addDocument(document as DocumentModel);
+//     Get.toNamed(AppRoutes.previewDocument, arguments: document.toJson());
+//   }
+
+  void _proceedNext() {
+    if (_selectedType == null) {
+      Get.snackbar("Missing Info", "Please select a document type.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.redAccent.withOpacity(0.8),
+          colorText: Colors.white);
+      return;
+    }
+
+    if (_pickedImage == null) {
+      Get.snackbar("No Document", "Please upload or capture your document.",
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.orangeAccent.withOpacity(0.8),
+          colorText: Colors.white);
+      return;
+    }
+
+    // Create the document with all required fields
+    final document = DocumentModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      title: _selectedType!,
+      subtitle: 'Uploaded document',
+      date: DateFormat('MM/dd/yyyy').format(DateTime.now()),
+      iconPath: 'assets/images/document.png',
+      category: _selectedType!,
+      imagePath: _pickedImage!.path,
+    );
+
+    final DocumentsController controller = Get.find<DocumentsController>();
+    controller.addDocument(document);
+
+
+    // Get the controller and add the document
+    // final DocumentsController = Get.find<DocumentsController>();
+    // controller.addDocument(document);
+
+    // Navigate to preview
+    Get.toNamed(
+      AppRoutes.previewDocument,
+      arguments: document.toJson(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +142,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                   textAlign: TextAlign.center),
               SizedBox(height: 24.h),
 
-              // Dropdown for document type
+              // Dropdown
               DropdownButtonFormField<String>(
                 value: _selectedType,
                 decoration: InputDecoration(
@@ -93,13 +172,23 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
               SizedBox(height: 32.h),
 
               if (_pickedImage != null) ...[
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(16),
-                  child: Image.file(
-                    File(_pickedImage!.path),
-                    width: 200.w,
-                    height: 200.w,
-                    fit: BoxFit.cover,
+                GestureDetector(
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (_) => Dialog(
+                      child: InteractiveViewer(
+                        child: Image.file(File(_pickedImage!.path)),
+                      ),
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.file(
+                      File(_pickedImage!.path),
+                      width: 200.w,
+                      height: 200.w,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 SizedBox(height: 16.h),
@@ -111,7 +200,6 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                 ),
                 SizedBox(height: 16.h),
               ] else ...[
-                // Upload Button
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: _pickFromGallery,
@@ -119,11 +207,8 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                 ),
                 SizedBox(height: 16.h),
                 Text('Or',
-                    style: TextStyles.medium.copyWith(color: AppColors.black),
-                    textAlign: TextAlign.center),
+                    style: TextStyles.medium.copyWith(color: AppColors.black)),
                 SizedBox(height: 16.h),
-
-                // Camera Button
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: _captureWithCamera,
@@ -131,14 +216,12 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                       _uploadButton('Use Camera', 'assets/images/camera.png'),
                 ),
                 SizedBox(height: 16.h),
-                Text('Or',
-                    style: TextStyles.medium.copyWith(color: AppColors.black),
-                    textAlign: TextAlign.center),
-                SizedBox(height: 16.h),
               ],
 
               InkWell(
-                onTap: () {},
+                onTap: () {
+                  // For manual entry → maybe navigate to another form
+                },
                 child: Text('Manually Enter Your Details',
                     style:
                         TextStyles.regular.copyWith(color: AppColors.secondary),
@@ -150,14 +233,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 50.w),
                 child: TextWidgetButton(
                   text: '→  Next',
-                  onPressed: () {
-                    if (_selectedType != null) {
-                      Get.toNamed(AppRoutes.previewDocument, arguments: {
-                        'type': _selectedType,
-                        'imagePath': _pickedImage?.path,
-                      });
-                    }
-                  },
+                  onPressed: _proceedNext,
                 ),
               ),
             ],
@@ -179,7 +255,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
             color: Colors.black26,
             blurRadius: 8,
             spreadRadius: 2,
-            offset: Offset(0, 4),
+            offset: const Offset(0, 4),
           )
         ],
       ),
