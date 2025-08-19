@@ -5,57 +5,116 @@ import 'package:home_cache/constants/colors.dart';
 class RecentActivityTab extends StatelessWidget {
   const RecentActivityTab({super.key});
 
+  // Example activity list (replace with API data later)
+  final List<Map<String, String>> activities = const [
+    {
+      'title': 'New User Joined',
+      'subtitle': 'Ahsan was invited',
+      'time': '8 hours ago',
+      'icon': 'assets/images/dot.png',
+    },
+    {
+      'title': 'Task Completed',
+      'subtitle': 'Vacuuming finished by Thomas',
+      'time': '12 hours ago',
+      'icon': 'assets/images/dot.png',
+    },
+    {
+      'title': 'Service Updated',
+      'subtitle': 'Housekeeping schedule changed',
+      'time': '1 day ago',
+      'icon': 'assets/images/dot.png',
+    },
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Container(
-          padding: EdgeInsets.all(12.0.w),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12.0).r,
+    return ListView.separated(
+      padding: EdgeInsets.all(16.w),
+      itemCount: activities.length,
+      separatorBuilder: (_, __) => SizedBox(height: 12.h),
+      itemBuilder: (context, index) {
+        final activity = activities[index];
+        return ActivityTile(
+          title: activity['title']!,
+          subtitle: activity['subtitle']!,
+          time: activity['time']!,
+          iconPath: activity['icon']!,
+        );
+      },
+    );
+  }
+}
+
+class ActivityTile extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String time;
+  final String iconPath;
+
+  const ActivityTile({
+    required this.title,
+    required this.subtitle,
+    required this.time,
+    required this.iconPath,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(12.w),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(12.r),
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Image.asset(
+            iconPath,
+            height: 20.h,
+            fit: BoxFit.cover,
           ),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Image.asset(
-                'assets/images/dot.png',
-                height: 20.h,
-                fit: BoxFit.cover,
-              ),
-              SizedBox(width: 12.w),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+          SizedBox(width: 12.w),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          'New User Joined',
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
+                    Expanded(
+                      child: Text(
+                        title,
+                        style: TextStyle(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.bold,
                         ),
-                        SizedBox(width: 8),
-                        Text('8 hours ago', style: TextStyle(fontSize: 16.sp)),
-                      ],
+                      ),
                     ),
-                    SizedBox(height: 4),
                     Text(
-                      'Ahsan was invited',
-                      style: TextStyle(fontSize: 14, color: AppColors.black),
+                      time,
+                      style: TextStyle(
+                        fontSize: 14.sp,
+                        color: Colors.grey[600],
+                      ),
                     ),
-                    Divider(color: AppColors.primary),
                   ],
                 ),
-              ),
-            ],
+                SizedBox(height: 4.h),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    fontSize: 14.sp,
+                    color: AppColors.black,
+                  ),
+                ),
+                Divider(color: AppColors.primary),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

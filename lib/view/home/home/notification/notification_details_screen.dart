@@ -80,12 +80,12 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                   /// Schedule Status
                   _buildScheduleSection(),
 
-                  SizedBox(height: 32.h),
+                  SizedBox(height: 24.h),
 
                   /// Quick Actions
                   _buildQuickActions(),
 
-                  SizedBox(height: 48.h),
+                  SizedBox(height: 24.h),
 
                   /// Last Service
                   _buildLastServiceSection(data),
@@ -109,22 +109,30 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
   }
 
   Widget _buildScheduleSection() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
       children: [
-        Text(
-          'Schedule',
-          style: TextStyles.bold.copyWith(color: AppColors.black),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Schedule',
+              style: TextStyles.bold.copyWith(color: AppColors.black),
+            ),
+            Container(
+              height: 40.h,
+              width: 40.h,
+              decoration: const BoxDecoration(
+                color: AppColors.primary,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.check, color: Colors.white, size: 20.sp),
+            ),
+          ],
         ),
-        Container(
-          height: 40.h,
-          width: 40.h,
-          decoration: const BoxDecoration(
-            color: AppColors.primary,
-            shape: BoxShape.circle,
-          ),
-          child: Icon(Icons.check, color: Colors.white, size: 20.sp),
+        SizedBox(
+          height: 10.h,
         ),
+        Text('No schedule currently linked.'),
       ],
     );
   }
@@ -187,9 +195,14 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        Text(
+          'Details',
+          style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+        ),
+        SizedBox(height: 20.h),
         Text('Last Service On', style: TextStyles.regular),
-        SizedBox(height: 8.h),
-        Text(data["lastServiceDate"], style: TextStyles.regular),
+        SizedBox(height: 5.h),
+        Text(data["lastServiceDate"], style: TextStyles.semiBold),
         SizedBox(height: 20.h),
         Text('Last Service By', style: TextStyles.regular),
         ProviderListTile(

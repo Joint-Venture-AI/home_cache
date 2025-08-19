@@ -16,6 +16,10 @@ class UserManagementTab extends StatefulWidget {
 class _UserManagementTabState extends State<UserManagementTab> {
   bool isAddingUser = false;
 
+  final TextEditingController fnameController = TextEditingController();
+  final TextEditingController lnameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+
   final List<Map<String, String>> users = [
     {'name': 'Vanessa Alvarez', 'role': 'House Resident'},
     {'name': 'Ahsan Bari', 'role': 'House Resident'},
@@ -80,22 +84,43 @@ class _UserManagementTabState extends State<UserManagementTab> {
                     Row(
                       children: [
                         Expanded(
-                          child: TextFieldWidget(hintText: 'First Name'),
+                          child: TextFieldWidget(
+                            hintText: 'First Name',
+                            controller: fnameController,
+                          ),
                         ),
                         SizedBox(width: 12.w),
                         Expanded(
-                          child: TextFieldWidget(hintText: 'Last Name'),
+                          child: TextFieldWidget(
+                            hintText: 'Last Name',
+                            controller: lnameController,
+                          ),
                         ),
                       ],
                     ),
                     SizedBox(height: 16.h),
-                    TextFieldWidget(hintText: 'Email'),
+                    TextFieldWidget(
+                      hintText: 'Email',
+                      controller: emailController,
+                    ),
                     SizedBox(height: 24.h),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 50.w),
                       child: TextWidgetButton(
                         text: 'Send Invite',
-                        onPressed: () {},
+                        onPressed: () {
+                          setState(() {
+                            isAddingUser = !isAddingUser;
+                          });
+
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                  '"${emailController.text}" send email Successfully'),
+                              duration: const Duration(seconds: 3),
+                            ),
+                          );
+                        },
                       ),
                     ),
                   ],
@@ -107,15 +132,58 @@ class _UserManagementTabState extends State<UserManagementTab> {
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16.w),
             child: ListView.builder(
-              physics: ClampingScrollPhysics(),
+              physics: const ClampingScrollPhysics(),
               shrinkWrap: true,
               itemCount: users.length,
               itemBuilder: (context, index) {
                 final user = users[index];
-                return UserManagementTile(
-                  onTap: () {},
-                  fullName: user['name']!,
-                  role: user['role']!,
+
+                return Dismissible(
+                  key: ValueKey(user['name']), // unique key
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.symmetric(horizontal: 20.w),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    child: const Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                    ),
+                  ),
+                  onDismissed: (direction) {
+                    // Save removed user
+                    final removedUser = user;
+                    final removedIndex = index;
+
+                    setState(() {
+                      users.removeAt(index);
+                    });
+
+                    // Show snackbar with UNDO
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('${removedUser['name']} removed'),
+                        duration: const Duration(seconds: 3),
+                        action: SnackBarAction(
+                          label: 'Undo',
+                          textColor: Colors.yellow,
+                          onPressed: () {
+                            setState(() {
+                              users.insert(removedIndex, removedUser);
+                            });
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                  child: UserManagementTile(
+                    onTap: () {},
+                    fullName: user['name']!,
+                    role: user['role']!,
+                  ),
                 );
               },
             ),

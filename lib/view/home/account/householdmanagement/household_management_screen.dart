@@ -1,8 +1,7 @@
 // household_management_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_cache/constants/colors.dart'
-    show AppColors, primary, secondary;
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/home/account/householdmanagement/tab/assigned_task_tab.dart';
 import 'package:home_cache/view/home/account/householdmanagement/tab/recent_activity_tab.dart';
@@ -29,9 +28,7 @@ class _HouseholdManagementScreenState extends State<HouseholdManagementScreen> {
   int selectedIndex = 0;
 
   void selectTab(int index) {
-    setState(() {
-      selectedIndex = index;
-    });
+    setState(() => selectedIndex = index);
   }
 
   Widget _buildTabContent() {
@@ -52,15 +49,16 @@ class _HouseholdManagementScreenState extends State<HouseholdManagementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: const AppBarBack(),
       backgroundColor: AppColors.surface,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.only(top: 24.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Text(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            // Title
+            Padding(
+              padding: EdgeInsets.only(top: 24.h, bottom: 16.h),
+              child: Text(
                 tabTitles[selectedIndex],
                 style: TextStyles.bold.copyWith(
                   color: AppColors.primary,
@@ -68,42 +66,51 @@ class _HouseholdManagementScreenState extends State<HouseholdManagementScreen> {
                 ),
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 16.h),
-              SingleChildScrollView(
+            ),
+
+            // Horizontal Tabs
+            SizedBox(
+              height: 40.h,
+              child: ListView.separated(
                 scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(tabTitles.length, (index) {
-                    bool isSelected = selectedIndex == index;
-                    return Padding(
-                      padding: EdgeInsets.only(right: 8.w),
-                      child: ElevatedButton(
-                        onPressed: () => selectTab(index),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isSelected
-                              ? AppColors.primary
-                              : AppColors.lightgrey,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.r),
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                        ),
-                        child: Text(
-                          tabTitles[index],
-                          style: TextStyle(
-                            color: isSelected ? Colors.white : Colors.black,
-                            fontSize: 12.sp,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                itemBuilder: (context, index) {
+                  final isSelected = selectedIndex == index;
+                  return ElevatedButton(
+                    onPressed: () => selectTab(index),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor:
+                          isSelected ? AppColors.primary : AppColors.lightgrey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16.r),
                       ),
-                    );
-                  }),
-                ),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
+                    ),
+                    child: Text(
+                      tabTitles[index],
+                      style: TextStyle(
+                        color: isSelected ? Colors.white : Colors.black,
+                        fontSize: 12.sp,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                },
+                separatorBuilder: (_, __) => SizedBox(width: 8.w),
+                itemCount: tabTitles.length,
               ),
-              SizedBox(height: 24.h),
-              _buildTabContent(),
-            ],
-          ),
+            ),
+
+            SizedBox(height: 16.h),
+
+            // Tab Content
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: _buildTabContent(),
+              ),
+            ),
+          ],
         ),
       ),
     );

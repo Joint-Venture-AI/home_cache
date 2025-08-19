@@ -6,19 +6,22 @@ class TextFieldWidget extends StatelessWidget {
   final String? hintText;
   final ValueChanged<String>? onChanged;
   final TextInputType keyboardType;
+  final TextEditingController? controller;
 
   const TextFieldWidget({
     super.key,
     this.hintText,
     this.onChanged,
     this.keyboardType = TextInputType.text,
+    this.controller,
   });
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 48.h,
-      child: TextField(
+      child: TextFormField(
+        controller: controller,
         keyboardType: keyboardType,
         onChanged: onChanged,
         decoration: InputDecoration(
