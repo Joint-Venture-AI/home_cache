@@ -47,7 +47,7 @@ class PasswordSettingsScreen extends StatelessWidget {
               TextInputField(hintText: 'Retype Password'),
 
               Padding(
-                padding: EdgeInsetsGeometry.all(20.w),
+                padding: EdgeInsets.all(20.w),
                 child: Text(
                   'Your password must be at least 8 characters, include a number, an uppercase letter, a lowercase letter, and a special character. ',
                   style: TextStyles.regular.copyWith(
