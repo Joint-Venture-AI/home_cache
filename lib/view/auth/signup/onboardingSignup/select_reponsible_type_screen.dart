@@ -71,7 +71,7 @@ class _SelectResponsibleTypeScreenState
                   });
                 },
                 child: Text(
-                  'other (not listed),',
+                  'Other (not listed)',
                   style: TextStyles.bold.copyWith(
                     color: AppColors.primary,
                     fontSize: 20.sp,
@@ -97,7 +97,7 @@ class _SelectResponsibleTypeScreenState
                   SizedBox(width: 100.w),
                   Expanded(
                     child: TextWidgetButton(
-                      text: '→  Next  ',
+                      text: '→  Next',
                       onPressed: () {
                         Get.toNamed(AppRoutes.finishUtility);
                       },

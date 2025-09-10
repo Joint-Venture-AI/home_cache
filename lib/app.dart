@@ -4,6 +4,10 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/routes.dart';
 
+GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
+final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
+    GlobalKey<ScaffoldMessengerState>();
+
 class HomeCache extends StatelessWidget {
   const HomeCache({super.key});
 
@@ -17,6 +21,7 @@ class HomeCache extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Home Cache',
+          scaffoldMessengerKey: rootScaffoldMessengerKey,
           theme: ThemeData(
             scaffoldBackgroundColor: AppColors.surface,
             fontFamily: 'LeagueSpartan',

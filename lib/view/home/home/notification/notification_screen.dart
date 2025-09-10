@@ -133,7 +133,7 @@ class NotificationScreen extends StatelessWidget {
                           child: Column(
                             children: [
                               TextWidgetButton(
-                                text: 'View Home Wealth Dash',
+                                text: 'View Home Health Dash',
                                 onPressed: () {
                                   // Get.offAll(HomeScreen());
                                   Navigator.pop(context);

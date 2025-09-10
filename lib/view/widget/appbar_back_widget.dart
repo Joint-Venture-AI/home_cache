@@ -10,7 +10,7 @@ class AppBarBack extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       leading: IconButton(
         icon: Padding(
-          padding: const EdgeInsets.all(24.0),
+          padding: EdgeInsets.all(24.w),
           child: Icon(
             Icons.arrow_back_ios,
             size: 20.sp,

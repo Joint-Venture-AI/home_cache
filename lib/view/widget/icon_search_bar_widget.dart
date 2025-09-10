@@ -25,6 +25,10 @@ class IconSearchBarWidget extends StatelessWidget {
     return Column(
       children: [
         TextField(
+          style: TextStyle(
+            color: AppColors.black,
+            fontSize: 16.sp,
+          ),
           controller: controller,
           onChanged: onChanged,
           decoration: InputDecoration(
@@ -32,23 +36,16 @@ class IconSearchBarWidget extends StatelessWidget {
             border: InputBorder.none,
             filled: true,
             fillColor: AppColors.white,
-            prefixIcon: Padding(
-              padding: EdgeInsets.all(12.w),
-              child: SvgPicture.asset(
-                'assets/icons/search.svg',
-                width: 20.w,
-                height: 20.h,
-              ),
+            prefixIcon: Icon(
+              Icons.search,
+              color: AppColors.grey,
+              size: 20.w,
             ),
-            suffixIcon: Padding(
-              padding: EdgeInsets.all(12.w),
-              child: SvgPicture.asset(
-                'assets/icons/mic.svg',
-                width: 20.w,
-                height: 20.h,
-              ),
+            suffixIcon: Icon(
+              Icons.mic,
+              color: AppColors.grey,
+              size: 20.w,
             ),
-            contentPadding: EdgeInsets.symmetric(vertical: 0.h),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12.r),
               borderSide: BorderSide(color: Colors.grey, width: 2.w),

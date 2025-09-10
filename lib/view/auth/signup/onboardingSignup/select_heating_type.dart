@@ -77,7 +77,7 @@ class _SelectHeatingTypeScreenState extends State<SelectHeatingTypeScreen> {
                   });
                 },
                 child: Text(
-                  'other (not listed),',
+                  'Other (not listed)',
                   style: TextStyles.bold.copyWith(
                     color: AppColors.primary,
                     fontSize: 20.sp,

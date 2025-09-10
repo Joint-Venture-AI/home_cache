@@ -76,7 +76,7 @@ class _SelectCoolingTypeScreenState extends State<SelectCoolingTypeScreen> {
                   });
                 },
                 child: Text(
-                  'other (not listed),',
+                  'Other (not listed)',
                   style: TextStyles.bold.copyWith(
                     color: AppColors.primary,
                     fontSize: 20.sp,
@@ -102,7 +102,7 @@ class _SelectCoolingTypeScreenState extends State<SelectCoolingTypeScreen> {
                   SizedBox(width: 100.w),
                   Expanded(
                     child: TextWidgetButton(
-                      text: '→  Next  ',
+                      text: '→  Next',
                       onPressed: () {
                         Get.toNamed(AppRoutes.selectResponsibleType);
                       },

@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                           Text(
-                            'You’ve completed 4/5 tasks this Season!',
+                            'You\'ve completed 4/5 tasks this Season!',
                             style: TextStyles.medium.copyWith(
                               color: AppColors.secondary,
                               fontSize: 18.sp,

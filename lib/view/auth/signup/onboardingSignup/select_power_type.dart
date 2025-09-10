@@ -19,7 +19,7 @@ class SelectPowerTypeScreen extends StatefulWidget {
 }
 
 class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
-  int? selectedIndex;
+  List<int> _selectedIndexes = [];
   bool isOtherSelected = false;
 
   @override
@@ -65,12 +65,11 @@ class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
               GestureDetector(
                 onTap: () {
                   setState(() {
-                    selectedIndex = null;
                     isOtherSelected = true;
                   });
                 },
                 child: Text(
-                  'other (not listed),',
+                  'Other (not listed)',
                   style: TextStyles.bold.copyWith(
                     color: AppColors.primary,
                     fontSize: 20.sp,
@@ -96,7 +95,7 @@ class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
                   SizedBox(width: 100.w),
                   Expanded(
                     child: TextWidgetButton(
-                      text: '→  Next  ',
+                      text: '→  Next',
                       onPressed: () {
                         Get.toNamed(AppRoutes.selectWaterSupply);
                       },
@@ -118,12 +117,17 @@ class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
       child: SelectableTile(
         title: title,
         imageAsset: iconPath,
-        isSelected: selectedIndex == index && !isOtherSelected,
+        isSelected: _selectedIndexes.contains(index),
         onTap: () {
-          setState(() {
-            selectedIndex = index;
-            isOtherSelected = false;
-          });
+          if (_selectedIndexes.contains(index)) {
+            setState(() {
+              _selectedIndexes.removeAt(_selectedIndexes.indexOf(index));
+            });
+          } else {
+            setState(() {
+              _selectedIndexes.add(index);
+            });
+          }
         },
       ),
     );

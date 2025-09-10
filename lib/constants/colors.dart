@@ -7,6 +7,10 @@ class AppColors {
   static const surface = Color(0xFFFFFFFF);
   static const white = Color(0xFFFFFFFF);
   static const black = Color(0xFF000000);
+
+  static const text = Color(0xFF000000);
+  static const border = Colors.grey;
+
   static const lightgrey = Color(0xFFEBEBEB);
   static const grey = Colors.grey;
 

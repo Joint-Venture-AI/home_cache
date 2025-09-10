@@ -102,7 +102,7 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
                   });
                 },
                 child: Text(
-                  'other (not listed),',
+                  'Other (not listed)',
                   style: TextStyles.bold.copyWith(
                     color: AppColors.primary,
                     fontSize: 20.sp,

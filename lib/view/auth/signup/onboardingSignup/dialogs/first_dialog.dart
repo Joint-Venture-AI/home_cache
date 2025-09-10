@@ -31,20 +31,14 @@ class FirstDialog extends StatelessWidget {
               style: TextStyles.medium.copyWith(color: AppColors.black),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 6.h),
-            Text(
-              'Select which options are relevant to you and your home and hit ‘Next’',
-              style: TextStyles.regular.copyWith(color: AppColors.black),
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 48.h),
             Image.asset(
               "assets/images/touch.png",
               height: 120.h,
               width: 120.w,
               fit: BoxFit.contain,
             ),
-            SizedBox(height: 20.h),
+            SizedBox(height: 48.h),
             Text(
               'Select which options are relevant to you and your home and hit ‘Next’',
               style: TextStyles.regular.copyWith(color: AppColors.black),

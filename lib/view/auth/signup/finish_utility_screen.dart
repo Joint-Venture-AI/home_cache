@@ -37,7 +37,7 @@ class FinishUtilityScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     TextWidgetButton(
-                      text: '→   keep Going',
+                      text: '→   Keep Going',
                       onPressed: () {
                         Get.toNamed(AppRoutes.trackList);
                       },

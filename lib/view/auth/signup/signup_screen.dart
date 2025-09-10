@@ -58,7 +58,6 @@ class SignupScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               TextInputField(hintText: '*************'),
-
               SizedBox(height: 34.h),
               RichText(
                 textAlign: TextAlign.center,
