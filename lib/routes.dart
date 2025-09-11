@@ -47,6 +47,7 @@ import 'package:home_cache/view/home/details/type/materials/material_screen.dart
 import 'package:home_cache/view/home/details/type/utility/utility_screen.dart';
 import 'package:home_cache/view/home/details/type/view_by_type_screen.dart';
 import 'package:home_cache/view/home/home/home_health_screen.dart';
+import 'package:home_cache/view/home/home/home_screen.dart';
 import 'package:home_cache/view/home/home/notification/calendar_screen.dart';
 import 'package:home_cache/view/home/home/notification/notification_details_screen.dart';
 import 'package:home_cache/view/home/home/notification/notification_screen.dart';

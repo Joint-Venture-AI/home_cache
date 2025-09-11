@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
@@ -152,7 +153,12 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
           title: "Schedule Now",
           asset: "assets/images/calender.png",
           onTap: () {
-            Get.toNamed(AppRoutes.calendar);
+            // Get.toNamed(AppRoutes.calendar);
+            showDatePicker(
+              context: context,
+              firstDate: DateTime(1995),
+              lastDate: DateTime(2050),
+            );
           },
         ),
       ],
@@ -219,44 +225,54 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
   Widget _buildAssignedSection() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _isNameVisible = !_isNameVisible;
+            });
+          },
+          child: Container(
+            color: Colors.transparent,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Icon(Icons.person, size: 20.sp, color: AppColors.black),
-                SizedBox(width: 8.w),
-                Text('Assigned To', style: TextStyles.regular),
-              ],
-            ),
-            Row(
-              children: [
-                if (_isNameVisible && _selectedPerson != null)
-                  Padding(
-                    padding: EdgeInsets.only(right: 8.w),
-                    child: Text(
-                      _selectedPerson!.name,
-                      style:
-                          TextStyles.regular.copyWith(color: AppColors.primary),
+                Row(
+                  children: [
+                    Icon(Icons.person,
+                        size: 20.sp, color: AppColors.primaryLight),
+                    SizedBox(width: 8.w),
+                    Text('Assigned To',
+                        style: TextStyle(
+                            color: AppColors.black,
+                            fontSize: 14.sp,
+                            fontWeight: FontWeight.w600)),
+                  ],
+                ),
+                Row(
+                  children: [
+                    if (_isNameVisible && _selectedPerson != null)
+                      Padding(
+                        padding: EdgeInsets.only(right: 8.w),
+                        child: Text(
+                          _selectedPerson!.name,
+                          style: TextStyle(
+                              color: AppColors.black,
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w600),
+                        ),
+                      ),
+                    Icon(
+                      _isNameVisible
+                          ? Icons.arrow_drop_up
+                          : Icons.arrow_drop_down,
+                      color: AppColors.primary,
+                      size: 24.sp,
                     ),
-                  ),
-                GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isNameVisible = !_isNameVisible;
-                    });
-                  },
-                  child: Icon(
-                    _isNameVisible
-                        ? Icons.arrow_drop_up
-                        : Icons.arrow_drop_down,
-                    color: AppColors.primary,
-                    size: 24.sp,
-                  ),
+                  ],
                 ),
               ],
             ),
-          ],
+          ),
         ),
         const Divider(color: Colors.grey),
         if (_isNameVisible)
@@ -297,9 +313,14 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
           children: [
             Row(
               children: [
-                Icon(Icons.notifications, color: AppColors.black, size: 20.sp),
+                Icon(Icons.notifications,
+                    color: AppColors.primaryLight, size: 20.sp),
                 SizedBox(width: 8.w),
-                Text('Notification Settings', style: TextStyles.regular),
+                Text('Notification Settings',
+                    style: TextStyle(
+                        color: AppColors.black,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w600)),
               ],
             ),
             GestureDetector(
@@ -360,16 +381,16 @@ class PersonSelectionPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBarBack(),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(24.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               'Select Assignee',
-              style: Theme.of(context)
-                  .textTheme
-                  .titleMedium
-                  ?.copyWith(fontWeight: FontWeight.bold, fontSize: 20.sp),
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 20.sp,
+                  color: AppColors.text),
             ),
             Text(
               'Who do you want to assign this task to?',
@@ -385,12 +406,23 @@ class PersonSelectionPage extends StatelessWidget {
                   final person = people[index];
                   final isSelected = person == currentSelection;
                   return ListTile(
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
+                    contentPadding: EdgeInsets.symmetric(
+                      vertical: 6.h,
                     ),
                     tileColor: Colors.transparent,
-                    leading: Image.asset('assets/images/person.png'),
+                    leading: Container(
+                      padding: EdgeInsets.all(6.w),
+                      decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border:
+                              Border.all(color: AppColors.primary, width: 3.w)),
+                      child: SvgPicture.asset(
+                        'assets/icons/user.svg',
+                        width: 24.w,
+                        height: 24.w,
+                        color: AppColors.primary,
+                      ),
+                    ),
                     title: Text(
                       person.name,
                       style: const TextStyle(

@@ -222,6 +222,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                       borderSide: BorderSide(color: AppColors.primary),
                     ),
                   ),
+                  dropdownColor: Color(0xffA7B8BB),
                   items: _assignees.map((assignee) {
                     return DropdownMenuItem(
                       value: assignee['name'],

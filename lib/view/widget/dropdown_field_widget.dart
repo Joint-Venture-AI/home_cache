@@ -40,7 +40,7 @@ class DropdownFieldWidget extends StatelessWidget {
             borderSide: BorderSide(color: Colors.grey, width: 1.5.w),
           ),
         ),
-        dropdownColor: AppColors.primary,
+        dropdownColor: Color(0xffA7B8BB),
         style: TextStyle(color: Colors.black, fontSize: 14.sp),
         hint: Text(hintText, style: TextStyle(color: Colors.grey[600])),
         items: items.map((String item) {

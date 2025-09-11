@@ -84,6 +84,17 @@ class _FilterDialogState extends State<FilterDialog> {
                       .toList(),
                 ),
                 SizedBox(height: 16.h),
+                _sectionTitle('Favorite'),
+                Row(
+                  children: [
+                    _buildFavoriteCheckbox(true),
+                    SizedBox(
+                      width: 24.w,
+                    ),
+                    _buildFavoriteCheckbox(false),
+                  ],
+                ),
+                SizedBox(height: 16.h),
                 _sectionTitle('Service Type'),
                 Wrap(
                   spacing: 8.w,
@@ -129,6 +140,54 @@ class _FilterDialogState extends State<FilterDialog> {
                 color: AppColors.black.withOpacity(0.8),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  bool? favoriteFilter;
+
+  Widget _buildFavoriteCheckbox(bool favorite) {
+    return GestureDetector(
+      onTap: () {
+        if (favoriteFilter == null || favoriteFilter != favorite) {
+          setState(() {
+            favoriteFilter = favorite;
+          });
+        } else {
+          setState(() {
+            favoriteFilter = null;
+          });
+        }
+      },
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Checkbox(
+            value: favoriteFilter == favorite,
+            activeColor: AppColors.primaryLight,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(6),
+            ),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            visualDensity: VisualDensity.compact,
+            onChanged: (val) {
+              if (favoriteFilter == null || favoriteFilter != favorite) {
+                setState(() {
+                  favoriteFilter = favorite;
+                });
+              } else {
+                setState(() {
+                  favoriteFilter = null;
+                });
+              }
+            },
+          ),
+          Icon(
+            favorite ? Icons.favorite : Icons.favorite_border,
+            color: favorite ? Colors.red : Colors.grey,
+            size: 20.sp,
           ),
         ],
       ),

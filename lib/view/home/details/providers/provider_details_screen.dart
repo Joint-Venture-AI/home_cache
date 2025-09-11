@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/doccument_slider.dart';
 import 'package:home_cache/view/widget/past_appoinment_tile.dart';
@@ -65,7 +67,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(
         5,
-            (index) => Icon(
+        (index) => Icon(
           index < rating ? Icons.star : Icons.star_border,
           color: AppColors.primaryLight,
           size: 30.sp,
@@ -86,25 +88,52 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               // Provider Info
-              Text(
-                providerType,
-                style: TextStyles.regular.copyWith(
-                  color: AppColors.black,
-                  fontSize: 16.sp,
-                  fontStyle: FontStyle.italic,
-                ),
-                textAlign: TextAlign.center,
+              Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  Column(
+                    children: [
+                      Text(
+                        providerType,
+                        style: TextStyles.regular.copyWith(
+                          color: AppColors.black,
+                          fontSize: 16.sp,
+                          fontStyle: FontStyle.italic,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 6.h),
+                      Text(
+                        providerName,
+                        style:
+                            TextStyles.bold.copyWith(color: AppColors.primary),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 12.h),
+                      _buildStars(rating),
+                    ],
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      Get.toNamed(AppRoutes.addProvider);
+                    },
+                    child: Container(
+                      width: 40.w,
+                      height: 40.w,
+                      decoration: BoxDecoration(
+                          color: AppColors.lightgrey, shape: BoxShape.circle),
+                      child: Center(
+                        child: Icon(
+                          Icons.edit,
+                          size: 18.w,
+                          color: AppColors.text,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-              SizedBox(height: 6.h),
-              Text(
-                providerName,
-                style: TextStyles.bold.copyWith(color: AppColors.primary),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 12.h),
-              _buildStars(rating),
               SizedBox(height: 24.h),
-
               // Contact Info
               _sectionTitle('Contact Information'),
               Container(
@@ -115,9 +144,11 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                 ),
                 child: Column(
                   children: [
-                    Text(contactName, style: TextStyles.regular.copyWith(fontSize: 20.sp)),
+                    Text(contactName,
+                        style: TextStyles.regular.copyWith(fontSize: 20.sp)),
                     SizedBox(height: 4.h),
-                    Text(contactNumber, style: TextStyles.regular.copyWith(fontSize: 20.sp)),
+                    Text(contactNumber,
+                        style: TextStyles.regular.copyWith(fontSize: 20.sp)),
                     SizedBox(height: 4.h),
                     Text(
                       contactWebsite,
@@ -134,9 +165,9 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               // Scheduled Appointments
               _sectionTitle('Scheduled Appointments'),
               ...scheduledAppointments.map((item) => ScheduledAppointmentTile(
-                title: item['title']!,
-                subtitle: item['subtitle']!,
-              )),
+                    title: item['title']!,
+                    subtitle: item['subtitle']!,
+                  )),
 
               SizedBox(height: 20.h),
 
@@ -146,9 +177,13 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Past Appointments', style: TextStyles.semiBold.copyWith(color: AppColors.black)),
+                    Text('Past Appointments',
+                        style: TextStyles.semiBold
+                            .copyWith(color: AppColors.black)),
                     Icon(
-                      isPastExpanded ? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
+                      isPastExpanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
                       color: AppColors.secondary,
                       size: 24.w,
                     ),
@@ -158,9 +193,9 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               SizedBox(height: 8.h),
               if (isPastExpanded)
                 ...pastAppointments.map((item) => PastAppointmentsTile(
-                  date: item['date']!,
-                  status: item['status']!,
-                )),
+                      date: item['date']!,
+                      status: item['status']!,
+                    )),
 
               SizedBox(height: 20.h),
 
@@ -169,13 +204,14 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
               // DocumentSlider(documents: documents),
               // DocumentSlider(),
               DocumentSlider(
-                documents: documents.map((doc) => {
-                  'iconPath': 'assets/images/document.png',
-                  'title': doc,
-                  'date': 'Uploaded 8/17/2025', // replace with API date
-                }).toList(),
+                documents: documents
+                    .map((doc) => {
+                          'iconPath': 'assets/images/document.png',
+                          'title': doc,
+                          'date': 'Uploaded 8/17/2025', // replace with API date
+                        })
+                    .toList(),
               ),
-
             ],
           ),
         ),
@@ -187,7 +223,8 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title, style: TextStyles.semiBold.copyWith(color: AppColors.black)),
+        Text(title,
+            style: TextStyles.semiBold.copyWith(color: AppColors.black)),
         Divider(color: AppColors.black, thickness: 1.h, height: 12.h),
       ],
     );

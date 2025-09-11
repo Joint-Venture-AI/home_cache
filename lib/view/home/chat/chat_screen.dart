@@ -25,6 +25,8 @@ class _ChatScreenState extends State<ChatScreen> {
   // late stt.SpeechToText _speech;
   bool _isListening = false;
 
+  bool _hasTextWritten = false;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +41,24 @@ class _ChatScreenState extends State<ChatScreen> {
       ),
       ChatMessage(text: 'Should I service my HVAC system?', isMe: true),
     ]);
+
+    _controller.addListener(
+      () {
+        if (_controller.text.isEmpty) {
+          if (_hasTextWritten) {
+            setState(() {
+              _hasTextWritten = false;
+            });
+          }
+        } else {
+          if (!_hasTextWritten) {
+            setState(() {
+              _hasTextWritten = true;
+            });
+          }
+        }
+      },
+    );
   }
 
   void _sendMessage() {
@@ -51,35 +71,11 @@ class _ChatScreenState extends State<ChatScreen> {
     });
   }
 
-  // void _listen() async {
-  //   if (!_isListening) {
-  //     bool available = await _speech.initialize(
-  //       onStatus: (val) {
-  //         if (val == 'done') {
-  //           setState(() => _isListening = false);
-  //         }
-  //       },
-  //       onError: (val) {
-  //         debugPrint('Speech error: $val');
-  //         setState(() => _isListening = false);
-  //       },
-  //     );
-
-  //     if (available) {
-  //       setState(() => _isListening = true);
-  //       _speech.listen(
-  //         onResult: (val) {
-  //           setState(() {
-  //             _controller.text = val.recognizedWords;
-  //           });
-  //         },
-  //       );
-  //     }
-  //   } else {
-  //     setState(() => _isListening = false);
-  //     _speech.stop();
-  //   }
-  // }
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,23 +190,26 @@ class _ChatScreenState extends State<ChatScreen> {
                       ),
                     ),
                     SizedBox(width: 8.w),
-                    IconButton(
-                      icon: SvgPicture.asset(
-                        'assets/icons/uparrow.svg',
-                        color: AppColors.black,
-                        height: 20.h,
+                    if (_hasTextWritten)
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/icons/uparrow.svg',
+                          color: AppColors.black,
+                          height: 20.h,
+                        ),
+                        onPressed: _sendMessage,
                       ),
-                      onPressed: _sendMessage,
-                    ),
-                    // IconButton(
-                    //   icon: SvgPicture.asset(
-                    //     'assets/icons/mics.svg',
-                    //     color:
-                    //         _isListening ? AppColors.primary : AppColors.black,
-                    //     height: 20.h,
-                    //   ),
-                    //   onPressed: _listen,
-                    // ),
+                    if (!_hasTextWritten)
+                      IconButton(
+                        icon: SvgPicture.asset(
+                          'assets/icons/mics.svg',
+                          color: _isListening
+                              ? AppColors.primary
+                              : AppColors.black,
+                          height: 20.h,
+                        ),
+                        onPressed: () {},
+                      ),
                   ],
                 ),
               ),
@@ -219,12 +218,5 @@ class _ChatScreenState extends State<ChatScreen> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    // _speech.stop();
-    super.dispose();
   }
 }

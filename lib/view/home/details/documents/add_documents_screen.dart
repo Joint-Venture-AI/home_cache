@@ -46,40 +46,6 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
     }
   }
 
-//   void _proceedNext() {
-//     if (_selectedType == null) {
-//       Get.snackbar("Missing Info", "Please select a document type.",
-//           snackPosition: SnackPosition.BOTTOM,
-//           backgroundColor: Colors.redAccent.withOpacity(0.8),
-//           colorText: Colors.white);
-//       return;
-//     }
-//
-//     if (_pickedImage == null) {
-//       Get.snackbar("No Document", "Please upload or capture your document.",
-//           snackPosition: SnackPosition.BOTTOM,
-//           backgroundColor: Colors.orangeAccent.withOpacity(0.8),
-//           colorText: Colors.white);
-//       return;
-//     }
-//
-//     final document = DocumentModel(
-//       type: _selectedType!,
-//       imagePath: _pickedImage?.path,
-//     );
-//
-// // // Add to controller so it updates DocumentsScreen instantly
-// //     final controller = Get.find<DocumentsController>();
-// //     controller.addDocument(document);
-// //
-// // // Navigate or show preview
-// //     Get.toNamed(AppRoutes.previewDocument, arguments: document.toJson());
-//
-//     final controller = Get.find<DocumentsController>();
-//     controller.addDocument(document as DocumentModel);
-//     Get.toNamed(AppRoutes.previewDocument, arguments: document.toJson());
-//   }
-
   void _proceedNext() {
     if (_selectedType == null) {
       Get.snackbar("Missing Info", "Please select a document type.",
@@ -110,7 +76,6 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
 
     final DocumentsController controller = Get.find<DocumentsController>();
     controller.addDocument(document);
-
 
     // Get the controller and add the document
     // final DocumentsController = Get.find<DocumentsController>();

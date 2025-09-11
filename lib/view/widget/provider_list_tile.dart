@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/view/widget/heart_beat_animation.dart';
 
-class ProviderListTile extends StatelessWidget {
+class ProviderListTile extends StatefulWidget {
   final String providerName;
   final String lastUsedDate;
   final int rating;
@@ -19,11 +20,19 @@ class ProviderListTile extends StatelessWidget {
   });
 
   @override
+  State<ProviderListTile> createState() => _ProviderListTileState();
+}
+
+class _ProviderListTileState extends State<ProviderListTile> {
+  late bool _favorite = widget.isFavorite;
+
+  @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onTap,
+      onTap: widget.onTap,
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 0.w, vertical: 8.h),
+        padding: EdgeInsets.all(2.w),
         decoration: BoxDecoration(
           color: Colors.grey.shade200,
           borderRadius: BorderRadius.circular(12.r),
@@ -36,78 +45,64 @@ class ProviderListTile extends StatelessWidget {
             ),
           ],
         ),
-
         child: Row(
           children: [
+            SizedBox(width: 12.w),
             Expanded(
-              child: Padding(
-                padding: EdgeInsets.only(left: 16.w, right: 8.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 8.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            providerName,
-                            style: TextStyle(
-                              fontSize: 18.sp,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                        Row(
-                          children: List.generate(
-                            5,
-                            (index) => Icon(
-                              index < rating
-                                  ? Icons.star_rounded
-                                  : Icons.star_border_rounded,
-                              color: AppColors.primaryLight,
-                              size: 16.sp,
-                            ),
-                          ),
-                        ),
-                      ],
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.providerName,
+                    style: TextStyle(
+                      fontSize: 18.sp,
+                      fontWeight: FontWeight.w600,
                     ),
-                    SizedBox(height: 4.h),
-                    Row(
-                      children: [
-                        Text(lastUsedDate, style: TextStyle(fontSize: 14.sp)),
-                        SizedBox(width: 50.w),
-                        Container(
-                          width: 20.w,
-                          height: 20.w,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
-                                blurRadius: 2,
-                                offset: Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                          child: Center(
-                            child: Icon(
-                              isFavorite
-                                  ? Icons.favorite
-                                  : Icons.favorite_border,
-                              color: isFavorite ? Colors.red : Colors.grey,
-                              size: 16.sp,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 8.h),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 4.h),
+                  Text(widget.lastUsedDate, style: TextStyle(fontSize: 14.sp)),
+                ],
               ),
             ),
-            Container(width: 6.w, color: Colors.grey),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: List.generate(
+                    5,
+                    (index) => Icon(
+                      index < widget.rating
+                          ? Icons.star_rounded
+                          : Icons.star_border_rounded,
+                      color: AppColors.primaryLight,
+                      size: 16.sp,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 4.h),
+                HeartBeatAnimation(
+                  selected: _favorite,
+                  selectedChild: Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                    size: 20.sp,
+                  ),
+                  unselectedChild: Icon(
+                    Icons.favorite_border,
+                    color: Colors.grey,
+                    size: 20.sp,
+                  ),
+                  duration: Duration(milliseconds: 212),
+                  scale: 1.3,
+                  onChange: () {
+                    setState(() {
+                      _favorite = !_favorite;
+                    });
+                  },
+                ),
+              ],
+            ),
+            SizedBox(width: 6.w),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
               decoration: BoxDecoration(
@@ -132,7 +127,6 @@ class ProviderListTile extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(width: 2.w),
           ],
         ),
       ),

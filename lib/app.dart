@@ -25,6 +25,14 @@ class HomeCache extends StatelessWidget {
           theme: ThemeData(
             scaffoldBackgroundColor: AppColors.surface,
             fontFamily: 'LeagueSpartan',
+            colorScheme: ColorScheme.light(
+              primary: AppColors.primary,
+              onPrimary: Colors.white,
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+            ),
           ),
           initialRoute: AppRoutes.splash,
           getPages: AppRoutes.pages,

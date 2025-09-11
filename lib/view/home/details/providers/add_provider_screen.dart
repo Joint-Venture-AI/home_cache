@@ -60,11 +60,8 @@ class AddProviderController extends GetxController {
       providerController.providers.add(newProvider);
       providerController.filteredProviders();
 
-
-
       // ✅ Instead of showing snackbar here, return success result
       Get.back(result: true);
-
     } catch (e) {
       Get.snackbar(
         'Error',
@@ -74,13 +71,16 @@ class AddProviderController extends GetxController {
       );
     }
   }
-
-
 }
 
-class AddProviderScreen extends StatelessWidget {
+class AddProviderScreen extends StatefulWidget {
   AddProviderScreen({super.key});
 
+  @override
+  State<AddProviderScreen> createState() => _AddProviderScreenState();
+}
+
+class _AddProviderScreenState extends State<AddProviderScreen> {
   final controller = Get.put(AddProviderController());
 
   final List<String> providerTypes = [
@@ -125,6 +125,46 @@ class AddProviderScreen extends StatelessWidget {
     'Other',
   ];
 
+  late List<String> _providerSuggestions = providerTypes;
+
+  bool _showProviderSuggestions = false;
+
+  TextEditingController _typeController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _typeController.addListener(
+      () {
+        if (_typeController.text.isEmpty) {
+          if (_showProviderSuggestions) {
+            setState(() {
+              _showProviderSuggestions = false;
+            });
+          }
+        } else {
+          setState(() {
+            _providerSuggestions = providerTypes
+                .where((element) => element.contains(_typeController.text))
+                .toList();
+          });
+          if (!_showProviderSuggestions) {
+            setState(() {
+              _showProviderSuggestions = true;
+            });
+          }
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    _typeController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -168,36 +208,52 @@ class AddProviderScreen extends StatelessWidget {
   }
 
   Widget _buildDropdown() {
-    return Obx(
-          () => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            'Type',
-            style: TextStyles.semiBold.copyWith(color: AppColors.black),
-          ),
-          SizedBox(height: 6.h),
-          DropdownFieldWidget(
-            value: controller.selectedType.value.isEmpty
-                ? null
-                : controller.selectedType.value,
-            hintText: 'Select Type',
-            items: providerTypes,
-            onChanged: (value) => controller.selectedType.value = value ?? '',
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _buildTextField('Type', controller.selectedType,
+            controller: _typeController),
+        if (_providerSuggestions.isNotEmpty && _showProviderSuggestions) ...[
+          SizedBox(height: 8.h),
+          Container(
+            constraints: BoxConstraints(maxHeight: 200.h),
+            decoration: BoxDecoration(
+              color: AppColors.primary.withOpacity(.3),
+              borderRadius: BorderRadius.circular(12.r),
+            ),
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: _providerSuggestions.length,
+              itemBuilder: (context, index) {
+                return ListTile(
+                  title: Text(
+                    _providerSuggestions[index],
+                    style: TextStyles.regular.copyWith(color: AppColors.black),
+                  ),
+                  onTap: () {
+                    _typeController.text = _providerSuggestions[index];
+                    _showProviderSuggestions = false;
+                  },
+                );
+              },
+            ),
           ),
         ],
-      ),
+      ],
     );
   }
 
   Widget _buildTextField(String label, RxString rxVar,
-      {TextInputType keyboardType = TextInputType.text}) {
+      {TextInputType keyboardType = TextInputType.text,
+      TextEditingController? controller}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(label, style: TextStyles.semiBold.copyWith(color: AppColors.black)),
+        Text(label,
+            style: TextStyles.semiBold.copyWith(color: AppColors.black)),
         SizedBox(height: 6.h),
         TextFieldWidget(
+          controller: controller,
           hintText: 'Enter $label',
           keyboardType: keyboardType,
           onChanged: (value) => rxVar.value = value,
@@ -217,7 +273,7 @@ class AddProviderScreen extends StatelessWidget {
         ),
         TileButton(
           imagePath: 'assets/images/upload.png',
-          title: 'Office',
+          title: 'Upload',
           onTap: () {},
         ),
       ],
@@ -226,16 +282,14 @@ class AddProviderScreen extends StatelessWidget {
 
   Widget _buildRatingStars() {
     return Obx(
-          () => Row(
+      () => Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(
           5,
-              (index) => GestureDetector(
+          (index) => GestureDetector(
             onTap: () => controller.rating.value = index + 1,
             child: Icon(
-              index < controller.rating.value
-                  ? Icons.star
-                  : Icons.star_border,
+              index < controller.rating.value ? Icons.star : Icons.star_border,
               color: AppColors.primaryLight,
               size: 30.sp,
             ),

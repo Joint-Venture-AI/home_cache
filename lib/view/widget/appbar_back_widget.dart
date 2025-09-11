@@ -9,13 +9,10 @@ class AppBarBack extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       leading: IconButton(
-        icon: Padding(
-          padding: EdgeInsets.all(24.w),
-          child: Icon(
-            Icons.arrow_back_ios,
-            size: 20.sp,
-            color: AppColors.secondary,
-          ),
+        icon: Icon(
+          Icons.arrow_back_ios,
+          size: 18.sp,
+          color: AppColors.secondary,
         ),
         onPressed: () => Navigator.of(context).pop(),
       ),
