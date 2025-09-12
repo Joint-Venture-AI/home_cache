@@ -41,7 +41,6 @@ class AccountScreen extends StatelessWidget {
                     Image.asset(
                       'assets/images/dot.png',
                       height: 20.h,
-
                       fit: BoxFit.cover,
                     ),
                     SizedBox(width: 12.w),
@@ -115,18 +114,12 @@ class AccountScreen extends StatelessWidget {
                 },
               ),
               SizedBox(height: 120.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50.w),
-                child: Column(
-                  children: [
-                    TextWidgetButton(
-                      text: 'Log Out',
-                      onPressed: () {
-                        //  Get.toNamed(AppRoutes.selectHouse);
-                      },
-                    ),
-                  ],
-                ),
+              TextWidgetButton(
+                text: 'Log Out',
+                width: 0.5.sw,
+                onPressed: () {
+                  //  Get.toNamed(AppRoutes.selectHouse);
+                },
               ),
             ],
           ),

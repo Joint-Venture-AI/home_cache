@@ -5,10 +5,12 @@ import 'package:home_cache/constants/colors.dart';
 class TextWidgetButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final double? width;
 
   const TextWidgetButton({
     super.key,
     required this.text,
+    this.width,
     required this.onPressed,
   });
 
@@ -16,7 +18,7 @@ class TextWidgetButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 40.h,
-      width: double.infinity,
+      width: width ?? double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
         color: AppColors.primary,

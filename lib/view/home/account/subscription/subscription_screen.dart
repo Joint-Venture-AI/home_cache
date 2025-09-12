@@ -90,20 +90,6 @@ class SubscriptionScreen extends StatelessWidget {
                   Get.toNamed(AppRoutes.billingAddress);
                 },
               ),
-              SizedBox(height: 360.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50.w),
-                child: Column(
-                  children: [
-                    TextWidgetButton(
-                      text: 'Log Out',
-                      onPressed: () {
-                        //  Get.toNamed(AppRoutes.selectHouse);
-                      },
-                    ),
-                  ],
-                ),
-              ),
             ],
           ),
         ),

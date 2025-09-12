@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:home_cache/constants/colors.dart';
 
 class AssignedTaskTab extends StatefulWidget {
   const AssignedTaskTab({super.key});
@@ -72,10 +74,18 @@ class _AssignedTaskTabState extends State<AssignedTaskTab> {
                     ),
                     child: Row(
                       children: [
-                        Image.asset(
-                          'assets/images/person.png',
-                          height: 40.h,
-                          width: 40.h,
+                        Container(
+                          padding: EdgeInsets.all(6.w),
+                          decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                  color: AppColors.primary, width: 3.w)),
+                          child: SvgPicture.asset(
+                            'assets/icons/user.svg',
+                            width: 24.w,
+                            height: 24.w,
+                            color: AppColors.primary,
+                          ),
                         ),
                         SizedBox(width: 12.w),
                         Expanded(

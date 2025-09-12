@@ -5,6 +5,7 @@ import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/input_field.dart';
+import 'package:home_cache/view/widget/text_button_widget.dart';
 
 class EditContactInformationScreen extends StatelessWidget {
   const EditContactInformationScreen({super.key});
@@ -48,7 +49,6 @@ class EditContactInformationScreen extends StatelessWidget {
               SizedBox(height: 6.h),
               TextInputField(hintText: 'example@example.com'),
               SizedBox(height: 20.h),
-
               Text(
                 'Address',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
@@ -66,14 +66,7 @@ class EditContactInformationScreen extends StatelessWidget {
                       SizedBox(height: 8.h),
                       Row(
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: SvgPicture.asset(
-                              'assets/icons/back.svg',
-                              height: 48.h,
-                            ),
-                          ),
-
+                          SizedBox(width: 10.w),
                           Expanded(
                             child: Container(
                               decoration: BoxDecoration(
@@ -91,16 +84,13 @@ class EditContactInformationScreen extends StatelessWidget {
                                   decoration: InputDecoration(
                                     hintText: 'Your Address',
                                     hintStyle: TextStyle(fontSize: 20.sp),
-
                                     border: InputBorder.none,
                                   ),
                                 ),
                               ),
                             ),
                           ),
-
                           SizedBox(width: 10.w),
-
                           SvgPicture.asset(
                             'assets/icons/cross.svg',
                             height: 48.h,
@@ -112,7 +102,6 @@ class EditContactInformationScreen extends StatelessWidget {
                         thickness: 1.h,
                         height: 6.h,
                       ),
-
                       Container(
                         padding: EdgeInsets.only(
                           top: 18.sp,
@@ -160,8 +149,13 @@ class EditContactInformationScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
               SizedBox(height: 100.h),
+              TextWidgetButton(
+                text: 'Update',
+                onPressed: () {
+                  //  Get.toNamed(AppRoutes.selectHouse);
+                },
+              ),
             ],
           ),
         ),
