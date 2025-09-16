@@ -308,37 +308,37 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
   Widget _buildNotificationSettings() {
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Icon(Icons.notifications,
-                    color: AppColors.primaryLight, size: 20.sp),
-                SizedBox(width: 8.w),
-                Text('Notification Settings',
-                    style: TextStyle(
-                        color: AppColors.black,
-                        fontSize: 14.sp,
-                        fontWeight: FontWeight.w600)),
-              ],
-            ),
-            GestureDetector(
-              onTap: () {
-                setState(() {
-                  _isNotificationSettingsVisible =
-                      !_isNotificationSettingsVisible;
-                });
-              },
-              child: Icon(
+        GestureDetector(
+          onTap: () {
+            setState(() {
+              _isNotificationSettingsVisible = !_isNotificationSettingsVisible;
+            });
+          },
+          behavior: HitTestBehavior.translucent,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(Icons.notifications,
+                      color: AppColors.primaryLight, size: 20.sp),
+                  SizedBox(width: 8.w),
+                  Text('Notification Settings',
+                      style: TextStyle(
+                          color: AppColors.black,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w600)),
+                ],
+              ),
+              Icon(
                 _isNotificationSettingsVisible
                     ? Icons.arrow_drop_up
                     : Icons.arrow_drop_down,
                 color: AppColors.primary,
                 size: 24.sp,
               ),
-            ),
-          ],
+            ],
+          ),
         ),
         const Divider(color: Colors.grey),
         if (_isNotificationSettingsVisible)
