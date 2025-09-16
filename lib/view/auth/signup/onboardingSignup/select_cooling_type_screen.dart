@@ -45,9 +45,9 @@ class _SelectCoolingTypeScreenState extends State<SelectCoolingTypeScreen> {
               ),
               SizedBox(height: 40.h),
               Text(
-                'Cooling (select all that apply)',
+                'Cooling (Select All That Apply)',
                 style: TextStyles.medium.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 8.h),
               Wrap(

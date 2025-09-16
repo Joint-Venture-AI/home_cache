@@ -44,7 +44,7 @@ class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
               ),
               SizedBox(height: 40.h),
               Text(
-                'Power Type (select one)',
+                'Power Type (Select All That Apply)',
                 style: TextStyles.medium.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),

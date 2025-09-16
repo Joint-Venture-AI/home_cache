@@ -46,7 +46,7 @@ class _SelectWaterSupplyTypeScreenState
               ),
               SizedBox(height: 40.h),
               Text(
-                'Water Supply (select all that apply)',
+                'Water Supply (Select All That Apply)',
                 style: TextStyles.medium.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),

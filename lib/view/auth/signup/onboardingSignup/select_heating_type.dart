@@ -45,9 +45,9 @@ class _SelectHeatingTypeScreenState extends State<SelectHeatingTypeScreen> {
               ),
               SizedBox(height: 40.h),
               Text(
-                'Heating (select all that apply)',
+                'Heating (Select All That Apply)',
                 style: TextStyles.medium.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 8.h),
               Wrap(

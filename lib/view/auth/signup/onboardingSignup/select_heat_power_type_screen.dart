@@ -45,9 +45,9 @@ class _SelectHeatPowerTypeScreenState extends State<SelectHeatPowerTypeScreen> {
               ),
               SizedBox(height: 40.h),
               Text(
-                'Select One',
+                'Heating Power (Select One)',
                 style: TextStyles.medium.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 8.h),
               Wrap(

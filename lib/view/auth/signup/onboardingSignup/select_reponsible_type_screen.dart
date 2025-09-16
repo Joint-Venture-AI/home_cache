@@ -46,7 +46,7 @@ class _SelectResponsibleTypeScreenState
               ),
               SizedBox(height: 40.h),
               Text(
-                'Select what you are responsible for (select all that apply)',
+                'Select What You Are Responsible For (Select All That Apply)',
                 style: TextStyles.medium.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),
