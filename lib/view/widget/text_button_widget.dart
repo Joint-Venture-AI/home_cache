@@ -6,11 +6,13 @@ class TextWidgetButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final double? width;
+  final Color? color;
 
   const TextWidgetButton({
     super.key,
     required this.text,
     this.width,
+    this.color,
     required this.onPressed,
   });
 
@@ -21,7 +23,7 @@ class TextWidgetButton extends StatelessWidget {
       width: width ?? double.infinity,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
-        color: AppColors.primary,
+        color: color ?? AppColors.primary,
       ),
       child: ElevatedButton(
         onPressed: onPressed,

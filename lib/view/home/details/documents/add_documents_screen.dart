@@ -4,12 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:home_cache/routes.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors;
+import 'package:home_cache/constants/colors.dart' show AppColors, primary;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/home/details/documents/documents_screen.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:home_cache/utils.dart' as utils;
 
 class AddDocumentsScreen extends StatefulWidget {
   const AddDocumentsScreen({super.key});
@@ -29,22 +30,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
   ];
 
   String? _selectedType;
-  final ImagePicker _picker = ImagePicker();
-  XFile? _pickedImage;
-
-  Future<void> _pickFromGallery() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      setState(() => _pickedImage = image);
-    }
-  }
-
-  Future<void> _captureWithCamera() async {
-    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
-    if (image != null) {
-      setState(() => _pickedImage = image);
-    }
-  }
+  File? _pickedImage;
 
   void _proceedNext() {
     if (_selectedType == null) {
@@ -56,10 +42,9 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
     }
 
     if (_pickedImage == null) {
-      Get.snackbar("No Document", "Please upload or capture your document.",
-          snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.orangeAccent.withOpacity(0.8),
-          colorText: Colors.white);
+      Get.toNamed(
+        AppRoutes.addDocumentsDetails,
+      );
       return;
     }
 
@@ -121,6 +106,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                 icon: Icon(Icons.keyboard_arrow_down_rounded,
                     color: AppColors.secondary),
                 hint: Text('Select Document Type', style: TextStyles.medium),
+                dropdownColor: Color(0xffA7B8BB),
                 items: _documentTypes.map((String type) {
                   return DropdownMenuItem<String>(
                     value: type,
@@ -167,7 +153,14 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
               ] else ...[
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: _pickFromGallery,
+                  onTap: () async {
+                    final file = await utils.pickSingleImage(
+                        context: context, source: ImageSource.gallery);
+
+                    setState(() {
+                      _pickedImage = file;
+                    });
+                  },
                   child: _uploadButton('Upload', 'assets/images/upload.png'),
                 ),
                 SizedBox(height: 16.h),
@@ -176,28 +169,38 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
                 SizedBox(height: 16.h),
                 InkWell(
                   borderRadius: BorderRadius.circular(16),
-                  onTap: _captureWithCamera,
+                  onTap: () async {
+                    final file = await utils.pickSingleImage(
+                        context: context, source: ImageSource.camera);
+
+                    setState(() {
+                      _pickedImage = file;
+                    });
+                  },
                   child:
                       _uploadButton('Use Camera', 'assets/images/camera.png'),
                 ),
                 SizedBox(height: 16.h),
               ],
 
-              InkWell(
-                onTap: () {
-                  // For manual entry → maybe navigate to another form
-                },
-                child: Text('Manually Enter Your Details',
-                    style:
-                        TextStyles.regular.copyWith(color: AppColors.secondary),
-                    textAlign: TextAlign.center),
-              ),
+              // InkWell(
+              //   onTap: () {
+              //     // For manual entry → maybe navigate to another form
+              //   },
+              //   child: Text('Manually Enter Your Details',
+              //       style:
+              //           TextStyles.regular.copyWith(color: AppColors.secondary),
+              //       textAlign: TextAlign.center),
+              // ),
               SizedBox(height: 16.h),
 
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 50.w),
                 child: TextWidgetButton(
                   text: '→  Next',
+                  color: _selectedType == null
+                      ? Color(0xffA7B8BB)
+                      : AppColors.primary,
                   onPressed: _proceedNext,
                 ),
               ),

@@ -61,6 +61,7 @@ class _AddRoomItemDialogState extends State<AddRoomItemDialog> {
                 value: selectedItem,
                 isExpanded: true,
                 underline: SizedBox(),
+                dropdownColor: Color(0xffA7B8BB),
                 icon: Icon(
                   CupertinoIcons.chevron_down,
                   color: AppColors.secondary,
@@ -97,6 +98,7 @@ class _AddRoomItemDialogState extends State<AddRoomItemDialog> {
               child: DropdownButton<String>(
                 value: selectedRoom,
                 isExpanded: true,
+                dropdownColor: Color(0xffA7B8BB),
                 underline: SizedBox(),
                 icon: Icon(
                   CupertinoIcons.chevron_down,

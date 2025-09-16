@@ -16,6 +16,23 @@ class AddRoomDialog extends StatelessWidget {
     String selectedItem = 'Kitchen';
     final TextEditingController nameController = TextEditingController();
 
+    List<String> _roomOptions = [
+      'Kitchen',
+      'Dining',
+      'Living Room',
+      'Bedroom',
+      'Bathroom',
+      'Laundry',
+      'Office',
+      'Basement',
+      'Garage',
+      'Gym',
+      'Mudroom',
+      'Mediaroom',
+      'Playroom',
+      'Sunroom',
+    ];
+
     return AlertDialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -44,24 +61,10 @@ class AddRoomDialog extends StatelessWidget {
                     value: selectedItem,
                     isExpanded: true,
                     underline: SizedBox(),
+                    dropdownColor: Color(0xffA7B8BB),
                     icon: Icon(CupertinoIcons.chevron_down,
                         color: AppColors.secondary, size: 18.sp),
-                    items: [
-                      'Kitchen',
-                      'Dining',
-                      'Living Room',
-                      'Bedroom',
-                      'Bathroom',
-                      'Laundry',
-                      'Office',
-                      'Basement',
-                      'Garage',
-                      'Gym',
-                      'Mudroom',
-                      'Mediaroom',
-                      'Playroom',
-                      'Sunroom',
-                    ].map((value) {
+                    items: _roomOptions.map((value) {
                       return DropdownMenuItem(
                         value: value,
                         child: Text(value,

@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/data/rooms.dart';
@@ -9,6 +12,8 @@ import 'package:home_cache/view/model/room.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/icon_search_bar_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
+import 'package:home_cache/utils.dart' as utils;
+import 'package:image_picker/image_picker.dart';
 
 class AddRoomScreen extends StatefulWidget {
   const AddRoomScreen({super.key});
@@ -70,6 +75,8 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
     });
   }
 
+  File? _selectedImage;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,7 +86,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24.sp),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 type,
@@ -100,22 +107,81 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                       fontSize: 18.sp,
                     ),
                   ),
-                  SizedBox(width: 6.w),
-                  Image.asset(
-                    'assets/images/pen.png',
-                    height: 24.h,
-                    width: 24.w,
-                    errorBuilder: (context, error, stackTrace) =>
-                        Icon(Icons.edit, size: 24.sp),
-                  ),
+                  // SizedBox(width: 6.w),
+                  // Image.asset(
+                  //   'assets/images/pen.png',
+                  //   height: 24.h,
+                  //   width: 24.w,
+                  //   errorBuilder: (context, error, stackTrace) =>
+                  //       Icon(Icons.edit, size: 24.sp),
+                  // ),
                 ],
               ),
               SizedBox(height: 32.h),
-              Image.asset(
-                'assets/images/item.png',
-                height: 90.h,
-                errorBuilder: (context, error, stackTrace) =>
-                    Icon(Icons.image, size: 90.sp),
+              GestureDetector(
+                onTap: () async {
+                  final image = await utils.pickSingleImage(
+                      context: context, source: ImageSource.gallery);
+
+                  if (image == null) return;
+                  final imageData = await image.readAsBytes();
+
+                  setState(() {
+                    setState(() {
+                      _selectedImage = image;
+                    });
+                  });
+                },
+                child: Container(
+                  width: 112.w,
+                  height: 112.w,
+                  decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(10.r)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(10.r),
+                    child: _selectedImage == null
+                        ? Center(
+                            child: SvgPicture.asset(
+                              'assets/icons/gallery.svg',
+                              width: 72.w,
+                            ),
+                          )
+                        : Stack(
+                            alignment: Alignment.topRight,
+                            children: [
+                              Image.file(
+                                _selectedImage!,
+                                width: double.infinity,
+                                height: double.infinity,
+                                fit: BoxFit.cover,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    _selectedImage = null;
+                                  });
+                                },
+                                child: Container(
+                                  width: 20.w,
+                                  height: 20.w,
+                                  margin: EdgeInsets.only(top: 4.w, right: 4.w),
+                                  decoration: BoxDecoration(
+                                      color: Colors.red[400],
+                                      shape: BoxShape.circle),
+                                  child: Center(
+                                    child: Icon(
+                                      Icons.close,
+                                      size: 14.w,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                  ),
+                ),
               ),
               SizedBox(height: 32.h),
               IconSearchBarWidget(

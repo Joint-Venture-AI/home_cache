@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
 
 class AddNewRoomItemScreen extends StatefulWidget {
@@ -51,23 +52,16 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      selectedItem,
-                      style: TextStyles.bold.copyWith(color: AppColors.black),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(width: 10.w),
-                    Image.asset(
-                      'assets/images/trash.png',
-                      height: 24.h,
-                      color: AppColors.black,
-                    ),
-                  ],
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    selectedItem,
+                    style: TextStyles.bold.copyWith(color: AppColors.black),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
               SizedBox(height: 16.h),
               Center(
@@ -205,6 +199,12 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
               TextFieldWidget(
                 hintText: 'Enter last painted date',
               ),
+              SizedBox(height: 36.h),
+              TextWidgetButton(
+                text: 'Update',
+                onPressed: () {},
+              ),
+              SizedBox(height: 96.h),
             ],
           ),
         ),
