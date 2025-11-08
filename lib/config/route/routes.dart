@@ -49,7 +49,7 @@ import 'package:home_cache/view/home/details/type/utility/utility_screen.dart';
 import 'package:home_cache/view/home/details/type/view_by_type_screen.dart';
 import 'package:home_cache/view/home/home/screens/home_health_screen.dart';
 import 'package:home_cache/view/auth/splash/splash_screen.dart';
-import 'package:home_cache/view/home/notification/calendar_screen.dart';
+import 'package:home_cache/view/home/notification/widgets/calendar_screen.dart';
 import 'package:home_cache/view/home/notification/notification_details_screen.dart';
 import 'package:home_cache/view/home/notification/screens/notification_screen.dart';
 

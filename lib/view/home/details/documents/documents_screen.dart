@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/document_tile.dart';
 
@@ -11,7 +10,7 @@ import '../../../../config/route/route_names.dart';
 
 /// --- Document Model ---
 class DocumentModel {
-  final String id;       // Unique ID for API
+  final String id; // Unique ID for API
   final String title;
   final String subtitle;
   final String date;
@@ -59,14 +58,18 @@ class DocumentsController extends GetxController {
   }
 }
 
-
 /// --- Screen ---
 class DocumentsScreen extends StatelessWidget {
   DocumentsScreen({super.key});
   final controller = Get.put(DocumentsController());
 
   final List<String> categories = [
-    "Warranties", "Insurance", "Receipts", "Quotes", "Manuals", "Other",
+    "Warranties",
+    "Insurance",
+    "Receipts",
+    "Quotes",
+    "Manuals",
+    "Other",
   ];
   final RxInt selectedCategoryIndex = 0.obs;
 
@@ -74,94 +77,116 @@ class DocumentsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.surface,
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Documents',
+        titleColor: AppColors.secondary,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: TextButton(
+              onPressed: () {
+                Get.toNamed(RouteNames.addDocuments);
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r)),
+              ),
+              child: Text('+ Add',
+                  style: TextStyle(color: Colors.white, fontSize: 14.sp)),
+            ),
+          ),
+        ],
+      ),
       body: Padding(
         padding: EdgeInsets.all(24.sp),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Header + Add Button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(width: 40.w),
-                Text('Documents', style: TextStyles.bold.copyWith(color: AppColors.secondary)),
-                TextButton(
-                  onPressed: () {
-                    Get.toNamed(RouteNames.addDocuments);
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.r)),
-                  ),
-                  child: Text('+ Add', style: TextStyle(color: Colors.white, fontSize: 14.sp)),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h),
-
             // Categories
             Obx(() => Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(3, (index) {
-                    final isSelected = selectedCategoryIndex.value == index;
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.w),
-                      child: ElevatedButton(
-                        onPressed: () => selectedCategoryIndex.value = index,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isSelected ? AppColors.primary : AppColors.lightgrey,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-                        ),
-                        child: Text(categories[index],
-                            style: TextStyle(color: isSelected ? Colors.white : Colors.black, fontSize: 12.sp)),
-                      ),
-                    );
-                  }),
-                ),
-                SizedBox(height: 8.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(3, (index) {
-                    final actualIndex = index + 3;
-                    final isSelected = selectedCategoryIndex.value == actualIndex;
-                    return Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 4.w),
-                      child: ElevatedButton(
-                        onPressed: () => selectedCategoryIndex.value = actualIndex,
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: isSelected ? AppColors.primary : AppColors.lightgrey,
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
-                        ),
-                        child: Text(categories[actualIndex],
-                            style: TextStyle(color: isSelected ? Colors.white : Colors.black, fontSize: 12.sp)),
-                      ),
-                    );
-                  }),
-                ),
-              ],
-            )),
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(3, (index) {
+                        final isSelected = selectedCategoryIndex.value == index;
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 4.w),
+                          child: ElevatedButton(
+                            onPressed: () =>
+                                selectedCategoryIndex.value = index,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.lightgrey,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r)),
+                            ),
+                            child: Text(categories[index],
+                                style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 12.sp)),
+                          ),
+                        );
+                      }),
+                    ),
+                    SizedBox(height: 8.h),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(3, (index) {
+                        final actualIndex = index + 3;
+                        final isSelected =
+                            selectedCategoryIndex.value == actualIndex;
+                        return Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 4.w),
+                          child: ElevatedButton(
+                            onPressed: () =>
+                                selectedCategoryIndex.value = actualIndex,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: isSelected
+                                  ? AppColors.primary
+                                  : AppColors.lightgrey,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.r)),
+                            ),
+                            child: Text(categories[actualIndex],
+                                style: TextStyle(
+                                    color: isSelected
+                                        ? Colors.white
+                                        : Colors.black,
+                                    fontSize: 12.sp)),
+                          ),
+                        );
+                      }),
+                    ),
+                  ],
+                )),
 
             SizedBox(height: 20.h),
 
             // Documents Grid
             Expanded(
               child: Obx(() {
-                final filteredDocs = controller.getByCategory(categories[selectedCategoryIndex.value]);
+                final filteredDocs = controller
+                    .getByCategory(categories[selectedCategoryIndex.value]);
                 if (filteredDocs.isEmpty) {
                   return Center(
                     child: Text('No documents in this category.',
-                        style: TextStyles.medium.copyWith(color: AppColors.black)),
+                        style: AppTypoGraphy.medium
+                            .copyWith(color: AppColors.black)),
                   );
                 }
                 return GridView.builder(
                   padding: EdgeInsets.only(left: 4.w, right: 4.w, bottom: 8.h),
                   itemCount: filteredDocs.length,
                   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2, mainAxisSpacing: 16.h, crossAxisSpacing: 16.w, childAspectRatio: .95),
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 16.h,
+                      crossAxisSpacing: 16.w,
+                      childAspectRatio: .95),
                   itemBuilder: (context, index) {
                     final doc = filteredDocs[index];
                     return DocumentTile(
@@ -177,11 +202,9 @@ class DocumentsScreen extends StatelessWidget {
                 );
               }),
             )
-
           ],
         ),
       ),
     );
   }
 }
-

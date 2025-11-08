@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
+import 'package:home_cache/view/home/account/widgets/account_deletion_dialog.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
 
 class DeleteAccountScreen extends StatefulWidget {
   const DeleteAccountScreen({super.key});
@@ -39,12 +41,12 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
             children: [
               Text(
                 'Delete Account',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 20.h),
               Text(
                 "We're sorry to see you go. Select a reason to continue.",
-                style: TextStyles.regular.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 20.h),
               ListView.builder(
@@ -56,7 +58,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                     contentPadding: EdgeInsets.zero,
                     title: Text(
                       reasons[index],
-                      style: TextStyles.regular.copyWith(
+                      style: AppTypoGraphy.regular.copyWith(
                         color: AppColors.black,
                       ),
                     ),
@@ -72,75 +74,32 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
                 },
               ),
               SizedBox(height: 30.h),
-              TextWidgetButton(
-                text: 'Delete',
-                onPressed: () {
-                  if (selectedReason != null) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        backgroundColor: AppColors.surface,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.r),
-                        ),
-                        title: Text(
-                          'Are you sure?',
-                          style: TextStyles.semiBold.copyWith(
-                            color: AppColors.black,
-                            fontSize: 16.sp,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                        content: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text(
-                              'You want to delete account permanently.',
-                              style: TextStyles.regular.copyWith(
-                                color: AppColors.black,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                            SizedBox(height: 8.h),
-                            Text(
-                              'All data, images, and history will be permanently deleted.',
-                              style: TextStyles.regular.copyWith(
-                                color: AppColors.black,
-                              ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ],
-                        ),
-                        actionsAlignment: MainAxisAlignment.center,
-                        actions: [
-                          TextButton(
-                            onPressed: () => Navigator.pop(context),
-                            child: Text(
-                              'Cancel',
-                              style: TextStyles.regular.copyWith(
-                                color: AppColors.primary,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 20.w),
-                          TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              'Delete',
-                              style: TextStyles.semiBold.copyWith(
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }
-                },
-              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: CustomElevatedButton(
+          height: 48.h,
+          onTap: () {
+            if (selectedReason != null) {
+              showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (context) => AccountDeletionDialog());
+            } else {
+              Get.snackbar(
+                'Warning',
+                'Please select a reason before deleting.',
+                snackPosition: SnackPosition.BOTTOM,
+                barBlur: 85,
+                backgroundColor: Colors.redAccent.withAlpha(200),
+                colorText: Colors.white,
+              );
+            }
+          },
+          btnText: 'Delete',
         ),
       ),
     );

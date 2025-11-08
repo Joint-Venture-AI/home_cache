@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
@@ -21,7 +21,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 6.h),
               TextFieldWidget(
@@ -93,7 +93,10 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
     final String docType = (Get.arguments?['type'] ?? 'Other') as String;
 
     return Scaffold(
-      appBar: const AppBarBack(),
+      appBar: const AppBarBack(
+        title: 'New Document',
+        titleColor: AppColors.secondary,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -101,25 +104,20 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'New Document',
-                style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                textAlign: TextAlign.center,
-              ),
               SizedBox(height: 24.h),
               ..._buildFields(docType),
-              SizedBox(height: 48.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50.w),
-                child: TextWidgetButton(
-                  text: 'Save',
-                  onPressed: () {
-                    Get.toNamed(RouteNames.documents);
-                  },
-                ),
-              ),
             ],
           ),
+        ),
+      ),
+        bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(24.0.sp),
+        child: CustomElevatedButton(
+          onTap: () {
+            Get.toNamed(RouteNames.documents);
+          },
+          btnText: 'Save',
+          height: 48.h,
         ),
       ),
     );

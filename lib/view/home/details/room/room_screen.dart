@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/home/details/room/add_room_dialog.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
@@ -84,7 +84,7 @@ class _RoomScreenState extends State<RoomScreen> {
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withOpacity(0.3),
+              color: AppColors.black.withAlpha(60),
               spreadRadius: 2,
               blurRadius: 8,
               offset: const Offset(0, 4),
@@ -98,7 +98,7 @@ class _RoomScreenState extends State<RoomScreen> {
             SizedBox(height: 12.h),
             Text(
               title,
-              style: TextStyles.medium.copyWith(
+              style: AppTypoGraphy.medium.copyWith(
                 color: AppColors.black,
                 fontSize: 16.sp,
               ),
@@ -113,45 +113,43 @@ class _RoomScreenState extends State<RoomScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'View By Room',
+        titleColor: AppColors.secondary,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: TextButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const AddRoomDialog(),
+                );
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.w,
+                  vertical: 6.h,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+              child: Text(
+                '+ Add',
+                style: TextStyle(color: Colors.white, fontSize: 14.sp),
+              ),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 16.w),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(width: 40.w),
-                  Text(
-                    'View By Room',
-                    style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) => const AddRoomDialog(),
-                      );
-                    },
-                    style: TextButton.styleFrom(
-                      backgroundColor: AppColors.primary,
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 12.w,
-                        vertical: 6.h,
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12.r),
-                      ),
-                    ),
-                    child: Text(
-                      '+ Add',
-                      style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                    ),
-                  ),
-                ],
-              ),
               SizedBox(height: 40.h),
               GridView.builder(
                 shrinkWrap: true,

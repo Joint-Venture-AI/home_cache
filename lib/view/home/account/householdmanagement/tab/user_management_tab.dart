@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
-import 'package:home_cache/view/widget/user_management_tile.dart';
+import 'package:home_cache/view/home/account/widgets/user_management_tile.dart';
 
 class UserManagementTab extends StatefulWidget {
   const UserManagementTab({super.key});
@@ -35,21 +35,27 @@ class _UserManagementTabState extends State<UserManagementTab> {
         // Header Row
         Row(
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                Text(
-                  'Who Can See Your',
-                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  'HomeCache',
-                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                  textAlign: TextAlign.center,
-                ),
-              ],
+            // Column(
+            //   children: [
+            //     Text(
+            //       'Who Can See Your',
+            //       style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
+            //       textAlign: TextAlign.center,
+            //     ),
+            //     Text(
+            //       'HomeCache',
+            //       style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
+            //       textAlign: TextAlign.center,
+            //     ),
+            //   ],
+            // ),
+
+            SizedBox(
+              width: 200.w,
+              child: Text('Who can see your homeCache',
+                  style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary)),
             ),
             SizedBox(width: 12.w),
             IconButton(
@@ -129,64 +135,61 @@ class _UserManagementTabState extends State<UserManagementTab> {
             ],
           )
         else
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16.w),
-            child: ListView.builder(
-              physics: const ClampingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: users.length,
-              itemBuilder: (context, index) {
-                final user = users[index];
-
-                return Dismissible(
-                  key: ValueKey(user['name']), // unique key
-                  direction: DismissDirection.endToStart,
-                  background: Container(
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsets.symmetric(horizontal: 20.w),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: const Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                    ),
+          ListView.builder(
+            physics: const ClampingScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: users.length,
+            itemBuilder: (context, index) {
+              final user = users[index];
+          
+              return Dismissible(
+                key: ValueKey(user['name']), // unique key
+                direction: DismissDirection.endToStart,
+                background: Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.symmetric(horizontal: 20.w),
+                  decoration: BoxDecoration(
+                    color: Colors.red,
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
-                  onDismissed: (direction) {
-                    // Save removed user
-                    final removedUser = user;
-                    final removedIndex = index;
-
-                    setState(() {
-                      users.removeAt(index);
-                    });
-
-                    // Show snackbar with UNDO
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('${removedUser['name']} removed'),
-                        duration: const Duration(seconds: 3),
-                        action: SnackBarAction(
-                          label: 'Undo',
-                          textColor: Colors.yellow,
-                          onPressed: () {
-                            setState(() {
-                              users.insert(removedIndex, removedUser);
-                            });
-                          },
-                        ),
+                  child: const Icon(
+                    Icons.delete,
+                    color: Colors.white,
+                  ),
+                ),
+                onDismissed: (direction) {
+                  // Save removed user
+                  final removedUser = user;
+                  final removedIndex = index;
+          
+                  setState(() {
+                    users.removeAt(index);
+                  });
+          
+                  // Show snackbar with UNDO
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text('${removedUser['name']} removed'),
+                      duration: const Duration(seconds: 3),
+                      action: SnackBarAction(
+                        label: 'Undo',
+                        textColor: Colors.yellow,
+                        onPressed: () {
+                          setState(() {
+                            users.insert(removedIndex, removedUser);
+                          });
+                        },
                       ),
-                    );
-                  },
-                  child: UserManagementTile(
-                    onTap: () {},
-                    fullName: user['name']!,
-                    role: user['role']!,
-                  ),
-                );
-              },
-            ),
+                    ),
+                  );
+                },
+                child: UserManagementTile(
+                  onTap: () {},
+                  fullName: user['name']!,
+                  role: user['role']!,
+                ),
+              );
+            },
           ),
       ],
     );

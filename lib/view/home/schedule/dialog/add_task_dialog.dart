@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/view/home/schedule/schedule_screen.dart';
 
@@ -135,7 +135,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                       ? TextField(
                           controller: _taskNameController,
                           autofocus: true,
-                          style: TextStyles.regular.copyWith(fontSize: 20.sp),
+                          style: AppTypoGraphy.regular.copyWith(fontSize: 20.sp),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             isDense: true,
@@ -154,7 +154,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                               setState(() => _isEditingTaskName = true),
                           child: Text(
                             _taskNameController.text,
-                            style: TextStyles.regular.copyWith(fontSize: 20.sp),
+                            style: AppTypoGraphy.regular.copyWith(fontSize: 20.sp),
                           ),
                         ),
                 ),
@@ -210,7 +210,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
               children: [
                 Text(
                   'Assignee',
-                  style: TextStyles.regular.copyWith(fontSize: 16.sp),
+                  style: AppTypoGraphy.regular.copyWith(fontSize: 16.sp),
                 ),
                 SizedBox(height: 8.h),
                 DropdownButtonFormField<String>(
@@ -256,7 +256,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                 ),
                 Text(
                   'Repeats',
-                  style: TextStyles.regular.copyWith(fontSize: 16.sp),
+                  style: AppTypoGraphy.regular.copyWith(fontSize: 16.sp),
                 ),
               ],
             ),
@@ -300,7 +300,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                   child: Text(
                     'CANCEL',
                     style:
-                        TextStyles.regular.copyWith(color: AppColors.primary),
+                        AppTypoGraphy.regular.copyWith(color: AppColors.primary),
                   ),
                 ),
                 SizedBox(width: 16.w),
@@ -314,7 +314,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                   onPressed: _saveTask,
                   child: Text(
                     'SAVE',
-                    style: TextStyles.regular.copyWith(color: Colors.white),
+                    style: AppTypoGraphy.regular.copyWith(color: Colors.white),
                   ),
                 ),
               ],

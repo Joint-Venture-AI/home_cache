@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 import '../../../../config/route/route_names.dart';
@@ -77,7 +76,7 @@ class _DetailsScreenState extends State<ViewByTypeScreen> {
             SizedBox(height: 12.h),
             Text(
               title,
-              style: TextStyles.medium.copyWith(
+              style: AppTypoGraphy.medium.copyWith(
                 color: AppColors.black,
                 fontSize: 16.sp,
               ),
@@ -92,7 +91,10 @@ class _DetailsScreenState extends State<ViewByTypeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'View By Type',
+        titleColor: AppColors.secondary,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -100,11 +102,6 @@ class _DetailsScreenState extends State<ViewByTypeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'View By Type',
-                style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                textAlign: TextAlign.center,
-              ),
               SizedBox(height: 40.h),
               GridView.builder(
                 shrinkWrap: true,

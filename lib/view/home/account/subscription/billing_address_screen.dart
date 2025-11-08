@@ -3,11 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/payment_selector_widget.dart';
-import 'package:home_cache/view/widget/subscription_plan_widget.dart';
+import 'package:home_cache/view/home/account/widgets/payment_selector_widget.dart';
+import 'package:home_cache/view/home/account/widgets/subscription_plan_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
 import '../../../../config/route/route_names.dart';
@@ -36,14 +36,14 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
             children: [
               Text(
                 'Subscription',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12.h),
 
               Text(
                 'Billing Address',
-                style: TextStyles.medium.copyWith(
+                style: AppTypoGraphy.medium.copyWith(
                   color: AppColors.black,
                   fontSize: 20.sp,
                 ),
@@ -83,7 +83,7 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
                 children: [
                   Text(
                     'Payment Method',
-                    style: TextStyles.medium.copyWith(
+                    style: AppTypoGraphy.medium.copyWith(
                       color: AppColors.black,
                       fontSize: 20.sp,
                     ),
@@ -149,7 +149,7 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
 
               Text(
                 'Subscription Plan',
-                style: TextStyles.medium.copyWith(
+                style: AppTypoGraphy.medium.copyWith(
                   color: AppColors.black,
                   fontSize: 20.sp,
                 ),

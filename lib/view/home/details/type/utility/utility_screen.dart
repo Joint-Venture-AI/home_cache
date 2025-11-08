@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class UtilityScreen extends StatefulWidget {
@@ -105,7 +105,7 @@ class _UtilityScreenState extends State<UtilityScreen> {
                 SizedBox(width: 40.w),
                 Text(
                   'Utilities',
-                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
+                  style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
                   textAlign: TextAlign.center,
                 ),
                 TextButton(
@@ -157,7 +157,7 @@ class _UtilityScreenState extends State<UtilityScreen> {
             SizedBox(height: 24.h),
             Text(
               'Reminders',
-              style: TextStyles.medium.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
             ),
             SizedBox(height: 16.h),
             Expanded(
@@ -166,7 +166,7 @@ class _UtilityScreenState extends State<UtilityScreen> {
                       child: Text(
                         'No reminders in this category.',
                         style:
-                            TextStyles.medium.copyWith(color: AppColors.black),
+                            AppTypoGraphy.medium.copyWith(color: AppColors.black),
                       ),
                     )
                   : ListView.separated(
@@ -184,7 +184,7 @@ class _UtilityScreenState extends State<UtilityScreen> {
                             title: Text(
                               item['component']!,
                               style:
-                                  TextStyles.medium.copyWith(fontSize: 18.sp),
+                                  AppTypoGraphy.medium.copyWith(fontSize: 18.sp),
                             ),
                             subtitle: Text(
                               '${item['cadence']} • ${item['season']} • ${item['leadTime']}',

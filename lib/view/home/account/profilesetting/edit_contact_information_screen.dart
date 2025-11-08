@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/profile_controller.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/auth/widgets/auth_text_form_field.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
 
 class EditContactInformationScreen extends StatelessWidget {
   const EditContactInformationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final ProfileController controller = Get.find<ProfileController>();
     return Scaffold(
       appBar: AppBarBack(),
       backgroundColor: AppColors.surface,
@@ -24,144 +27,144 @@ class EditContactInformationScreen extends StatelessWidget {
             children: [
               Text(
                 'Contact Information',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),
               Text(
                 'Name',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
               Row(
                 children: [
-                  Expanded(child: AuthTextFormField(hintText: 'First')),
+                  Expanded(
+                      child: AuthTextFormField(
+                    hintText: 'First',
+                    controller: controller.firstNameController,
+                  )),
                   SizedBox(width: 16.w),
-                  Expanded(child: AuthTextFormField(hintText: 'Last')),
+                  Expanded(
+                      child: AuthTextFormField(
+                    hintText: 'Last',
+                    controller: controller.lastNameController,
+                  )),
                 ],
               ),
               SizedBox(height: 20.h),
               Text(
                 'Email',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              AuthTextFormField(hintText: 'example@example.com'),
+              AuthTextFormField(
+                hintText: 'example@example.com',
+                controller: controller.emailController,
+              ),
               SizedBox(height: 20.h),
               Text(
                 'Address',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(18.r),
-                child: Container(
-                  width: double.infinity,
-                  color: AppColors.lightgrey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      SizedBox(height: 8.h),
-                      Row(
-                        children: [
-                          SizedBox(width: 10.w),
-                          Expanded(
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.transparent,
-                                borderRadius: BorderRadius.circular(10.r),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: TextField(
-                                  style: TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w400,
-                                  ),
-                                  decoration: InputDecoration(
-                                    hintText: 'Your Address',
-                                    hintStyle: TextStyle(fontSize: 20.sp),
-                                    border: InputBorder.none,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10.w),
-                          SvgPicture.asset(
-                            'assets/icons/cross.svg',
-                            height: 48.h,
-                          ),
-                        ],
+              _buildAddressSelection(controller),
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(24.sp),
+        child: CustomElevatedButton(
+          onTap: () {
+            Get.back();
+          },
+          btnText: 'Update',
+          height: 48.h,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildAddressSelection(ProfileController controller) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8.r),
+      child: Container(
+        width: double.infinity,
+        color: AppColors.lightgrey,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SizedBox(height: 8.h),
+            Row(
+              children: [
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(8.r),
+                    ),
+                    child: TextFormField(
+                      controller: controller.addressController,
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20.sp,
+                        fontWeight: FontWeight.w400,
                       ),
+                      decoration: InputDecoration(
+                        hintText: 'Your Address',
+                        hintStyle:
+                            TextStyle(fontSize: 18.sp, color: Colors.black54),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10.w),
+                InkWell(
+                  onTap: controller.clearAddress,
+                  child: SvgPicture.asset(
+                    'assets/icons/cross.svg',
+                    height: 48.h,
+                  ),
+                ),
+              ],
+            ),
+            Obx(() => controller.addressSuggestions.isNotEmpty
+                ? Column(
+                    children: [
                       Divider(
                         color: AppColors.black,
                         thickness: 1.h,
                         height: 6.h,
                       ),
-                      Container(
-                        padding: EdgeInsets.only(
-                          top: 18.sp,
-                          left: 24.sp,
-                          right: 24.sp,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              '123 Home Ln Example',
-                              style: TextStyle(fontSize: 20.sp),
-                            ),
-                            Text(
-                              'Los Angeles, CA',
-                              style: TextStyle(fontSize: 18.sp),
-                            ),
-                            Text('1234567', style: TextStyle(fontSize: 16.sp)),
-                          ],
-                        ),
-                      ),
-                      Container(
-                        padding: EdgeInsets.only(
-                          left: 24.sp,
-                          right: 24.sp,
-                          top: 18.sp,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(
-                              '123 Home Ln Example',
-                              style: TextStyle(fontSize: 20.sp),
-                            ),
-                            Text(
-                              'Los Angeles, CA',
-                              style: TextStyle(fontSize: 18.sp),
-                            ),
-                            Text('1234567', style: TextStyle(fontSize: 16.sp)),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 32.h),
+                      ...controller.addressSuggestions
+                          .map((text) =>
+                              _addressSuggestionItem(text, controller))
+                          .toList(),
                     ],
-                  ),
-                ),
-              ),
-              SizedBox(height: 100.h),
-              TextWidgetButton(
-                text: 'Update',
-                onPressed: () {
-                  //  Get.toNamed(AppRoutes.selectHouse);
-                },
-              ),
-            ],
-          ),
+                  )
+                : SizedBox()),
+            SizedBox(height: 8.h),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _addressSuggestionItem(String text, ProfileController controller) {
+    return InkWell(
+      onTap: () => controller.selectAddress(text),
+      child: Container(
+        padding: EdgeInsets.only(
+            left: 24.sp, right: 24.sp, top: 18.sp, bottom: 18.sp),
+        child: Text(
+          text,
+          style: TextStyle(fontSize: 20.sp),
         ),
       ),
     );
   }
 }
-
-//

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 
 class FaqSearchBarWidget extends StatelessWidget {
   final TextEditingController? controller;
@@ -70,7 +70,7 @@ class FaqSearchBarWidget extends StatelessWidget {
                 return ListTile(
                   title: Text(
                     suggestions[index],
-                    style: TextStyles.regular.copyWith(color: AppColors.black),
+                    style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
                   ),
                   onTap: () => onSuggestionTap?.call(suggestions[index]),
                 );

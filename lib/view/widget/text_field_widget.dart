@@ -26,7 +26,7 @@ class TextFieldWidget extends StatelessWidget {
         onChanged: onChanged,
         decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: TextStyle(color: AppColors.black.withOpacity(.7)),
+          hintStyle: TextStyle(color: AppColors.black.withAlpha(180)),
           filled: true,
           fillColor: Colors.grey[200],
           contentPadding: EdgeInsets.symmetric(

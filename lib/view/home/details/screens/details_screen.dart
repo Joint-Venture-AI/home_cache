@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 
 import '../../../../config/route/route_names.dart';
 
@@ -83,7 +83,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
             SizedBox(height: 12.h),
             Text(
               title,
-              style: TextStyles.medium.copyWith(
+              style: AppTypoGraphy.medium.copyWith(
                 color: AppColors.black,
                 fontSize: 16.sp,
               ),
@@ -108,7 +108,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
               SizedBox(height: 80.h),
               Text(
                 'View Details',
-                style: TextStyles.bold.copyWith(
+                style: AppTypoGraphy.bold.copyWith(
                   color: AppColors.black,
                   fontSize: 24.sp,
                 ),

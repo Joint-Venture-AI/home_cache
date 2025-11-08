@@ -2,10 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:intl/intl.dart';
 import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors, primary;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/home/details/documents/documents_screen.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
@@ -34,11 +35,135 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
   String? _selectedType;
   File? _pickedImage;
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: const AppBarBack(
+        title: 'New Document',
+        titleColor: AppColors.secondary,
+      ),
+      backgroundColor: AppColors.surface,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(24.sp),
+          child: Column(
+            children: [
+              Text('What type of document are you uploading?',
+                  style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.center),
+              SizedBox(height: 24.h),
+
+              // Dropdown
+              DropdownButtonFormField<String>(
+                value: _selectedType,
+                decoration: InputDecoration(
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                    borderSide: BorderSide(color: AppColors.primary),
+                  ),
+                ),
+                icon: Icon(Icons.keyboard_arrow_down_rounded,
+                    color: AppColors.secondary),
+                hint: Text('Select Document Type', style: AppTypoGraphy.medium),
+                dropdownColor: Color(0xffA7B8BB),
+                items: _documentTypes.map((String type) {
+                  return DropdownMenuItem<String>(
+                    value: type,
+                    child: Text(type, style: AppTypoGraphy.regular),
+                  );
+                }).toList(),
+                onChanged: (value) => setState(() => _selectedType = value),
+              ),
+              SizedBox(height: 32.h),
+
+              Text('Upload your document',
+                  style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.center),
+              SizedBox(height: 32.h),
+
+              if (_pickedImage != null) ...[
+                GestureDetector(
+                  onTap: () => showDialog(
+                    context: context,
+                    builder: (_) => Dialog(
+                      child: InteractiveViewer(
+                        child: Image.file(File(_pickedImage!.path)),
+                      ),
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
+                    child: Image.file(
+                      File(_pickedImage!.path),
+                      width: 200.w,
+                      height: 200.w,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 16.h),
+                TextButton(
+                  onPressed: () => setState(() => _pickedImage = null),
+                  child: Text('Remove Image',
+                      style: AppTypoGraphy.regular
+                          .copyWith(color: AppColors.secondary)),
+                ),
+                SizedBox(height: 16.h),
+              ] else ...[
+                InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: () async {
+                    final file = await utils.pickSingleImage(
+                        context: context, source: ImageSource.gallery);
+
+                    setState(() {
+                      _pickedImage = file;
+                    });
+                  },
+                  child: _uploadButton('Upload', 'assets/images/upload.png'),
+                ),
+                SizedBox(height: 16.h),
+                Text('Or',
+                    style:
+                        AppTypoGraphy.medium.copyWith(color: AppColors.black)),
+                SizedBox(height: 16.h),
+                InkWell(
+                  borderRadius: BorderRadius.circular(16),
+                  onTap: () async {
+                    final file = await utils.pickSingleImage(
+                        context: context, source: ImageSource.camera);
+
+                    setState(() {
+                      _pickedImage = file;
+                    });
+                  },
+                  child:
+                      _uploadButton('Use Camera', 'assets/images/camera.png'),
+                ),
+                SizedBox(height: 16.h),
+              ],
+            ],
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(24.0.sp),
+        child: CustomElevatedButton(
+          onTap: _proceedNext,
+          btnText: 'Next',
+          height: 48.h,
+        ),
+      ),
+    );
+  }
+
   void _proceedNext() {
     if (_selectedType == null) {
       Get.snackbar("Missing Info", "Please select a document type.",
           snackPosition: SnackPosition.BOTTOM,
-          backgroundColor: Colors.redAccent.withOpacity(0.8),
+          backgroundColor: Colors.redAccent.withAlpha(200),
           colorText: Colors.white);
       return;
     }
@@ -72,144 +197,6 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
     Get.toNamed(
       RouteNames.previewDocument,
       arguments: document.toJson(),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const AppBarBack(),
-      backgroundColor: AppColors.surface,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(24.sp),
-          child: Column(
-            children: [
-              Text('New Document',
-                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                  textAlign: TextAlign.center),
-              SizedBox(height: 24.h),
-              Text('What type of document are you uploading?',
-                  style: TextStyles.medium.copyWith(color: AppColors.black),
-                  textAlign: TextAlign.center),
-              SizedBox(height: 24.h),
-
-              // Dropdown
-              DropdownButtonFormField<String>(
-                value: _selectedType,
-                decoration: InputDecoration(
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                    borderSide: BorderSide(color: AppColors.primary),
-                  ),
-                ),
-                icon: Icon(Icons.keyboard_arrow_down_rounded,
-                    color: AppColors.secondary),
-                hint: Text('Select Document Type', style: TextStyles.medium),
-                dropdownColor: Color(0xffA7B8BB),
-                items: _documentTypes.map((String type) {
-                  return DropdownMenuItem<String>(
-                    value: type,
-                    child: Text(type, style: TextStyles.regular),
-                  );
-                }).toList(),
-                onChanged: (value) => setState(() => _selectedType = value),
-              ),
-              SizedBox(height: 32.h),
-
-              Text('Upload your document',
-                  style: TextStyles.medium.copyWith(color: AppColors.black),
-                  textAlign: TextAlign.center),
-              SizedBox(height: 32.h),
-
-              if (_pickedImage != null) ...[
-                GestureDetector(
-                  onTap: () => showDialog(
-                    context: context,
-                    builder: (_) => Dialog(
-                      child: InteractiveViewer(
-                        child: Image.file(File(_pickedImage!.path)),
-                      ),
-                    ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(16),
-                    child: Image.file(
-                      File(_pickedImage!.path),
-                      width: 200.w,
-                      height: 200.w,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 16.h),
-                TextButton(
-                  onPressed: () => setState(() => _pickedImage = null),
-                  child: Text('Remove Image',
-                      style: TextStyles.regular
-                          .copyWith(color: AppColors.secondary)),
-                ),
-                SizedBox(height: 16.h),
-              ] else ...[
-                InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: () async {
-                    final file = await utils.pickSingleImage(
-                        context: context, source: ImageSource.gallery);
-
-                    setState(() {
-                      _pickedImage = file;
-                    });
-                  },
-                  child: _uploadButton('Upload', 'assets/images/upload.png'),
-                ),
-                SizedBox(height: 16.h),
-                Text('Or',
-                    style: TextStyles.medium.copyWith(color: AppColors.black)),
-                SizedBox(height: 16.h),
-                InkWell(
-                  borderRadius: BorderRadius.circular(16),
-                  onTap: () async {
-                    final file = await utils.pickSingleImage(
-                        context: context, source: ImageSource.camera);
-
-                    setState(() {
-                      _pickedImage = file;
-                    });
-                  },
-                  child:
-                      _uploadButton('Use Camera', 'assets/images/camera.png'),
-                ),
-                SizedBox(height: 16.h),
-              ],
-
-              // InkWell(
-              //   onTap: () {
-              //     // For manual entry → maybe navigate to another form
-              //   },
-              //   child: Text('Manually Enter Your Details',
-              //       style:
-              //           TextStyles.regular.copyWith(color: AppColors.secondary),
-              //       textAlign: TextAlign.center),
-              // ),
-              SizedBox(height: 16.h),
-
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50.w),
-                child: TextWidgetButton(
-                  text: '→  Next',
-                  color: _selectedType == null
-                      ? Color(0xffA7B8BB)
-                      : AppColors.primary,
-                  onPressed: _proceedNext,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 

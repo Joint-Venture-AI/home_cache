@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/app_assets.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 
 class WelcomeDialog extends StatelessWidget {
@@ -17,7 +17,7 @@ class WelcomeDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       title: Text(
         'Welcome To HomeCache!',
-        style: TextStyles.bold.copyWith(
+        style: AppTypoGraphy.bold.copyWith(
           color: AppColors.black,
           fontSize: 26.sp,
         ),
@@ -31,13 +31,13 @@ class WelcomeDialog extends StatelessWidget {
             SizedBox(height: 10.h),
             Text(
               'Here’s how to get started',
-              style: TextStyles.medium.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 28.h),
             Text(
               'Select Which Options Are Relevant To You And Your Home And Hit ‘Next’',
-              style: TextStyles.regular.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 18.h),
@@ -45,7 +45,7 @@ class WelcomeDialog extends StatelessWidget {
             SizedBox(height: 18.h),
             Text(
               'More Details Help Us Provide You With Better Information To Maintain Your Home!',
-              style: TextStyles.regular.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
               textAlign: TextAlign.center,
             )
           ],

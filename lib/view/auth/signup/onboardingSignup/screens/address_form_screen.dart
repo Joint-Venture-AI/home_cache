@@ -7,7 +7,7 @@ import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart'
 
 import '../../../../../config/route/route_names.dart';
 import '../../../../../constants/colors.dart';
-import '../../../../../constants/text_style.dart';
+import '../../../../../constants/app_typo_graphy.dart';
 import '../../../../widget/appbar_back_widget.dart';
 import '../../../../widget/text_button_widget_light.dart';
 
@@ -47,7 +47,7 @@ class AddressFormScreen extends StatelessWidget {
               children: [
                 Text(
                   'Would You Like To Enter Your Address To Get Some Basic Information About Your Home?',
-                  style: TextStyles.bold.copyWith(
+                  style: AppTypoGraphy.bold.copyWith(
                     color: AppColors.secondary,
                     fontSize: 24.sp,
                   ),
@@ -123,7 +123,7 @@ class AddressFormScreen extends StatelessWidget {
                 SizedBox(height: MediaQuery.of(context).size.height * 0.35),
                 Text(
                   'More details help us better help you!',
-                  style: TextStyles.bold.copyWith(
+                  style: AppTypoGraphy.bold.copyWith(
                     color: AppColors.primary,
                     fontSize: 24.sp,
                   ),

@@ -4,7 +4,7 @@ import 'package:get/route_manager.dart';
 import 'package:home_cache/config/route/route_names.dart';
 import 'package:home_cache/constants/app_assets.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/utils/form_validator.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/auth/widgets/custom_social_button.dart';
@@ -19,7 +19,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 final TextEditingController _emailTEController = TextEditingController();
-final TextEditingController _passwordTEControler = TextEditingController();
+final TextEditingController _passwordTEController = TextEditingController();
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final FormValidator _formValidator = FormValidator();
@@ -41,13 +41,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 100.h),
                 Text(
                   'Welcome Back!',
-                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
+                  style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 40.h),
                 Text(
                   'Email or Mobile Number',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
@@ -59,13 +59,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 20.h),
                 Text(
                   'Password',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
                 AuthTextFormField(
                   hintText: '*************',
-                  controller: _passwordTEControler,
+                  controller: _passwordTEController,
                   validator: _formValidator.validatePassword,
                 ),
                 SizedBox(height: 6.h),
@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 50.h),
                 Text(
                   'Or log in with',
-                  style: TextStyles.semiBold.copyWith(
+                  style: AppTypoGraphy.semiBold.copyWith(
                     color: AppColors.black,
                     fontSize: 14.sp,
                   ),
@@ -117,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
         onPressed: () {},
         child: Text(
           'Forgot Password',
-          style: TextStyles.semiBold.copyWith(
+          style: AppTypoGraphy.semiBold.copyWith(
             color: AppColors.secondary,
             fontSize: 14.sp,
           ),

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
 
 class ProductSupportScreen extends StatelessWidget {
@@ -23,13 +23,13 @@ class ProductSupportScreen extends StatelessWidget {
             children: [
               Text(
                 'Product Support',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 48.h),
               Text(
                 'Email',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
@@ -39,7 +39,7 @@ class ProductSupportScreen extends StatelessWidget {
               SizedBox(height: 16.h),
               Text(
                 'Subject Line',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
@@ -49,7 +49,7 @@ class ProductSupportScreen extends StatelessWidget {
               SizedBox(height: 16.h),
               Text(
                 'Details',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
@@ -75,14 +75,16 @@ class ProductSupportScreen extends StatelessWidget {
                 style: const TextStyle(color: Color.fromARGB(255, 243, 90, 90)),
               ),
               SizedBox(height: 56.h),
-              TextWidgetButton(
-                text: 'Send',
-                onPressed: () {
-                  //  Get.toNamed(AppRoutes.selectHouse);
-                },
-              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(20.sp),
+        child: CustomElevatedButton(
+          onTap: () {},
+          btnText: 'Send',
+          height: 48.h,
         ),
       ),
     );

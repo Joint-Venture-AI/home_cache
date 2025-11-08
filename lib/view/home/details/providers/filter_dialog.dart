@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 
 class FilterDialog extends StatefulWidget {
   const FilterDialog({super.key});
@@ -47,7 +47,7 @@ class _FilterDialogState extends State<FilterDialog> {
             color: Colors.white,
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              color: AppColors.primary.withOpacity(.5),
+              color: AppColors.primary.withAlpha(122),
               width: 3.w,
             ),
           ),
@@ -58,9 +58,10 @@ class _FilterDialogState extends State<FilterDialog> {
               children: [
                 Text(
                   'Sort & Filter Your Providers',
-                  style: TextStyles.bold.copyWith(
+                  style: AppTypoGraphy.bold.copyWith(
                     color: AppColors.black,
                     fontSize: 16.sp,
+                    fontWeight: FontWeight.w700
                   ),
                 ),
                 SizedBox(height: 12.h),
@@ -84,17 +85,17 @@ class _FilterDialogState extends State<FilterDialog> {
                       .toList(),
                 ),
                 SizedBox(height: 16.h),
-                _sectionTitle('Favorite'),
-                Row(
-                  children: [
-                    _buildFavoriteCheckbox(true),
-                    SizedBox(
-                      width: 24.w,
-                    ),
-                    _buildFavoriteCheckbox(false),
-                  ],
-                ),
-                SizedBox(height: 16.h),
+                // _sectionTitle('Favorite'),
+                // Row(
+                //   children: [
+                //     _buildFavoriteCheckbox(true),
+                //     SizedBox(
+                //       width: 24.w,
+                //     ),
+                //     _buildFavoriteCheckbox(false),
+                //   ],
+                // ),
+                // SizedBox(height: 16.h),
                 _sectionTitle('Service Type'),
                 Wrap(
                   spacing: 8.w,
@@ -135,9 +136,9 @@ class _FilterDialogState extends State<FilterDialog> {
           Flexible(
             child: Text(
               title,
-              style: TextStyles.regular.copyWith(
+              style: AppTypoGraphy.regular.copyWith(
                 fontSize: 12.sp,
-                color: AppColors.black.withOpacity(0.8),
+                color: AppColors.black.withAlpha(204),
               ),
             ),
           ),
@@ -148,51 +149,6 @@ class _FilterDialogState extends State<FilterDialog> {
 
   bool? favoriteFilter;
 
-  Widget _buildFavoriteCheckbox(bool favorite) {
-    return GestureDetector(
-      onTap: () {
-        if (favoriteFilter == null || favoriteFilter != favorite) {
-          setState(() {
-            favoriteFilter = favorite;
-          });
-        } else {
-          setState(() {
-            favoriteFilter = null;
-          });
-        }
-      },
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Checkbox(
-            value: favoriteFilter == favorite,
-            activeColor: AppColors.primaryLight,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
-            ),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            visualDensity: VisualDensity.compact,
-            onChanged: (val) {
-              if (favoriteFilter == null || favoriteFilter != favorite) {
-                setState(() {
-                  favoriteFilter = favorite;
-                });
-              } else {
-                setState(() {
-                  favoriteFilter = null;
-                });
-              }
-            },
-          ),
-          Icon(
-            favorite ? Icons.favorite : Icons.favorite_border,
-            color: favorite ? Colors.red : Colors.grey,
-            size: 20.sp,
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildStarRatingCheckbox(int rating) {
     return GestureDetector(
@@ -259,9 +215,9 @@ class _FilterDialogState extends State<FilterDialog> {
           ),
           Text(
             title,
-            style: TextStyles.regular.copyWith(
+            style: AppTypoGraphy.regular.copyWith(
               fontSize: 12.sp,
-              color: AppColors.black.withOpacity(0.8),
+              color: AppColors.black.withAlpha(204),
             ),
           ),
         ],
@@ -275,7 +231,7 @@ class _FilterDialogState extends State<FilterDialog> {
       children: [
         Text(
           title,
-          style: TextStyles.bold.copyWith(
+          style: AppTypoGraphy.bold.copyWith(
             color: AppColors.black,
             fontSize: 16.sp,
           ),

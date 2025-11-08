@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/home/details/providers/provider_screen.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
-import 'package:home_cache/view/widget/tile_button.dart';
-import 'package:home_cache/view/widget/dropdown_field_widget.dart';
+import 'package:home_cache/view/home/details/widgets/tile_button.dart';
 
 /// Controller for AddProviderScreen
 class AddProviderController extends GetxController {
@@ -74,7 +72,7 @@ class AddProviderController extends GetxController {
 }
 
 class AddProviderScreen extends StatefulWidget {
-  AddProviderScreen({super.key});
+  const AddProviderScreen({super.key});
 
   @override
   State<AddProviderScreen> createState() => _AddProviderScreenState();
@@ -129,7 +127,7 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
 
   bool _showProviderSuggestions = false;
 
-  TextEditingController _typeController = TextEditingController();
+  final TextEditingController _typeController = TextEditingController();
 
   @override
   void initState() {
@@ -169,20 +167,17 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.surface,
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'New Provider',
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24.sp),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'New Provider',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 16.h),
-              _buildDropdown(),
+              // SizedBox(height: 16.h),
+              ProviderTypeDropdown(),
               SizedBox(height: 16.h),
               _buildTextField('Company Name', controller.companyName),
               SizedBox(height: 16.h),
@@ -198,11 +193,17 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
               SizedBox(height: 20.h),
               _buildRatingStars(),
               SizedBox(height: 20.h),
-              _buildConfirmButton(),
-              SizedBox(height: 20.h),
             ],
           ),
         ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(24.0),
+        child: CustomElevatedButton(
+            onTap: () {
+              controller.submitProvider();
+            },
+            btnText: 'Confirm'),
       ),
     );
   }
@@ -228,7 +229,8 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
                 return ListTile(
                   title: Text(
                     _providerSuggestions[index],
-                    style: TextStyles.regular.copyWith(color: AppColors.black),
+                    style:
+                        AppTypoGraphy.regular.copyWith(color: AppColors.black),
                   ),
                   onTap: () {
                     _typeController.text = _providerSuggestions[index];
@@ -250,7 +252,7 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(label,
-            style: TextStyles.semiBold.copyWith(color: AppColors.black)),
+            style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
         SizedBox(height: 6.h),
         TextFieldWidget(
           controller: controller,
@@ -298,14 +300,93 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
       ),
     );
   }
+}
 
-  Widget _buildConfirmButton() {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 50.w),
-      child: TextWidgetButton(
-        text: 'Confirm',
-        onPressed: controller.submitProvider,
-      ),
+class ProviderTypeDropdown extends StatefulWidget {
+  const ProviderTypeDropdown({super.key});
+
+  @override
+  State<ProviderTypeDropdown> createState() => _ProviderTypeDropdownState();
+}
+
+class _ProviderTypeDropdownState extends State<ProviderTypeDropdown> {
+  final List<String> providerTypes = [
+    'Plumber',
+    'Electrician',
+    'HVAC Technician',
+    'Roofer',
+    'General Contractor',
+    'Handyman',
+    'Landscaper',
+    'Pest Control Specialist',
+    'Painter',
+    'Carpenter',
+    'Appliance Repair Technician',
+    'Window and Door Installer/Repair',
+    'Locksmith',
+    'Pool Maintenance Provider',
+    'Cleaning Service',
+    'Gutter Specialist',
+    'Chimney Sweep / Specialist',
+    'Fence Installer / Repair',
+    'Masonry Specialist',
+    'Insulation Contractor',
+    'Solar Panel Installer / Maintenance',
+    'Siding Contractor',
+    'Garage Door Repair / Installer',
+    'Tree Service / Arborist',
+    'Septic System Service',
+    'Foundation Repair Specialist',
+    'Home Inspector',
+    'Interior Designer / Decorator',
+    'Waste Removal / Dumpster Rental',
+    'Snow Removal Service',
+    'Window Cleaning Service',
+    'Paving / Driveway Repair Contractor',
+    'Energy Auditor',
+    'Water Treatment Specialist',
+    'Smart Home Technician',
+    'Fireplace Repair Technician',
+    'Oil Provider',
+    'Trash / Recycling',
+    'Other',
+  ];
+
+  String? selectedType;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      spacing: 8.h,
+      children: [
+        Text('Type',
+            style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
+        DropdownButtonFormField<String>(
+          decoration: InputDecoration(
+            filled: true,
+            fillColor: AppColors.lightgrey,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12.r),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding:
+                EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
+          ),
+          value: selectedType,
+          items: providerTypes
+              .map((type) => DropdownMenuItem(
+                    value: type,
+                    child: Text(type),
+                  ))
+              .toList(),
+          onChanged: (value) {
+            setState(() {
+              selectedType = value;
+            });
+          },
+        ),
+      ],
     );
   }
 }

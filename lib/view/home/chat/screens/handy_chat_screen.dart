@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/home/chat/widgets/faq_search_bar_widget.dart';
 import 'package:home_cache/view/home/chat/widgets/popular_faq_tile.dart';
@@ -31,7 +31,7 @@ class HandyChatScreen extends StatelessWidget {
                     SizedBox(height: 16.h),
                     Text(
                       'Home Questions? Let’s Get you Answers!',
-                      style: TextStyles.bold.copyWith(
+                      style: AppTypoGraphy.bold.copyWith(
                         color: AppColors.secondary,
                         fontSize: 24.sp,
                       ),
@@ -40,7 +40,7 @@ class HandyChatScreen extends StatelessWidget {
                     SizedBox(height: 16.h),
                     Text(
                       'FAQs',
-                      style: TextStyles.bold.copyWith(
+                      style: AppTypoGraphy.bold.copyWith(
                         color: AppColors.black,
                         fontSize: 24.sp,
                       ),
@@ -79,7 +79,7 @@ class HandyChatScreen extends StatelessWidget {
           ),
           child: Text(
             'Popular Topics',
-            style: TextStyles.bold.copyWith(
+            style: AppTypoGraphy.bold.copyWith(
               color: AppColors.black,
               fontSize: 18.sp,
             ),
@@ -132,7 +132,7 @@ class HandyChatScreen extends StatelessWidget {
         children: [
           Text(
             'Need something more specific?',
-            style: TextStyles.bold.copyWith(
+            style: AppTypoGraphy.bold.copyWith(
               color: AppColors.black,
               fontSize: 20.sp,
             ),

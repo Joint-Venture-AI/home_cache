@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:home_cache/controller/dialong_controller.dart';
 import 'package:home_cache/controller/onboarding_choice_controller.dart';
+import 'package:home_cache/controller/profile_controller.dart';
 import 'package:home_cache/controller/task_controller.dart';
 
 class ControllerBinder extends Bindings {
@@ -11,5 +12,6 @@ class ControllerBinder extends Bindings {
     Get.lazyPut<TaskController>(
       () => TaskController(),
     );
+    Get.put( ProfileController());
   }
 }

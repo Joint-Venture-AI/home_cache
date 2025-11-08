@@ -6,8 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/data/rooms.dart';
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/home/details/room/add_room_item_dialog.dart';
 import 'package:home_cache/utils.dart' as utils;
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
@@ -104,50 +103,43 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
     }).toList();
 
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: roomName,
+        titleColor: AppColors.secondary,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: TextButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const AddRoomItemDialog(),
+                );
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.w,
+                  vertical: 6.h,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+              child: Text(
+                '+ Add',
+                style: TextStyle(color: Colors.white, fontSize: 14.sp),
+              ),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: AppColors.surface,
       body: Padding(
         padding: EdgeInsets.all(24.sp),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Header
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(width: 40.w),
-                Text(
-                  roomName,
-                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                  textAlign: TextAlign.center,
-                ),
-                TextButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) => const AddRoomItemDialog(),
-                    );
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 6.h,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                  ),
-                  child: Text(
-                    '+ Add',
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 20.h),
-            // Image Placeholder
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -251,7 +243,7 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
 
             Text(
               'View All',
-              style: TextStyles.medium.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
             ),
 
             SizedBox(height: 20.h),
@@ -262,7 +254,7 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
                   ? Center(
                       child: Text(
                         'No appliances in this category.',
-                        style: TextStyles.medium.copyWith(
+                        style: AppTypoGraphy.medium.copyWith(
                           color: AppColors.black,
                         ),
                       ),
@@ -287,7 +279,7 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
                                 EdgeInsets.symmetric(horizontal: 24.w),
                             title: Text(
                               doc['title'],
-                              style: TextStyles.medium.copyWith(
+                              style: AppTypoGraphy.medium.copyWith(
                                 fontSize: 20.sp,
                               ),
                             ),

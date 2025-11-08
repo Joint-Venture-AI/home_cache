@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 
 class UserManagementTile extends StatelessWidget {
   final String fullName;
@@ -36,8 +36,8 @@ class UserManagementTile extends StatelessWidget {
           ),
         ),
       ),
-      title: Text(fullName, style: TextStyles.semiBold),
-      subtitle: Text(role, style: TextStyles.regular),
+      title: Text(fullName, style: AppTypoGraphy.semiBold),
+      subtitle: Text(role, style: AppTypoGraphy.regular),
       onTap: onTap,
     );
   }

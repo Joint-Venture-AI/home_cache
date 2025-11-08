@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/data/rooms.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/home/chat/widgets/faq_search_bar_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
@@ -90,7 +90,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
             children: [
               Text(
                 type,
-                style: TextStyles.bold.copyWith(
+                style: AppTypoGraphy.bold.copyWith(
                   color: AppColors.black,
                   fontSize: 26.sp,
                 ),
@@ -102,19 +102,11 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                 children: [
                   Text(
                     name,
-                    style: TextStyles.regular.copyWith(
+                    style: AppTypoGraphy.regular.copyWith(
                       color: AppColors.secondary,
                       fontSize: 18.sp,
                     ),
                   ),
-                  // SizedBox(width: 6.w),
-                  // Image.asset(
-                  //   'assets/images/pen.png',
-                  //   height: 24.h,
-                  //   width: 24.w,
-                  //   errorBuilder: (context, error, stackTrace) =>
-                  //       Icon(Icons.edit, size: 24.sp),
-                  // ),
                 ],
               ),
               SizedBox(height: 32.h),
@@ -195,7 +187,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(8.r),
                     border: Border.all(
-                      color: AppColors.secondary.withOpacity(0.3),
+                      color: AppColors.secondary.withAlpha(50),
                     ),
                   ),
                   child: ListView.builder(
@@ -220,7 +212,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                   child: Text(
                     'No matching items found.',
                     style:
-                        TextStyles.regular.copyWith(color: AppColors.secondary),
+                        AppTypoGraphy.regular.copyWith(color: AppColors.secondary),
                     textAlign: TextAlign.center,
                   ),
                 ),

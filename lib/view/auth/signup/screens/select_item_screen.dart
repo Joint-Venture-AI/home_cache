@@ -5,7 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
@@ -89,7 +89,7 @@ class _SelectIteamScreenState extends State<SelectItemScreen> {
             children: [
               Text(
                 'Room Name',
-                style: TextStyles.bold.copyWith(
+                style: AppTypoGraphy.bold.copyWith(
                   color: AppColors.black,
                   fontSize: 26.sp,
                 ),

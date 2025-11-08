@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/task_list_tile.dart' show TaskListTile;
 
@@ -34,7 +34,7 @@ class _HomeHealthScreenState extends State<HomeHealthScreen> {
               SizedBox(height: 2.h),
               Text(
                 'Home Health',
-                style: TextStyles.bold.copyWith(
+                style: AppTypoGraphy.bold.copyWith(
                   color: AppColors.black,
                   fontSize: 26.sp,
                 ),
@@ -43,12 +43,12 @@ class _HomeHealthScreenState extends State<HomeHealthScreen> {
               SizedBox(height: 20.h),
               Text(
                 'Great Work, (Name)',
-                style: TextStyles.medium.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 6.h),
               Text(
                 'You’ve completed $completedTasks/$totalTasks tasks this Season!',
-                style: TextStyles.medium.copyWith(
+                style: AppTypoGraphy.medium.copyWith(
                   color: AppColors.secondary,
                   fontSize: 18.sp,
                 ),
@@ -111,7 +111,7 @@ class _HomeHealthScreenState extends State<HomeHealthScreen> {
                   children: [
                     Text(
                       'Overdue Tasks',
-                      style: TextStyles.medium.copyWith(
+                      style: AppTypoGraphy.medium.copyWith(
                         color: AppColors.black,
                         fontSize: 20.sp,
                       ),
@@ -155,7 +155,7 @@ class _HomeHealthScreenState extends State<HomeHealthScreen> {
                   children: [
                     Text(
                       'Tasks',
-                      style: TextStyles.medium.copyWith(
+                      style: AppTypoGraphy.medium.copyWith(
                         color: AppColors.black,
                         fontSize: 20.sp,
                       ),
@@ -199,7 +199,7 @@ class _HomeHealthScreenState extends State<HomeHealthScreen> {
                   children: [
                     Text(
                       'Complete Tasks',
-                      style: TextStyles.medium.copyWith(
+                      style: AppTypoGraphy.medium.copyWith(
                         color: AppColors.black,
                         fontSize: 20.sp,
                       ),

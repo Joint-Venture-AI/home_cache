@@ -3,9 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/assigned_person_tile.dart';
+import 'package:home_cache/view/home/schedule/widgets/assigned_person_tile.dart';
 import 'package:home_cache/view/widget/provider_list_tile.dart';
 
 import '../../../../config/route/route_names.dart';
@@ -74,7 +74,7 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                   /// Title
                   Text(
                     data["title"],
-                    style: TextStyles.bold.copyWith(color: AppColors.black),
+                    style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(height: 24.h),
@@ -118,7 +118,7 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
           children: [
             Text(
               'Schedule',
-              style: TextStyles.bold.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
             ),
             Container(
               height: 40.h,
@@ -207,11 +207,11 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
           style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 20.h),
-        Text('Last Service On', style: TextStyles.regular),
+        Text('Last Service On', style: AppTypoGraphy.regular),
         SizedBox(height: 5.h),
-        Text(data["lastServiceDate"], style: TextStyles.semiBold),
+        Text(data["lastServiceDate"], style: AppTypoGraphy.semiBold),
         SizedBox(height: 20.h),
-        Text('Last Service By', style: TextStyles.regular),
+        Text('Last Service By', style: AppTypoGraphy.regular),
         ProviderListTile(
           providerName: data["providerName"],
           lastUsedDate: data["providerLastUsed"],

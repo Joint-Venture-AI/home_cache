@@ -3,8 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors, secondary;
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
 
@@ -23,7 +22,18 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Documents',
+        titleColor: AppColors.secondary,
+        actions: [
+          TextButton(
+            onPressed: () {
+              Get.toNamed(RouteNames.addDocuments);
+            },
+            child: Icon(Icons.edit, color: AppColors.black),
+          ),
+        ],
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -31,26 +41,6 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Top Row: Title + Edit
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(width: 15.w),
-                  Text(
-                    'Documents',
-                    style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                    textAlign: TextAlign.center,
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Get.toNamed(RouteNames.addDocuments);
-                    },
-                    child: Icon(Icons.edit, color: AppColors.black),
-                  ),
-                ],
-              ),
-              SizedBox(height: 24.h),
-
               // Toggle Buttons
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -94,13 +84,13 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
               if (selectedToggleIndex == 0) ...[
                 Text(
                   'Product Name',
-                  style: TextStyles.medium.copyWith(color: AppColors.black),
+                  style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 4.h),
                 Text(
                   'Expires on 5/8/25',
-                  style: TextStyles.regular.copyWith(color: AppColors.black),
+                  style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 4.h),
@@ -142,7 +132,8 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
               ] else ...[
                 Text(
                   'Title',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
@@ -150,7 +141,8 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                 SizedBox(height: 16.h),
                 Text(
                   'Type',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
@@ -158,7 +150,8 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                 SizedBox(height: 16.h),
                 Text(
                   'Brand/Company',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
@@ -166,7 +159,8 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                 SizedBox(height: 16.h),
                 Text(
                   'Url',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
@@ -174,7 +168,8 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                 SizedBox(height: 16.h),
                 Text(
                   'Note',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),

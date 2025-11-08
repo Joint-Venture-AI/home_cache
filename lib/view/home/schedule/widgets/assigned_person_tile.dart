@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 
 class AssignedPersonTile extends StatelessWidget {
   final String name;
@@ -29,7 +29,7 @@ class AssignedPersonTile extends StatelessWidget {
                 children: [
                   Text(
                     name,
-                    style: TextStyles.semiBold.copyWith(fontSize: 16.sp),
+                    style: AppTypoGraphy.semiBold.copyWith(fontSize: 16.sp),
                   ),
                   const Spacer(),
                   IconButton(
@@ -43,7 +43,7 @@ class AssignedPersonTile extends StatelessWidget {
               ),
               Text(
                 role,
-                style: TextStyles.regular.copyWith(
+                style: AppTypoGraphy.regular.copyWith(
                   fontSize: 14.sp,
                   color: AppColors.black,
                 ),

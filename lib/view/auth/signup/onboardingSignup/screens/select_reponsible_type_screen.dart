@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
@@ -39,7 +39,7 @@ class _SelectResponsibleTypeScreenState
               SizedBox(height: 2.h),
               Text(
                 'You Or The City?',
-                style: TextStyles.bold.copyWith(
+                style: AppTypoGraphy.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,
                 ),
@@ -48,7 +48,7 @@ class _SelectResponsibleTypeScreenState
               SizedBox(height: 40.h),
               Text(
                 'Select What You Are Responsible For (Select All That Apply)',
-                style: TextStyles.medium.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 8.h),
@@ -73,7 +73,7 @@ class _SelectResponsibleTypeScreenState
                 },
                 child: Text(
                   'Other (not listed)',
-                  style: TextStyles.bold.copyWith(
+                  style: AppTypoGraphy.bold.copyWith(
                     color: AppColors.primary,
                     fontSize: 20.sp,
                     decoration: TextDecoration.underline,

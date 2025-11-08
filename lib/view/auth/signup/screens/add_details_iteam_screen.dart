@@ -6,8 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
@@ -49,7 +48,7 @@ class _AddDetailsIteamScreenState extends State<AddDetailsIteamScreen> {
             children: [
               Text(
                 'Microwave',
-                style: TextStyles.bold.copyWith(
+                style: AppTypoGraphy.bold.copyWith(
                   color: AppColors.black,
                   fontSize: 26.sp,
                 ),
@@ -132,7 +131,7 @@ class _AddDetailsIteamScreenState extends State<AddDetailsIteamScreen> {
                 children: [
                   Text(
                     'Type',
-                    style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                    style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                     textAlign: TextAlign.start,
                   ),
                   SizedBox(height: 6.h),
@@ -156,7 +155,7 @@ class _AddDetailsIteamScreenState extends State<AddDetailsIteamScreen> {
                 children: [
                   Text(
                     'Last Serviced',
-                    style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                    style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                     textAlign: TextAlign.start,
                   ),
                   SizedBox(height: 6.h),
@@ -173,7 +172,7 @@ class _AddDetailsIteamScreenState extends State<AddDetailsIteamScreen> {
                 children: [
                   Text(
                     'Note',
-                    style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                    style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                     textAlign: TextAlign.start,
                   ),
                   SizedBox(height: 6.h),

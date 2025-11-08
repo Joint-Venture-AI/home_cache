@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 
 class DocumentTile extends StatelessWidget {
   final String title;
@@ -50,7 +50,7 @@ class DocumentTile extends StatelessWidget {
             SizedBox(height: 6.h),
             Text(
               title,
-              style: TextStyles.medium.copyWith(
+              style: AppTypoGraphy.medium.copyWith(
                 color: AppColors.black,
                 fontSize: 14.sp,
               ),

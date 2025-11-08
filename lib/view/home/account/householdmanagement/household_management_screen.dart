@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/home/account/householdmanagement/tab/assigned_task_tab.dart';
 import 'package:home_cache/view/home/account/householdmanagement/tab/recent_activity_tab.dart';
 import 'package:home_cache/view/home/account/householdmanagement/tab/services_settings_tab.dart';
@@ -49,26 +48,16 @@ class _HouseholdManagementScreenState extends State<HouseholdManagementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarBack(),
+      appBar: AppBarBack(
+        title: tabTitles[selectedIndex],
+        titleColor: AppColors.primary,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Title
-            Padding(
-              padding: EdgeInsets.only(top: 24.h, bottom: 16.h),
-              child: Text(
-                tabTitles[selectedIndex],
-                style: TextStyles.bold.copyWith(
-                  color: AppColors.primary,
-                  fontSize: 24.sp,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-
-            // Horizontal Tabs
+            SizedBox(height: 16.h),
             SizedBox(
               height: 40.h,
               child: ListView.separated(
@@ -76,23 +65,31 @@ class _HouseholdManagementScreenState extends State<HouseholdManagementScreen> {
                 padding: EdgeInsets.symmetric(horizontal: 16.w),
                 itemBuilder: (context, index) {
                   final isSelected = selectedIndex == index;
-                  return ElevatedButton(
-                    onPressed: () => selectTab(index),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          isSelected ? AppColors.primary : AppColors.lightgrey,
-                      shape: RoundedRectangleBorder(
+                  return GestureDetector(
+                    onTap: () => selectTab(index),
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 250),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
+                      decoration: BoxDecoration(
+                        color: isSelected
+                            ? AppColors.primary
+                            : AppColors.lightgrey,
                         borderRadius: BorderRadius.circular(16.r),
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 16.w),
-                    ),
-                    child: Text(
-                      tabTitles[index],
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black,
-                        fontSize: 12.sp,
+                      child: Center(
+                        child: AnimatedDefaultTextStyle(
+                          duration: const Duration(milliseconds: 250),
+                          style: TextStyle(
+                            color: isSelected ? Colors.white : Colors.black,
+                            fontSize: 12.sp,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                          child: Text(tabTitles[index]),
+                        ),
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   );
                 },

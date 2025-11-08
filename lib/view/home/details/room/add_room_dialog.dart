@@ -4,8 +4,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
 import '../../../../config/route/route_names.dart';
@@ -40,7 +40,7 @@ class AddRoomDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(
         'Add a room',
-        style: TextStyles.bold.copyWith(color: AppColors.black),
+        style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
         textAlign: TextAlign.center,
       ),
       content: SizedBox(
@@ -52,7 +52,7 @@ class AddRoomDialog extends StatelessWidget {
               children: [
                 SizedBox(height: 18.h),
                 Text('Type',
-                    style: TextStyles.regular.copyWith(color: AppColors.black)),
+                    style: AppTypoGraphy.regular.copyWith(color: AppColors.black)),
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: 12),
                   decoration: BoxDecoration(
@@ -82,7 +82,7 @@ class AddRoomDialog extends StatelessWidget {
                 ),
                 SizedBox(height: 16.h),
                 Text('Name (optional)',
-                    style: TextStyles.regular.copyWith(color: AppColors.black)),
+                    style: AppTypoGraphy.regular.copyWith(color: AppColors.black)),
                 SizedBox(height: 6.h),
                 SizedBox(
                   height: 48.h,
@@ -91,7 +91,7 @@ class AddRoomDialog extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: 'Enter room name',
                       hintStyle:
-                          TextStyle(color: AppColors.black.withOpacity(.7)),
+                          TextStyle(color: AppColors.black.withAlpha(200)),
                       filled: true,
                       fillColor: Colors.white,
                       contentPadding: EdgeInsets.symmetric(
@@ -99,7 +99,7 @@ class AddRoomDialog extends StatelessWidget {
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.r),
                         borderSide: BorderSide(
-                            color: Colors.grey.withOpacity(.5), width: 1.w),
+                            color: Colors.grey.withAlpha(122), width: 1.w),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12.r),
@@ -112,10 +112,9 @@ class AddRoomDialog extends StatelessWidget {
                 ),
                 SizedBox(height: 70.h),
                 Padding(
-                  padding: EdgeInsets.only(left: 60.w),
-                  child: TextWidgetButton(
-                    text: '→  Next',
-                    onPressed: () {
+                  padding: EdgeInsets.only(left: 100.w),
+                  child: CustomElevatedButton(
+                    onTap: () {
                       Get.toNamed(
                         RouteNames.addRoom,
                         arguments: {
@@ -124,8 +123,12 @@ class AddRoomDialog extends StatelessWidget {
                         },
                       );
                     },
+                    btnText: 'Next',
+                    width: 100.w,
+                    height: 42.h,
+                    icon: Icons.arrow_forward,
                   ),
-                ),
+                )
               ],
             );
           },

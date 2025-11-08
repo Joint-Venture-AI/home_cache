@@ -5,9 +5,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/data/rooms.dart';
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 
 import '../../../../config/route/route_names.dart';
 import '../../../../model/room_model.dart';
@@ -39,7 +38,7 @@ class _AddRoomItemDialogState extends State<AddRoomItemDialog> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(
         'Add an item',
-        style: TextStyles.bold.copyWith(color: AppColors.black),
+        style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
         textAlign: TextAlign.center,
       ),
       content: SizedBox(
@@ -50,7 +49,7 @@ class _AddRoomItemDialogState extends State<AddRoomItemDialog> {
             SizedBox(height: 18.h),
             Text(
               'Type',
-              style: TextStyles.regular.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
               textAlign: TextAlign.start,
             ),
             Container(
@@ -88,7 +87,7 @@ class _AddRoomItemDialogState extends State<AddRoomItemDialog> {
             SizedBox(height: 16),
             Text(
               'Location',
-              style: TextStyles.regular.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
               textAlign: TextAlign.start,
             ),
             Container(
@@ -132,10 +131,9 @@ class _AddRoomItemDialogState extends State<AddRoomItemDialog> {
             ),
             SizedBox(height: 70.h),
             Padding(
-              padding: EdgeInsets.only(left: 60.w),
-              child: TextWidgetButton(
-                text: '→  Next',
-                onPressed: () {
+              padding: EdgeInsets.only(left: 80.w),
+              child: CustomElevatedButton(
+                onTap: () {
                   Get.toNamed(
                     RouteNames.addNewRoomIteam,
                     arguments: {
@@ -144,8 +142,10 @@ class _AddRoomItemDialogState extends State<AddRoomItemDialog> {
                     },
                   );
                 },
+                btnText: 'Next',
+                icon: Icons.arrow_forward,
               ),
-            ),
+            )
           ],
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/home/notification/widgets/notification_app_bar.dart';
 import 'package:home_cache/view/home/notification/widgets/notification_tile.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
@@ -62,7 +62,7 @@ class NotificationScreen extends StatelessWidget {
           SizedBox(height: 10.h),
           Text(
             'Looking For Older Tasks?',
-            style: TextStyles.bold.copyWith(
+            style: AppTypoGraphy.bold.copyWith(
               color: AppColors.black,
               fontSize: 24.sp,
             ),

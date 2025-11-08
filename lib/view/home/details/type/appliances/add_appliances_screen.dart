@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/doccument_slider.dart';
-import 'package:home_cache/view/widget/past_appoinment_tile.dart';
+import 'package:home_cache/view/home/details/widgets/past_appoinment_tile.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
 
 import '../../../../../config/route/route_names.dart';
@@ -48,7 +48,7 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
                   children: [
                     Text(
                       selectedType,
-                      style: TextStyles.bold.copyWith(color: AppColors.black),
+                      style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(width: 10.w),
@@ -91,7 +91,7 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
                       Text(
                         'Take A Photo To Upload Image',
                         textAlign: TextAlign.center,
-                        style: TextStyles.regular.copyWith(
+                        style: AppTypoGraphy.regular.copyWith(
                           color: AppColors.black,
                           fontSize: 12.sp,
                         ),
@@ -103,7 +103,7 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
               SizedBox(height: 6.h),
               Text(
                 'Type',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 6.h),
               TextFieldWidget(
@@ -112,7 +112,7 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
               SizedBox(height: 16.h),
               Text(
                 'Location',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 6.h),
               TextFieldWidget(
@@ -121,7 +121,7 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
               SizedBox(height: 16.h),
               Text(
                 'Notes',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
               ),
               TextFieldWidget(),
               SizedBox(height: 16.h),
@@ -134,7 +134,7 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
                 children: [
                   Text(
                     'Documents',
-                    style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                    style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   ),
                   SizedBox(width: 6.w),
                   Container(

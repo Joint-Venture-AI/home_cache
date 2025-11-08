@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/doccument_slider.dart';
-import 'package:home_cache/view/widget/past_appoinment_tile.dart';
+import 'package:home_cache/view/home/details/widgets/past_appoinment_tile.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
 
 class EditAppliancesScreen extends StatefulWidget {
@@ -60,7 +60,7 @@ class _EditAppliancesScreenState extends State<EditAppliancesScreen> {
                   children: [
                     Text(
                       typeController.text,
-                      style: TextStyles.bold.copyWith(color: AppColors.black),
+                      style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
                       textAlign: TextAlign.center,
                     ),
                     SizedBox(width: 10.w),
@@ -79,7 +79,7 @@ class _EditAppliancesScreenState extends State<EditAppliancesScreen> {
               SizedBox(height: 16.h),
               Text(
                 'Type',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 6.h),
               TextFieldWidget(
@@ -89,7 +89,7 @@ class _EditAppliancesScreenState extends State<EditAppliancesScreen> {
               SizedBox(height: 16.h),
               Text(
                 'Location',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 6.h),
               TextFieldWidget(
@@ -99,7 +99,7 @@ class _EditAppliancesScreenState extends State<EditAppliancesScreen> {
               SizedBox(height: 16.h),
               Text(
                 'Notes',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
               ),
               TextFieldWidget(
                 //controller: notesController,
@@ -113,7 +113,7 @@ class _EditAppliancesScreenState extends State<EditAppliancesScreen> {
               SizedBox(height: 20.h),
               Text(
                 'Documents',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 12.h),
               DocumentSlider(),

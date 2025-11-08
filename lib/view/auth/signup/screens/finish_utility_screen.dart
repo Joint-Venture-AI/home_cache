@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
@@ -26,7 +26,7 @@ class FinishUtilityScreen extends StatelessWidget {
             children: [
               Text(
                 'Now That We’ve Finished Your Utilities, Let’s Take A Look Inside The House',
-                style: TextStyles.bold.copyWith(
+                style: AppTypoGraphy.bold.copyWith(
                   color: AppColors.secondary,
                   fontSize: 26.sp,
                 ),
@@ -58,7 +58,7 @@ class FinishUtilityScreen extends StatelessWidget {
               SizedBox(height: 100.h),
               Text(
                 'You can also go back and come back to this later!',
-                style: TextStyles.bold.copyWith(
+                style: AppTypoGraphy.bold.copyWith(
                   color: AppColors.black,
                   fontSize: 26.sp,
                 ),

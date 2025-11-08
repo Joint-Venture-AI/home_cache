@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 
 class PastAppointmentsTile extends StatelessWidget {
   final String date;
@@ -22,7 +22,7 @@ class PastAppointmentsTile extends StatelessWidget {
         children: [
           Text(
             date,
-            style: TextStyles.semiBold.copyWith(
+            style: AppTypoGraphy.semiBold.copyWith(
               color: AppColors.primary,
               fontSize: 16.sp,
             ),
@@ -32,7 +32,7 @@ class PastAppointmentsTile extends StatelessWidget {
             children: [
               Text(
                 "• ",
-                style: TextStyles.semiBold.copyWith(
+                style: AppTypoGraphy.semiBold.copyWith(
                   color: AppColors.black,
                   fontSize: 16.sp,
                 ),
@@ -40,7 +40,7 @@ class PastAppointmentsTile extends StatelessWidget {
 
               Text(
                 status,
-                style: TextStyles.semiBold.copyWith(
+                style: AppTypoGraphy.semiBold.copyWith(
                   color: AppColors.black,
                   fontSize: 16.sp,
                 ),

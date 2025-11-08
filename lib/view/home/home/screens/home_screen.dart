@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/controller/task_controller.dart';
 import 'package:home_cache/view/home/home/widgets/home_health_pie_chart.dart';
 import 'package:home_cache/view/widget/task_list_tile.dart';
@@ -72,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     Text(
                       'Tasks',
-                      style: TextStyles.medium.copyWith(
+                      style: AppTypoGraphy.medium.copyWith(
                         color: AppColors.black,
                         fontSize: 18.sp,
                       ),
@@ -168,14 +168,14 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text(
             'Great Work!',
-            style: TextStyles.medium.copyWith(
+            style: AppTypoGraphy.medium.copyWith(
               color: AppColors.black,
               fontSize: 24.sp,
             ),
           ),
           Text(
             'You\'ve completed 4/5 tasks this Season!',
-            style: TextStyles.medium.copyWith(
+            style: AppTypoGraphy.medium.copyWith(
               color: AppColors.secondary,
               fontSize: 18.sp,
             ),
@@ -196,14 +196,14 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             Text(
               'Hi Jess,',
-              style: TextStyles.medium.copyWith(
+              style: AppTypoGraphy.medium.copyWith(
                   color: AppColors.black,
                   fontSize: 24.sp,
                   fontWeight: FontWeight.w600),
             ),
             Text(
               'Welcome Back',
-              style: TextStyles.regular.copyWith(
+              style: AppTypoGraphy.regular.copyWith(
                   color: AppColors.black.withAlpha(200),
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w300),

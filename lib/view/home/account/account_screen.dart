@@ -4,8 +4,8 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart'
     show AppColors;
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/view/widget/setting_tile.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/view/home/account/widgets/setting_tile.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
 import '../../../config/route/route_names.dart';
@@ -26,7 +26,7 @@ class AccountScreen extends StatelessWidget {
             children: [
               Text(
                 'Account Management',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12.h),

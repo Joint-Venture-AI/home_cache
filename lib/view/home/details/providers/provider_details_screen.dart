@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/doccument_slider.dart';
-import 'package:home_cache/view/widget/past_appoinment_tile.dart';
+import 'package:home_cache/view/home/details/widgets/past_appoinment_tile.dart';
 import 'package:home_cache/view/widget/scheduled_appointment_tile.dart';
 
 import '../../../../config/route/route_names.dart';
@@ -97,7 +97,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                     children: [
                       Text(
                         providerType,
-                        style: TextStyles.regular.copyWith(
+                        style: AppTypoGraphy.regular.copyWith(
                           color: AppColors.black,
                           fontSize: 16.sp,
                           fontStyle: FontStyle.italic,
@@ -108,7 +108,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                       Text(
                         providerName,
                         style:
-                            TextStyles.bold.copyWith(color: AppColors.primary),
+                            AppTypoGraphy.bold.copyWith(color: AppColors.primary),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 12.h),
@@ -147,14 +147,14 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                 child: Column(
                   children: [
                     Text(contactName,
-                        style: TextStyles.regular.copyWith(fontSize: 20.sp)),
+                        style: AppTypoGraphy.regular.copyWith(fontSize: 20.sp)),
                     SizedBox(height: 4.h),
                     Text(contactNumber,
-                        style: TextStyles.regular.copyWith(fontSize: 20.sp)),
+                        style: AppTypoGraphy.regular.copyWith(fontSize: 20.sp)),
                     SizedBox(height: 4.h),
                     Text(
                       contactWebsite,
-                      style: TextStyles.regular.copyWith(
+                      style: AppTypoGraphy.regular.copyWith(
                         fontSize: 20.sp,
                         decoration: TextDecoration.underline,
                       ),
@@ -180,7 +180,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text('Past Appointments',
-                        style: TextStyles.semiBold
+                        style: AppTypoGraphy.semiBold
                             .copyWith(color: AppColors.black)),
                     Icon(
                       isPastExpanded
@@ -226,7 +226,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(title,
-            style: TextStyles.semiBold.copyWith(color: AppColors.black)),
+            style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
         Divider(color: AppColors.black, thickness: 1.h, height: 12.h),
       ],
     );

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
@@ -93,7 +93,7 @@ class _StructureScreenState extends State<MaterialScreen> {
                 SizedBox(width: 40.w),
                 Text(
                   'Material',
-                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
+                  style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
                   textAlign: TextAlign.center,
                 ),
                 TextButton(
@@ -145,7 +145,7 @@ class _StructureScreenState extends State<MaterialScreen> {
             SizedBox(height: 20.h),
             Text(
               'View All',
-              style: TextStyles.medium.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
               textAlign: TextAlign.start,
             ),
             SizedBox(height: 20.h),
@@ -155,7 +155,7 @@ class _StructureScreenState extends State<MaterialScreen> {
                       child: Text(
                         'No items in this category.',
                         style:
-                            TextStyles.medium.copyWith(color: AppColors.black),
+                            AppTypoGraphy.medium.copyWith(color: AppColors.black),
                       ),
                     )
                   : ListView.separated(
@@ -177,7 +177,7 @@ class _StructureScreenState extends State<MaterialScreen> {
                             title: Text(
                               item['title'],
                               style:
-                                  TextStyles.medium.copyWith(fontSize: 20.sp),
+                                  AppTypoGraphy.medium.copyWith(fontSize: 20.sp),
                             ),
                             subtitle: Text(
                               item['subtitle'],

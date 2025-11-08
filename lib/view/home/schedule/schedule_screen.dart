@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/task_tile_widget.dart';
 
 import 'dialog/add_task_dialog.dart';
@@ -30,7 +30,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             children: [
               Text(
                 'Schedule',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 16.h),
@@ -38,7 +38,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               SizedBox(height: 24.h),
               Text(
                 'Upcoming Tasks',
-                style: TextStyles.bold.copyWith(color: AppColors.black),
+                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 12.h),
@@ -111,7 +111,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       return Center(
         child: Text(
           'No tasks scheduled',
-          style: TextStyles.regular.copyWith(color: Colors.grey),
+          style: AppTypoGraphy.regular.copyWith(color: Colors.grey),
         ),
       );
     }

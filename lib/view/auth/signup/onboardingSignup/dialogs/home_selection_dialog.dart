@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/controller/dialong_controller.dart';
 
 import '../../widgets/custom_elevated_button.dart';
@@ -20,7 +20,7 @@ class HomeSelectionDialog extends StatelessWidget {
       contentPadding: EdgeInsets.all(24.w),
       title: Text(
         'Welcome To HomeCache!',
-        style: TextStyles.bold.copyWith(
+        style: AppTypoGraphy.bold.copyWith(
           color: AppColors.black,
           fontSize: 32.sp,
         ),
@@ -34,7 +34,7 @@ class HomeSelectionDialog extends StatelessWidget {
             SizedBox(height: 20.h),
             Text(
               'Track All Your Home\'s Details In One Easy To Access Place',
-              style: TextStyles.regular.copyWith(color: AppColors.black),
+              style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
               textAlign: TextAlign.center,
             ),
             SizedBox(height: 30.h),
@@ -69,7 +69,7 @@ class HomeSelectionDialog extends StatelessWidget {
                           ),
                           child: Text(
                             tag,
-                            style: TextStyles.medium.copyWith(
+                            style: AppTypoGraphy.medium.copyWith(
                               color:
                                   isSelected ? Colors.white : AppColors.black,
                               fontSize: 15.sp,

@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/config/route/routes.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
 
 import '../../../../config/route/route_names.dart';
 
@@ -20,7 +19,8 @@ class PreviewDocumentScreen extends StatelessWidget {
     final String? imagePath = args['imagePath'];
 
     return Scaffold(
-      appBar: const AppBarBack(),
+      appBar: const AppBarBack(
+          title: 'New Document', titleColor: AppColors.secondary),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -28,11 +28,6 @@ class PreviewDocumentScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text('New Document',
-                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                  textAlign: TextAlign.center),
-              SizedBox(height: 10.h),
-
               // 📸 Show image if exists
               Container(
                 height: 400.h,
@@ -57,29 +52,31 @@ class PreviewDocumentScreen extends StatelessWidget {
 
               SizedBox(height: 20.h),
               Text('Is this your document?',
-                  style: TextStyles.medium.copyWith(color: AppColors.black)),
+                  style: AppTypoGraphy.medium.copyWith(color: AppColors.black)),
               InkWell(
                 onTap: () => Get.back(),
                 child: Text('Retry',
-                    style: TextStyles.regular.copyWith(
+                    style: AppTypoGraphy.regular.copyWith(
                         color: AppColors.secondary,
                         decoration: TextDecoration.underline)),
               ),
-              SizedBox(height: 30.h),
-              Padding(
-                padding: EdgeInsets.only(left: 160.w),
-                child: TextWidgetButton(
-                  text: '→  Next',
-                  onPressed: () {
-                    Get.toNamed(RouteNames.addDocumentsDetails, arguments: {
-                      'type': docType,
-                      'imagePath': imagePath,
-                    });
-                  },
-                ),
-              ),
             ],
           ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.all(24.0.sp),
+        child: CustomElevatedButton(
+          onTap: () {
+            Get.toNamed(RouteNames.addDocumentsDetails, arguments: {
+              'type': docType,
+              'imagePath': imagePath,
+            });
+          },
+          icon: Icons.arrow_forward,
+          btnText: 'Next',
+          height: 48.h,
+          width: 208.w,
         ),
       ),
     );

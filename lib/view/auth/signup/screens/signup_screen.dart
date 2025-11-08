@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/utils/form_validator.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/auth/widgets/auth_text_form_field.dart';
@@ -45,13 +45,13 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 30.h),
                 Text(
                   'Create A New Account',
-                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
+                  style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 40.h),
                 Text(
                   'Name',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
@@ -75,7 +75,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 20.h),
                 Text(
                   'Email',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 AuthTextFormField(
@@ -86,7 +86,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 20.h),
                 Text(
                   'Password',
-                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 AuthTextFormField(
@@ -98,7 +98,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    style: TextStyles.regular.copyWith(
+                    style: AppTypoGraphy.regular.copyWith(
                       color: AppColors.black,
                       fontSize: 14.sp,
                     ),
@@ -106,7 +106,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       const TextSpan(text: 'By continuing, you agree to '),
                       TextSpan(
                         text: 'Terms of Use',
-                        style: TextStyles.regular.copyWith(
+                        style: AppTypoGraphy.regular.copyWith(
                           color: AppColors.secondary,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
@@ -115,7 +115,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       const TextSpan(text: ' and '),
                       TextSpan(
                         text: 'Privacy Policy.',
-                        style: TextStyles.regular.copyWith(
+                        style: AppTypoGraphy.regular.copyWith(
                           color: AppColors.secondary,
                           fontSize: 14.sp,
                           fontWeight: FontWeight.w600,
@@ -139,7 +139,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 50.h),
                 Text(
                   'Or Sign Up with',
-                  style: TextStyles.semiBold.copyWith(
+                  style: AppTypoGraphy.semiBold.copyWith(
                     color: AppColors.black,
                     fontSize: 14.sp,
                   ),

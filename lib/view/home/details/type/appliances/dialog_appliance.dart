@@ -4,7 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
 import '../../../../../config/route/route_names.dart';
@@ -22,7 +22,7 @@ class DialogAppliance extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
       title: Text(
         'Add An Appliance',
-        style: TextStyles.bold.copyWith(color: AppColors.black),
+        style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
         textAlign: TextAlign.center,
       ),
       content: SizedBox(
@@ -35,7 +35,7 @@ class DialogAppliance extends StatelessWidget {
                 SizedBox(height: 18.h),
                 Text(
                   'Title',
-                  style: TextStyles.regular.copyWith(color: AppColors.black),
+                  style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 Container(
@@ -104,7 +104,7 @@ class DialogAppliance extends StatelessWidget {
                 SizedBox(height: 6.h),
                 Text(
                   'Location',
-                  style: TextStyles.regular.copyWith(color: AppColors.black),
+                  style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 Container(
