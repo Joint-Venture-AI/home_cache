@@ -7,13 +7,13 @@ import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/constants/text_style.dart';
-
-import 'package:home_cache/view/model/room.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/icon_search_bar_widget.dart';
+import 'package:home_cache/view/home/chat/widgets/faq_search_bar_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/utils.dart' as utils;
 import 'package:image_picker/image_picker.dart';
+
+import '../../../../model/room_model.dart';
 
 class AddRoomScreen extends StatefulWidget {
   const AddRoomScreen({super.key});
@@ -41,7 +41,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
 
     final room = rooms.firstWhere(
       (r) => r.name == type,
-      orElse: () => Room(name: type, items: []),
+      orElse: () => RoomModel(name: type, items: []),
     );
     items = room.items;
     filteredItems = List.from(items);
@@ -184,7 +184,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                 ),
               ),
               SizedBox(height: 32.h),
-              IconSearchBarWidget(
+              FaqSearchBarWidget(
                 onChanged: _filterItems,
               ),
               SizedBox(height: 16.h),

@@ -3,8 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/view/home/schedule/dialog/add_task_dialog.dart';
 import 'package:home_cache/view/widget/task_tile_widget.dart';
+
+import 'dialog/add_task_dialog.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({super.key});
@@ -14,7 +15,7 @@ class ScheduleScreen extends StatefulWidget {
 }
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
-  List<Task> _tasks = [];
+  final List<Task> _tasks = [];
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +63,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             borderRadius: BorderRadius.circular(8.r),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withAlpha(122),
                 blurRadius: 2,
                 offset: const Offset(0, 2),
               ),
@@ -87,7 +88,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
               borderRadius: BorderRadius.circular(8.r),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.5),
+                  color: Colors.black.withAlpha(122),
                   blurRadius: 2,
                   offset: const Offset(0, 2),
                 ),

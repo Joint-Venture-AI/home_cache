@@ -3,8 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+
+import '../../../../config/route/route_names.dart';
 
 class ViewByTypeScreen extends StatefulWidget {
   const ViewByTypeScreen({super.key});
@@ -120,12 +122,12 @@ class _DetailsScreenState extends State<ViewByTypeScreen> {
                   switch (index) {
                     case 0:
                       onTap = () {
-                        Get.toNamed(AppRoutes.appliances);
+                        Get.toNamed(RouteNames.appliances);
                       };
                       break;
                     case 1:
                       onTap = () {
-                        Get.toNamed(AppRoutes.utility);
+                        Get.toNamed(RouteNames.utility);
                       };
                       break;
                     case 2:
@@ -138,7 +140,7 @@ class _DetailsScreenState extends State<ViewByTypeScreen> {
                     case 3:
                     default:
                       onTap = () {
-                        Get.toNamed(AppRoutes.material);
+                        Get.toNamed(RouteNames.material);
                       };
                       break;
                   }

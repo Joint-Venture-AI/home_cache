@@ -3,11 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/doccument_slider.dart';
 import 'package:home_cache/view/widget/past_appoinment_tile.dart';
 import 'package:home_cache/view/widget/scheduled_appointment_tile.dart';
+
+import '../../../../config/route/route_names.dart';
 
 class ProviderDetailsScreen extends StatefulWidget {
   final String providerId;
@@ -115,7 +117,7 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                   ),
                   GestureDetector(
                     onTap: () {
-                      Get.toNamed(AppRoutes.addProvider);
+                      Get.toNamed(RouteNames.addProvider);
                     },
                     child: Container(
                       width: 40.w,

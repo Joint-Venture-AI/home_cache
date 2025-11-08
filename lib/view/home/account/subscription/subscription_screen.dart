@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/instance_manager.dart';
-import 'package:home_cache/constants/colors.dart'
-    show AppColors, primary, secondary;
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/subscription_tile_widget.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
+
+import '../../../../config/route/route_names.dart';
 
 class SubscriptionScreen extends StatelessWidget {
   const SubscriptionScreen({super.key});
@@ -43,7 +42,6 @@ class SubscriptionScreen extends StatelessWidget {
                     Image.asset(
                       'assets/images/dot.png',
                       height: 20.h,
-
                       fit: BoxFit.cover,
                     ),
                     SizedBox(width: 12.w),
@@ -87,7 +85,7 @@ class SubscriptionScreen extends StatelessWidget {
                 paymentMethod: 'Mastercard',
                 renewalDate: '1/1/2026',
                 onTap: () {
-                  Get.toNamed(AppRoutes.billingAddress);
+                  Get.toNamed(RouteNames.billingAddress);
                 },
               ),
             ],

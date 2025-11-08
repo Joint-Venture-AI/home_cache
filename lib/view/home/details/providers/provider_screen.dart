@@ -4,11 +4,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/home/details/providers/filter_dialog.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/icon_search_bar_widget.dart';
+import 'package:home_cache/view/home/chat/widgets/faq_search_bar_widget.dart';
 import 'package:home_cache/view/widget/provider_list_tile.dart';
+
+import '../../../../config/route/route_names.dart';
 
 /// --- Provider Model ---
 class ProviderModel {
@@ -130,7 +132,7 @@ class ProviderScreen extends StatelessWidget {
                     style: TextStyles.bold.copyWith(color: AppColors.secondary),
                   ),
                   TextButton(
-                    onPressed: () => Get.toNamed(AppRoutes.addProvider),
+                    onPressed: () => Get.toNamed(RouteNames.addProvider),
                     style: TextButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       padding: EdgeInsets.symmetric(
@@ -159,7 +161,7 @@ class ProviderScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 6.h),
-              IconSearchBarWidget(
+              FaqSearchBarWidget(
                 hintText: 'Search providers by name or service',
                 onChanged: controller.onSearchChanged,
               ),
@@ -215,7 +217,7 @@ class ProviderScreen extends StatelessWidget {
                         lastUsedDate: provider.lastUsed,
                         rating: provider.rating,
                         isFavorite: provider.isFavorite,
-                        onTap: () => Get.toNamed(AppRoutes.providerDetails),
+                        onTap: () => Get.toNamed(RouteNames.providerDetails),
                       );
                     },
                   );

@@ -1,7 +1,7 @@
-import 'package:home_cache/view/model/room.dart';
+import '../../model/room_model.dart';
 
-final List<Room> rooms = [
-  Room(
+final List<RoomModel> rooms = [
+  RoomModel(
     name: 'Kitchen',
     items: [
       'Paint',
@@ -20,7 +20,7 @@ final List<Room> rooms = [
       'Backsplash',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Dining',
     items: [
       'Paint',
@@ -29,7 +29,7 @@ final List<Room> rooms = [
       'Cabinets',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Living Room',
     items: [
       'Paint',
@@ -38,7 +38,7 @@ final List<Room> rooms = [
       'Lighting Fixtures',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Bedroom',
     items: [
       'Paint',
@@ -46,7 +46,7 @@ final List<Room> rooms = [
       'Lighting Fixtures',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Bathroom',
     items: [
       'Paint',
@@ -61,7 +61,7 @@ final List<Room> rooms = [
       'Exhaust Fan',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Laundry',
     items: [
       'Paint',
@@ -74,7 +74,7 @@ final List<Room> rooms = [
       'Flooring',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Office',
     items: [
       'Paint',
@@ -82,7 +82,7 @@ final List<Room> rooms = [
       'Lighting Fixtures',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Basement',
     items: [
       'Paint',
@@ -93,7 +93,7 @@ final List<Room> rooms = [
       'Lighting Fixtures',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Gym',
     items: [
       'Paint',
@@ -101,7 +101,7 @@ final List<Room> rooms = [
       'Lighting Fixtures',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Mudroom',
     items: [
       'Paint',
@@ -109,7 +109,7 @@ final List<Room> rooms = [
       'Lighting Fixtures',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Mediaroom',
     items: [
       'Paint',
@@ -117,7 +117,7 @@ final List<Room> rooms = [
       'Lighting Fixtures',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Playroom',
     items: [
       'Paint',
@@ -125,7 +125,7 @@ final List<Room> rooms = [
       'Lighting Fixtures',
     ],
   ),
-  Room(
+  RoomModel(
     name: 'Sunroom',
     items: [
       'Paint',

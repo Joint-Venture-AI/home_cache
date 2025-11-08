@@ -25,6 +25,8 @@ dependencies:
   connectivity_plus: ^6.0.5
   flutter_image_compress: ^2.3.0
   image_cropper: ^8.0.2
+  pie_chart: ^5.4.0
+  flutter_credit_card: ^4.1.0
 
 dev_dependencies:
   flutter_test:

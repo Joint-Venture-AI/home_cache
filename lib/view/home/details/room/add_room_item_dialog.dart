@@ -6,9 +6,11 @@ import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/model/room.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
+
+import '../../../../config/route/route_names.dart';
+import '../../../../model/room_model.dart';
 
 class AddRoomItemDialog extends StatefulWidget {
   const AddRoomItemDialog({super.key});
@@ -119,7 +121,7 @@ class _AddRoomItemDialogState extends State<AddRoomItemDialog> {
                     selectedRoom = newValue!;
                     final matchedRoom = rooms.firstWhere(
                       (room) => room.name == selectedRoom,
-                      orElse: () => Room(name: '', items: []),
+                      orElse: () => RoomModel(name: '', items: []),
                     );
                     availableItems = matchedRoom.items;
                     selectedItem =
@@ -135,7 +137,7 @@ class _AddRoomItemDialogState extends State<AddRoomItemDialog> {
                 text: '→  Next',
                 onPressed: () {
                   Get.toNamed(
-                    AppRoutes.addNewRoomIteam,
+                    RouteNames.addNewRoomIteam,
                     arguments: {
                       'selectedRoom': selectedRoom,
                       'selectedItem': selectedItem,

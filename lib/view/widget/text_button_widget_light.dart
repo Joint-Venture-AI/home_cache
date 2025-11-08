@@ -5,18 +5,20 @@ import 'package:home_cache/constants/colors.dart';
 class TextButtonWidgetLight extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final double? width;
 
   const TextButtonWidgetLight({
     super.key,
     required this.text,
     required this.onPressed,
+    this.width,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       height: 40.h,
-      width: double.infinity,
+      width: width ?? 96.w,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.r),
         color: AppColors.surface,

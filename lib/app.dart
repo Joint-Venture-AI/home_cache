@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
-import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/theme/app_theme.dart';
+import 'package:home_cache/controller_binder.dart';
+import 'package:home_cache/config/route/routes.dart';
+
+import 'config/route/route_names.dart';
 
 GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
 final GlobalKey<ScaffoldMessengerState> rootScaffoldMessengerKey =
@@ -22,20 +25,11 @@ class HomeCache extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: 'Home Cache',
           scaffoldMessengerKey: rootScaffoldMessengerKey,
-          theme: ThemeData(
-            scaffoldBackgroundColor: AppColors.surface,
-            fontFamily: 'LeagueSpartan',
-            colorScheme: ColorScheme.light(
-              primary: AppColors.primary,
-              onPrimary: Colors.white,
-              onSurface: Colors.black,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(foregroundColor: AppColors.primary),
-            ),
-          ),
-          initialRoute: AppRoutes.splash,
+          themeMode: ThemeMode.light,
+          theme: AppTheme.lightTheme,
+          initialRoute: RouteNames.splash,
           getPages: AppRoutes.pages,
+          initialBinding: ControllerBinder(),
         );
       },
     );

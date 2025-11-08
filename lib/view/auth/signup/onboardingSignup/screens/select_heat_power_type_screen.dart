@@ -1,0 +1,128 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/route_manager.dart';
+
+import 'package:home_cache/constants/colors.dart' show AppColors;
+import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:home_cache/view/widget/selectable_tiles.dart';
+import 'package:home_cache/view/widget/text_button_widget_light.dart';
+import 'package:home_cache/view/widget/rounded_search_bar.dart';
+
+import '../../../../../config/route/route_names.dart';
+import '../../widgets/custom_elevated_button.dart';
+
+class SelectHeatPowerTypeScreen extends StatefulWidget {
+  const SelectHeatPowerTypeScreen({super.key});
+
+  @override
+  State<SelectHeatPowerTypeScreen> createState() =>
+      _SelectHeatPowerTypeScreenState();
+}
+
+class _SelectHeatPowerTypeScreenState extends State<SelectHeatPowerTypeScreen> {
+  int? selectedIndex;
+  bool isOtherSelected = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.surface,
+      appBar: const AppBarBack(),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: EdgeInsets.all(24.sp),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 2.h),
+              Text(
+                'How Is Your Heat Powered?',
+                style: TextStyles.bold.copyWith(
+                  color: AppColors.secondary,
+                  fontSize: 26.sp,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 40.h),
+              Text(
+                'Heating Power (Select One)',
+                style: TextStyles.medium.copyWith(color: AppColors.black),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 8.h),
+              Wrap(
+                spacing: 16.w,
+                runSpacing: 16.h,
+                children: [
+                  _buildTile(context, "Gas", "assets/images/gas.png", 0),
+                  _buildTile(
+                      context, "Electric", "assets/images/electric.png", 1),
+                  _buildTile(context, "Oil", "assets/images/oil.png", 2),
+                  _buildTile(context, "Hybrid", "assets/images/furnace.png", 3),
+                ],
+              ),
+              SizedBox(height: 20.h),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    isOtherSelected = true;
+                    selectedIndex = null;
+                  });
+                },
+                child: Text(
+                  'Other (not listed)',
+                  style: TextStyles.bold.copyWith(
+                    color: AppColors.primary,
+                    fontSize: 20.sp,
+                    decoration: TextDecoration.underline,
+                  ),
+                ),
+              ),
+              if (isOtherSelected) ...[
+                SizedBox(height: 16.h),
+                const RoundedSearchBar(),
+              ],
+              SizedBox(height: 100.h),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButtonWidgetLight(
+                    text: 'Skip',
+                    onPressed: () {
+                      Get.toNamed(RouteNames.finishUtility);
+                    },
+                  ),
+                  CustomElevatedButton(
+                      onTap: () => Get.toNamed(RouteNames.selectCoolingType),
+                      icon: Icons.arrow_forward,
+                      btnText: 'Next')
+                ],
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTile(
+      BuildContext context, String title, String iconPath, int index) {
+    final isSelected = selectedIndex == index && !isOtherSelected;
+
+    return SizedBox(
+      width: (MediaQuery.of(context).size.width - 64.w) / 2,
+      child: SelectableTile(
+        title: title,
+        imageAsset: iconPath,
+        isSelected: isSelected,
+        onTap: () {
+          setState(() {
+            selectedIndex = index;
+            isOtherSelected = false;
+          });
+        },
+      ),
+    );
+  }
+}

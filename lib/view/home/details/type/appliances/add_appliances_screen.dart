@@ -3,11 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/doccument_slider.dart';
 import 'package:home_cache/view/widget/past_appoinment_tile.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
+
+import '../../../../../config/route/route_names.dart';
 
 class AddAppliancesScreen extends StatefulWidget {
   const AddAppliancesScreen({super.key});
@@ -148,7 +149,7 @@ class _ProviderDetailsScreenState extends State<AddAppliancesScreen> {
                       onPressed: () {
                         // Pass selectedType and selectedLocation as arguments
                         Get.toNamed(
-                          AppRoutes.editAppliances,
+                          RouteNames.editAppliances,
                           arguments: {
                             'type': selectedType,
                             'location': selectedLocation,

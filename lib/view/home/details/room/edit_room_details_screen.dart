@@ -7,12 +7,14 @@ import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/home/details/room/add_room_item_dialog.dart';
-import 'package:home_cache/view/model/room.dart'; // import Room model
 import 'package:home_cache/utils.dart' as utils;
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:image_picker/image_picker.dart';
+
+import '../../../../config/route/route_names.dart';
+import '../../../../model/room_model.dart';
 
 class EditRoomDetailsScreen extends StatefulWidget {
   const EditRoomDetailsScreen({super.key});
@@ -37,7 +39,7 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
 
     final matchedRoom = rooms.firstWhere(
       (room) => room.name == roomType,
-      orElse: () => Room(name: roomType, items: []),
+      orElse: () => RoomModel(name: roomType, items: []),
     );
 
     categories = matchedRoom.items;
@@ -297,7 +299,7 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
                               icon: Icon(Icons.edit, color: AppColors.black),
                               onPressed: () {
                                 Get.toNamed(
-                                  AppRoutes.addNewRoomIteam,
+                                  RouteNames.addNewRoomIteam,
                                   arguments: {
                                     'selectedRoom': doc['title'],
                                     'selectedItem': doc['subtitle'],

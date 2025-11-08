@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/input_field.dart';
+import 'package:home_cache/view/auth/widgets/auth_text_form_field.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
 class PasswordSettingsScreen extends StatelessWidget {
@@ -33,7 +33,7 @@ class PasswordSettingsScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextInputField(hintText: '*************'),
+              AuthTextFormField(hintText: '*************'),
               SizedBox(height: 48.h),
               Text(
                 'New Password',
@@ -41,9 +41,9 @@ class PasswordSettingsScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextInputField(hintText: 'New Password'),
+              AuthTextFormField(hintText: 'New Password'),
               SizedBox(height: 12.h),
-              TextInputField(hintText: 'Retype Password'),
+              AuthTextFormField(hintText: 'Retype Password'),
               Padding(
                 padding: EdgeInsets.all(20.w),
                 child: Text(

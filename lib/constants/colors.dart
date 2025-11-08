@@ -10,9 +10,11 @@ class AppColors {
 
   static const text = Color(0xFF000000);
   static const border = Colors.grey;
+  static const cardColor = Color(0xffD7DCEC);
 
   static const lightgrey = Color(0xFFEBEBEB);
   static const grey = Colors.grey;
+  static const red = Color(0XFFFF4625);
 
   static const error = Colors.red;
 }

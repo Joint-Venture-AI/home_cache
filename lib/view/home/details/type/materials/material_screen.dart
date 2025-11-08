@@ -3,7 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class MaterialScreen extends StatefulWidget {

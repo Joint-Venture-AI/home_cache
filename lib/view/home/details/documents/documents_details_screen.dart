@@ -4,9 +4,11 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors, secondary;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
+
+import '../../../../config/route/route_names.dart';
 
 class DocumentsDetailsScreen extends StatefulWidget {
   const DocumentsDetailsScreen({super.key});
@@ -41,7 +43,7 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                   ),
                   TextButton(
                     onPressed: () {
-                      Get.toNamed(AppRoutes.addDocuments);
+                      Get.toNamed(RouteNames.addDocuments);
                     },
                     child: Icon(Icons.edit, color: AppColors.black),
                   ),

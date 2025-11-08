@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/home/details/room/add_room_dialog.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+
+import '../../../../config/route/route_names.dart';
 
 class RoomScreen extends StatefulWidget {
   const RoomScreen({super.key});
@@ -169,7 +171,7 @@ class _RoomScreenState extends State<RoomScreen> {
                     tiles[index]['index'],
                     () {
                       Get.toNamed(
-                        AppRoutes.editRoomDetails,
+                        RouteNames.editRoomDetails,
                         arguments: {
                           'roomName': tiles[index]['title'],
                           'roomType': tiles[index]['type'], // matches Room.name

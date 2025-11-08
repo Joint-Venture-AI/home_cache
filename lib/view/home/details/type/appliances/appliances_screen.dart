@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/home/details/type/appliances/dialog_appliance.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+
+import '../../../../../config/route/route_names.dart';
 
 class AppliancesScreen extends StatefulWidget {
   const AppliancesScreen({super.key});
@@ -233,7 +235,7 @@ class _AppliancesScreenState extends State<AppliancesScreen> {
                             trailing: IconButton(
                               icon: Icon(Icons.edit, color: AppColors.black),
                               onPressed: () {
-                                Get.toNamed(AppRoutes.editAppliances);
+                                Get.toNamed(RouteNames.editAppliances);
                               },
                             ),
                           ),

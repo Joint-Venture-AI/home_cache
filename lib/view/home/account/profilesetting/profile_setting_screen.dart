@@ -3,9 +3,10 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/setting_tile.dart';
+
+import '../../../../config/route/route_names.dart';
 
 class ProfileSettingScreen extends StatelessWidget {
   const ProfileSettingScreen({super.key});
@@ -36,7 +37,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 ),
                 title: 'Privacy Policy',
                 onTap: () {
-                  Get.toNamed(AppRoutes.privacyPolicy);
+                  Get.toNamed(RouteNames.privacyPolicy);
                 },
               ),
               SizedBox(height: 12.h),
@@ -44,7 +45,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/terms.png", width: 24.w),
                 title: 'Terms of Use',
                 onTap: () {
-                  Get.toNamed(AppRoutes.termsOfUse);
+                  Get.toNamed(RouteNames.termsOfUse);
                 },
               ),
               SizedBox(height: 12.h),
@@ -52,7 +53,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/profile.png", width: 24.w),
                 title: 'Edit Contact Information',
                 onTap: () {
-                  Get.toNamed(AppRoutes.editContactInfo);
+                  Get.toNamed(RouteNames.editContactInfo);
                 },
               ),
               SizedBox(height: 12.h),
@@ -60,7 +61,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/pass.png", width: 24.w),
                 title: 'Password Settings',
                 onTap: () {
-                  Get.toNamed(AppRoutes.passwordSettings);
+                  Get.toNamed(RouteNames.passwordSettings);
                 },
               ),
               SizedBox(height: 12.h),
@@ -68,7 +69,7 @@ class ProfileSettingScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/Settings.png", width: 24.w),
                 title: 'Delete Account',
                 onTap: () {
-                  Get.toNamed(AppRoutes.deleteAccount);
+                  Get.toNamed(RouteNames.deleteAccount);
                 },
               ),
               SizedBox(height: 12.h),

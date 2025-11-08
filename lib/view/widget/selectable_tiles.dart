@@ -19,7 +19,6 @@ class SelectableTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double tileSize = (MediaQuery.of(context).size.width - 80.w) / 2;
-
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -27,7 +26,7 @@ class SelectableTile extends StatelessWidget {
         height: tileSize,
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
-          color: AppColors.lightgrey,
+          color: isSelected ? AppColors.cardColor : AppColors.lightgrey,
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.lightgrey,
             width: 2.w,
@@ -35,7 +34,7 @@ class SelectableTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.4),
+              color: Colors.black.withAlpha(122),
               blurRadius: 6,
               offset: Offset(0, 4),
             ),

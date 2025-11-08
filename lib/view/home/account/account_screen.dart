@@ -3,11 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart'
-    show AppColors, primary, secondary;
+    show AppColors;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/setting_tile.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
+
+import '../../../config/route/route_names.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -86,7 +87,7 @@ class AccountScreen extends StatelessWidget {
                 ),
                 title: 'Subscription',
                 onTap: () {
-                  Get.toNamed(AppRoutes.subscription);
+                  Get.toNamed(RouteNames.subscription);
                 },
               ),
               SizedBox(height: 12.h),
@@ -94,7 +95,7 @@ class AccountScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/bell.png", width: 24.w),
                 title: 'Profile Settings',
                 onTap: () {
-                  Get.toNamed(AppRoutes.profileSetting);
+                  Get.toNamed(RouteNames.profileSetting);
                 },
               ),
               SizedBox(height: 12.h),
@@ -102,7 +103,7 @@ class AccountScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/lock.png", width: 24.w),
                 title: 'Product Support',
                 onTap: () {
-                  Get.toNamed(AppRoutes.productSupport);
+                  Get.toNamed(RouteNames.productSupport);
                 },
               ),
               SizedBox(height: 12.h),
@@ -110,7 +111,7 @@ class AccountScreen extends StatelessWidget {
                 leading: Image.asset("assets/images/group.png", width: 24.w),
                 title: 'Household Management',
                 onTap: () {
-                  Get.toNamed(AppRoutes.householdManagement);
+                  Get.toNamed(RouteNames.householdManagement);
                 },
               ),
               SizedBox(height: 120.h),

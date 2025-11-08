@@ -4,11 +4,13 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/payment_selector_widget.dart';
 import 'package:home_cache/view/widget/subscription_plan_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
+
+import '../../../../config/route/route_names.dart';
 
 class BillingAddressScreen extends StatefulWidget {
   const BillingAddressScreen({super.key});
@@ -185,7 +187,7 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
                     TextWidgetButton(
                       text: 'Confirm',
                       onPressed: () {
-                        Get.toNamed(AppRoutes.cardInfo);
+                        Get.toNamed(RouteNames.cardInfo);
                       },
                     ),
                   ],

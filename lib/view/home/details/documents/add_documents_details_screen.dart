@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
+
+import '../../../../config/route/route_names.dart';
 
 class AddDocumentsDetailsScreen extends StatelessWidget {
   const AddDocumentsDetailsScreen({super.key});
@@ -112,7 +114,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
                 child: TextWidgetButton(
                   text: 'Save',
                   onPressed: () {
-                    Get.toNamed(AppRoutes.documents);
+                    Get.toNamed(RouteNames.documents);
                   },
                 ),
               ),

@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/input_field.dart';
+import 'package:home_cache/view/auth/widgets/auth_text_form_field.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
 class EditContactInformationScreen extends StatelessWidget {
@@ -35,9 +35,9 @@ class EditContactInformationScreen extends StatelessWidget {
               SizedBox(height: 6.h),
               Row(
                 children: [
-                  Expanded(child: TextInputField(hintText: 'First')),
+                  Expanded(child: AuthTextFormField(hintText: 'First')),
                   SizedBox(width: 16.w),
-                  Expanded(child: TextInputField(hintText: 'Last')),
+                  Expanded(child: AuthTextFormField(hintText: 'Last')),
                 ],
               ),
               SizedBox(height: 20.h),
@@ -47,7 +47,7 @@ class EditContactInformationScreen extends StatelessWidget {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 6.h),
-              TextInputField(hintText: 'example@example.com'),
+              AuthTextFormField(hintText: 'example@example.com'),
               SizedBox(height: 20.h),
               Text(
                 'Address',

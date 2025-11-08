@@ -1,17 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
+import 'package:home_cache/config/route/route_names.dart';
+import 'package:home_cache/constants/app_assets.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
-import 'package:home_cache/view/widget/input_field.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
+import 'package:home_cache/utils/form_validator.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
+import 'package:home_cache/view/auth/widgets/custom_social_button.dart';
+import 'package:home_cache/view/auth/widgets/auth_text_form_field.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+final TextEditingController _emailTEController = TextEditingController();
+final TextEditingController _passwordTEControler = TextEditingController();
+
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+final FormValidator _formValidator = FormValidator();
+
+class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,87 +32,131 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24.sp),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              SizedBox(height: 100.h),
-              Text(
-                'Welcome Back!',
-                style: TextStyles.bold.copyWith(color: AppColors.secondary),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 40.h),
-              Text(
-                'Email or Mobile Number',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: 6.h),
-              TextInputField(hintText: 'example@example.com'),
-              SizedBox(height: 20.h),
-              Text(
-                'Password',
-                style: TextStyles.semiBold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: 6.h),
-              TextInputField(hintText: '*************'),
-              SizedBox(height: 6.h),
-              Text(
-                'Forgot Password',
-                style: TextStyles.semiBold.copyWith(
-                  color: AppColors.secondary,
-                  fontSize: 14.sp,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SizedBox(height: 100.h),
+                Text(
+                  'Welcome Back!',
+                  style: TextStyles.bold.copyWith(color: AppColors.secondary),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.start,
-              ),
-              SizedBox(height: 50.h),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 50.w),
-                child: Column(
-                  children: [
-                    TextWidgetButton(
-                      text: 'Log In',
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.bottomNav);
-                      },
-                    ),
-                    SizedBox(height: 15.h),
-                    TextButtonWidgetLight(
-                      text: 'Create Account',
-                      onPressed: () {
-                        Get.toNamed(AppRoutes.signup);
-                      },
-                    ),
-                  ],
+                SizedBox(height: 40.h),
+                Text(
+                  'Email or Mobile Number',
+                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.start,
                 ),
-              ),
-              SizedBox(height: 50.h),
-
-              Text(
-                'Or log in with',
-                style: TextStyles.semiBold.copyWith(
-                  color: AppColors.black,
-                  fontSize: 14.sp,
+                SizedBox(height: 6.h),
+                AuthTextFormField(
+                  hintText: 'example@example.com',
+                  controller: _emailTEController,
+                  validator: _formValidator.validateEmail,
                 ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 10.h),
-
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  SvgPicture.asset('assets/icons/google.svg', height: 47.h),
-                  SvgPicture.asset('assets/icons/apple.svg', height: 47.h),
-                  SvgPicture.asset('assets/icons/micro.svg', height: 47.h),
-                  SvgPicture.asset('assets/icons/meta.svg', height: 47.h),
-                ],
-              ),
-            ],
+                SizedBox(height: 20.h),
+                Text(
+                  'Password',
+                  style: TextStyles.semiBold.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.start,
+                ),
+                SizedBox(height: 6.h),
+                AuthTextFormField(
+                  hintText: '*************',
+                  controller: _passwordTEControler,
+                  validator: _formValidator.validatePassword,
+                ),
+                SizedBox(height: 6.h),
+                _buildForgotPassButton(),
+                SizedBox(height: 50.h),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 50.w),
+                  child: Column(
+                    children: [
+                      CustomElevatedButton(
+                        onTap: () => Get.toNamed(RouteNames.bottomNav),
+                        width: 208.w,
+                        btnText: 'Log In',
+                      ),
+                      SizedBox(height: 15.h),
+                      TextButtonWidgetLight(
+                        text: 'Create Account',
+                        width: 208.w,
+                        onPressed: () {
+                          Get.toNamed(RouteNames.signup);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 50.h),
+                Text(
+                  'Or log in with',
+                  style: TextStyles.semiBold.copyWith(
+                    color: AppColors.black,
+                    fontSize: 14.sp,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 10.h),
+                _buildSocialLoginSection(),
+              ],
+            ),
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildForgotPassButton() {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: TextButton(
+        onPressed: () {},
+        child: Text(
+          'Forgot Password',
+          style: TextStyles.semiBold.copyWith(
+            color: AppColors.secondary,
+            fontSize: 14.sp,
+          ),
+          textAlign: TextAlign.start,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSocialLoginSection() {
+    return Wrap(
+      alignment: WrapAlignment.spaceEvenly,
+      children: [
+        CustomSocialButton(
+          btnIcon: AppAssets.googleIcon,
+          onTap: () {},
+        ),
+        CustomSocialButton(
+          btnIcon: AppAssets.appleIcon,
+          onTap: () {},
+        ),
+        CustomSocialButton(
+          btnIcon: AppAssets.microsoftIcon,
+          onTap: () {},
+        ),
+        CustomSocialButton(
+          btnIcon: AppAssets.metaIcon,
+          onTap: () {},
+        ),
+      ],
+    );
+  }
+
+  void _loginButton() {
+    _formValidator.validateAndProceed(
+      _formKey,
+      () {
+        Get.toNamed(RouteNames.bottomNav);
+      },
     );
   }
 }

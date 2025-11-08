@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors, primary;
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/view/home/details/documents/documents_screen.dart';
@@ -11,6 +11,8 @@ import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:home_cache/utils.dart' as utils;
+
+import '../../../../config/route/route_names.dart';
 
 class AddDocumentsScreen extends StatefulWidget {
   const AddDocumentsScreen({super.key});
@@ -43,7 +45,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
 
     if (_pickedImage == null) {
       Get.toNamed(
-        AppRoutes.addDocumentsDetails,
+        RouteNames.addDocumentsDetails,
       );
       return;
     }
@@ -68,7 +70,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
 
     // Navigate to preview
     Get.toNamed(
-      AppRoutes.previewDocument,
+      RouteNames.previewDocument,
       arguments: document.toJson(),
     );
   }

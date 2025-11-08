@@ -5,8 +5,9 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
+
+import '../../../../../config/route/route_names.dart';
 
 class DialogAppliance extends StatelessWidget {
   const DialogAppliance({super.key});
@@ -161,7 +162,7 @@ class DialogAppliance extends StatelessWidget {
                         text: '→  Next',
                         onPressed: () {
                           Get.toNamed(
-                            AppRoutes.addAppliances,
+                            RouteNames.addAppliances,
                             arguments: {
                               'type': selectedType,
                               'location': selectedBrand,

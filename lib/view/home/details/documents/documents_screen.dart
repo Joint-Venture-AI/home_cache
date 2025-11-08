@@ -3,9 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/text_style.dart';
-import 'package:home_cache/routes.dart';
+import 'package:home_cache/config/route/routes.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/document_tile.dart';
+
+import '../../../../config/route/route_names.dart';
 
 /// --- Document Model ---
 class DocumentModel {
@@ -86,7 +88,7 @@ class DocumentsScreen extends StatelessWidget {
                 Text('Documents', style: TextStyles.bold.copyWith(color: AppColors.secondary)),
                 TextButton(
                   onPressed: () {
-                    Get.toNamed(AppRoutes.addDocuments);
+                    Get.toNamed(RouteNames.addDocuments);
                   },
                   style: TextButton.styleFrom(
                     backgroundColor: AppColors.primary,
@@ -168,7 +170,7 @@ class DocumentsScreen extends StatelessWidget {
                       date: doc.date,
                       iconPath: doc.iconPath,
                       onTap: () {
-                        Get.toNamed(AppRoutes.documentsDetails);
+                        Get.toNamed(RouteNames.documentsDetails);
                       },
                     );
                   },

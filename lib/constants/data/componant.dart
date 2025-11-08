@@ -1,7 +1,9 @@
-import 'package:home_cache/view/model/componant.dart';
 
-final List<Component> components = [
-  Component(
+
+import '../../model/componant_model.dart';
+
+final List<ComponentModel> components = [
+  ComponentModel(
     name: 'Foundation',
     types: [
       'Slab-on-grade',
@@ -31,7 +33,7 @@ final List<Component> components = [
         'Time to inspect your foundation for cracks or signs of movement.',
     reminderAlert: 'Reminder: Foundation inspection due this month.',
   ),
-  Component(
+  ComponentModel(
     name: 'Framing',
     types: ['Platform', 'Balloon', 'Timber', 'Other'],
     materials: ['Wood', 'Steel', 'Engineered Lumber', 'Other'],
@@ -43,7 +45,7 @@ final List<Component> components = [
     initialAlert: 'N/A',
     reminderAlert: 'N/A',
   ),
-  Component(
+  ComponentModel(
     name: 'Roofing',
     types: ['Gable', 'Hip', 'Flat', 'Shed', 'Other'],
     materials: ['Asphalt', 'Metal', 'Tile', 'Slate', 'Other'],
@@ -55,7 +57,7 @@ final List<Component> components = [
     initialAlert: 'Inspect your roof for missing shingles or leaks.',
     reminderAlert: 'Reminder: Roof check is due. Stay ahead of leaks.',
   ),
-  Component(
+  ComponentModel(
     name: 'Siding',
     types: ['Lap', 'Board and Batten', 'Shake', 'Panel', 'Other'],
     materials: ['Vinyl', 'Wood', 'Fiber Cement', 'Brick', 'Other'],
@@ -67,7 +69,7 @@ final List<Component> components = [
     initialAlert: 'Check siding for cracks, peeling paint, or moisture.',
     reminderAlert: 'Reminder: Inspect siding and reseal if needed.',
   ),
-  Component(
+  ComponentModel(
     name: 'Windows',
     types: ['Single-Hung', 'Double-Hung', 'Casement', 'Fixed', 'Other'],
     materials: ['Vinyl', 'Wood', 'Aluminum', 'Fiberglass', 'Other'],
@@ -80,7 +82,7 @@ final List<Component> components = [
     reminderAlert:
         'Reminder: Window maintenance due, check seals and caulking.',
   ),
-  Component(
+  ComponentModel(
     name: 'Doors',
     types: [
       'Entry',
@@ -111,7 +113,7 @@ final List<Component> components = [
         'Check all doors for ease of operation and weather stripping.',
     reminderAlert: 'Reminder: Door check due, ensure secure closure and seals.',
   ),
-  Component(
+  ComponentModel(
     name: 'Garage Door',
     types: ['Roll-up', 'Carriage', 'Tilt-up', 'Other'],
     materials: ['Steel', 'Wood', 'Aluminum', 'Other'],
@@ -123,7 +125,7 @@ final List<Component> components = [
     initialAlert: 'Time to inspect and lubricate your garage door system.',
     reminderAlert: 'Reminder: Garage door service due‚ check opener & tracks.',
   ),
-  Component(
+  ComponentModel(
     name: 'Insulation',
     types: ['Batt', 'Spray Foam', 'Blown-in', 'Rigid', 'Other'],
     materials: ['Fiberglass', 'Cellulose', 'Foam', 'Rockwool', 'Other'],
@@ -135,7 +137,7 @@ final List<Component> components = [
     initialAlert: 'Check insulation condition especially before peak seasons.',
     reminderAlert: 'Reminder: Insulation review recommended‚ check coverage.',
   ),
-  Component(
+  ComponentModel(
     name: 'Drywall',
     types: ['Standard', 'Fire-rated', 'Mold-resistant', 'Other'],
     materials: ['Gypsum', 'Paperless', 'Other'],
@@ -147,7 +149,7 @@ final List<Component> components = [
     initialAlert: 'N/A',
     reminderAlert: 'N/A',
   ),
-  Component(
+  ComponentModel(
     name: 'Flooring',
     types: ['Hardwood', 'Carpet', 'Tile', 'Vinyl', 'Laminate', 'Other'],
     materials: ['Oak', 'Maple', 'Porcelain', 'Bamboo', 'Other'],
@@ -159,7 +161,7 @@ final List<Component> components = [
     initialAlert: 'Inspect your flooring for signs of damage or wear.',
     reminderAlert: 'Reminder: Flooring review due‚ look for warping or stains.',
   ),
-  Component(
+  ComponentModel(
     name: 'Trim',
     types: ['Baseboard', 'Crown', 'Casing', 'Other'],
     materials: ['Wood', 'MDF', 'PVC', 'Other'],
@@ -171,7 +173,7 @@ final List<Component> components = [
     initialAlert: 'N/A',
     reminderAlert: 'N/A',
   ),
-  Component(
+  ComponentModel(
     name: 'Decking',
     types: ['Ground Level', 'Raised', 'Multi-level', 'Other'],
     materials: ['Pressure-treated wood', 'Composite', 'PVC', 'Other'],
@@ -184,7 +186,7 @@ final List<Component> components = [
     reminderAlert:
         'Reminder: Deck maintenance due‚ clean and reseal if needed.',
   ),
-  Component(
+  ComponentModel(
     name: 'Fencing',
     types: [],
     materials: ['Wood', 'Vinyl', 'Metal', 'Composite', 'Other'],
@@ -196,7 +198,7 @@ final List<Component> components = [
     initialAlert: 'Inspect fencing for leaning posts or missing panels.',
     reminderAlert: 'Reminder: Fence check due‚ ensure security and alignment.',
   ),
-  Component(
+  ComponentModel(
     name: 'Driveway',
     types: [],
     materials: ['Concrete', 'Asphalt', 'Gravel', 'Pavers', 'Other'],
@@ -208,7 +210,7 @@ final List<Component> components = [
     initialAlert: 'Time to inspect your driveway for cracks or potholes.',
     reminderAlert: 'Reminder: Driveway service due‚ reseal or repair cracks.',
   ),
-  Component(
+  ComponentModel(
     name: 'Patio',
     types: ['Attached', 'Detached', 'Covered', 'Uncovered', 'Other'],
     materials: ['Concrete', 'Pavers', 'Brick', 'Stone', 'Other'],
@@ -220,7 +222,7 @@ final List<Component> components = [
     initialAlert: 'Check patio for cracking, weeds, or loose pavers.',
     reminderAlert: 'Reminder: Patio check due‚ clean and inspect surface.',
   ),
-  Component(
+  ComponentModel(
     name: 'Water Softener',
     types: ['Salt based', 'Salt free', 'Reverse osmosis', 'Other'],
     materials: [],
@@ -232,7 +234,7 @@ final List<Component> components = [
     initialAlert: 'Time to check your water softener levels.',
     reminderAlert: 'Reminder: Water softener level check due.',
   ),
-  Component(
+  ComponentModel(
     name: 'Plumbing',
     types: [],
     materials: [

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:home_cache/constants/text_style.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/view/home/schedule/schedule_screen.dart';
@@ -163,7 +162,11 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                   onTap: () => setState(() => _isEditingTaskName = true),
                   child: Padding(
                     padding: EdgeInsets.all(8.w),
-                    child: Icon(Icons.edit, size: 18.h, color: AppColors.primary,),
+                    child: Icon(
+                      Icons.edit,
+                      size: 18.h,
+                      color: AppColors.primary,
+                    ),
                     // child: SvgPicture.asset(
                     //   'assets/icons/edit.svg',
                     //   width: 16.w,

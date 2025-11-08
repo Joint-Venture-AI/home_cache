@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors, secondary;
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/text_style.dart';
+import 'package:home_cache/view/home/account/widgets/credit_card_widget.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:home_cache/view/widget/text_field_widget.dart';
@@ -15,6 +16,16 @@ class CardInfoScreen extends StatefulWidget {
 
 class _CardInfoScreenState extends State<CardInfoScreen> {
   bool isChecked = false;
+
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
+  final TextEditingController expiryController = TextEditingController();
+  final TextEditingController cvvController = TextEditingController();
+
+  String cardNumber = '**** **** **** ****';
+  String expiryDate = 'MM/YY';
+  String cardHolderName = 'CARD HOLDER';
+  String cvvCode = '***';
 
   @override
   Widget build(BuildContext context) {
@@ -33,50 +44,11 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 12.h),
-              Container(
-                padding: EdgeInsets.all(20.dg),
-                decoration: BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          'MasterCard',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18.sp,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Spacer(),
-                        Image.asset('assets/images/master.png', width: 40.w),
-                      ],
-                    ),
-                    SizedBox(height: 24.h),
-                    Text(
-                      '****   ****   ****   ****',
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                    SizedBox(height: 24.h),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Sophie T.',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                        Text(
-                          '15/36',
-                          style: TextStyle(color: Colors.white, fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+              CreditCardViewCustom(
+                cardNumber: cardNumber,
+                expiryDate: expiryDate,
+                cardHolderName: cardHolderName,
+                cvvCode: cvvCode,
               ),
               SizedBox(height: 24.h),
               Text(
@@ -84,14 +56,17 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(controller: nameController),
               SizedBox(height: 16.h),
               Text(
                 'Card number',
                 style: TextStyles.semiBold.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 6.h),
-              TextFieldWidget(),
+              TextFieldWidget(
+                controller: numberController,
+                keyboardType: TextInputType.number,
+              ),
               SizedBox(height: 16.h),
               Row(
                 children: [
@@ -101,12 +76,14 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
                       children: [
                         Text(
                           'Expires',
-                          style: TextStyles.semiBold.copyWith(
-                            color: AppColors.black,
-                          ),
+                          style: TextStyles.semiBold
+                              .copyWith(color: AppColors.black),
                         ),
                         SizedBox(height: 6.h),
-                        TextFieldWidget(),
+                        TextFieldWidget(
+                          controller: expiryController,
+                          keyboardType: TextInputType.number,
+                        ),
                         SizedBox(height: 16.h),
                       ],
                     ),
@@ -118,12 +95,14 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
                       children: [
                         Text(
                           'CVV',
-                          style: TextStyles.semiBold.copyWith(
-                            color: AppColors.black,
-                          ),
+                          style: TextStyles.semiBold
+                              .copyWith(color: AppColors.black),
                         ),
                         SizedBox(height: 6.h),
-                        TextFieldWidget(),
+                        TextFieldWidget(
+                          controller: cvvController,
+                          keyboardType: TextInputType.number,
+                        ),
                         SizedBox(height: 16.h),
                       ],
                     ),
@@ -155,7 +134,20 @@ class _CardInfoScreenState extends State<CardInfoScreen> {
                     TextWidgetButton(
                       text: 'Add Card',
                       onPressed: () {
-                        //  Get.toNamed(AppRoutes.selectHouse);
+                        setState(() {
+                          cardHolderName = nameController.text.isEmpty
+                              ? 'CARD HOLDER'
+                              : nameController.text;
+                          cardNumber = numberController.text.isEmpty
+                              ? '**** **** **** ****'
+                              : numberController.text;
+                          expiryDate = expiryController.text.isEmpty
+                              ? 'MM/YY'
+                              : expiryController.text;
+                          cvvCode = cvvController.text.isEmpty
+                              ? '***'
+                              : cvvController.text;
+                        });
                       },
                     ),
                   ],
