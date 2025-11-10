@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
-import 'package:home_cache/view/widget/task_tile_widget.dart';
+import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/view/home/schedule/widgets/task_tile_widget.dart';
 
-import 'dialog/add_task_dialog.dart';
+import '../dialog/add_task_dialog.dart';
 
 class ScheduleScreen extends StatefulWidget {
   const ScheduleScreen({super.key});
@@ -21,6 +21,23 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.surface,
+      appBar: AppBar(
+        title: Text(
+          'Schedule',
+          style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
+        ),
+        centerTitle: false,
+        backgroundColor: AppColors.surface,
+        automaticallyImplyLeading: false,
+        elevation: 0,
+        iconTheme: IconThemeData(color: AppColors.black),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 16.w),
+            child: _buildActionButtons(context),
+          ),
+        ],
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24.sp),
@@ -28,14 +45,6 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Schedule',
-                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 16.h),
-              _buildActionButtons(context),
-              SizedBox(height: 24.h),
               Text(
                 'Upcoming Tasks',
                 style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
@@ -52,8 +61,8 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
 
   Widget _buildActionButtons(BuildContext context) {
     return Row(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        const Spacer(),
         Container(
           width: 30.w,
           height: 30.w,

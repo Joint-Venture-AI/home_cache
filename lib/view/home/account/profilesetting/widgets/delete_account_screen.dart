@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/home/account/widgets/account_deletion_dialog.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
@@ -31,7 +31,10 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Delete Account',
+        titleColor: AppColors.black,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -39,11 +42,6 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Delete Account',
-                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
-              ),
-              SizedBox(height: 20.h),
               Text(
                 "We're sorry to see you go. Select a reason to continue.",
                 style: AppTypoGraphy.regular.copyWith(color: AppColors.black),

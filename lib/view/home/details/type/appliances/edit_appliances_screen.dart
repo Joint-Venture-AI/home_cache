@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
-import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/doccument_slider.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
+import 'package:home_cache/view/home/account/productsupport/widgets/text_field_widget.dart';
+import 'package:home_cache/view/home/details/widgets/doccument_slider.dart';
 import 'package:home_cache/view/home/details/widgets/past_appoinment_tile.dart';
-import 'package:home_cache/view/widget/text_field_widget.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class EditAppliancesScreen extends StatefulWidget {
   const EditAppliancesScreen({super.key});

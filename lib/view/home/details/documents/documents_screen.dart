@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/view/home/details/widgets/document_tile.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/document_tile.dart';
 
 import '../../../../config/route/route_names.dart';
 

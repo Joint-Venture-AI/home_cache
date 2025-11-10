@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/view/home/home/widgets/task_progress_bar.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/task_list_tile.dart' show TaskListTile;
 
@@ -13,8 +14,8 @@ class HomeHealthScreen extends StatefulWidget {
 }
 
 class _HomeHealthScreenState extends State<HomeHealthScreen> {
-  final int totalTasks = 5;
-  final int completedTasks = 4;
+  final int totalTasks = 8;
+  final int completedTasks = 5;
 
   bool isOverdueExpanded = true;
   bool isTasksExpanded = true;
@@ -23,7 +24,10 @@ class _HomeHealthScreenState extends State<HomeHealthScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Home Health',
+        titleColor: AppColors.black,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -31,18 +35,9 @@ class _HomeHealthScreenState extends State<HomeHealthScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 2.h),
-              Text(
-                'Home Health',
-                style: AppTypoGraphy.bold.copyWith(
-                  color: AppColors.black,
-                  fontSize: 26.sp,
-                ),
-                textAlign: TextAlign.center,
-              ),
               SizedBox(height: 20.h),
               Text(
-                'Great Work, (Name)',
+                'Great Work, (Jess)',
                 style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
               ),
               SizedBox(height: 6.h),
@@ -55,47 +50,8 @@ class _HomeHealthScreenState extends State<HomeHealthScreen> {
               ),
               SizedBox(height: 24.h),
 
-              // Progress bar with dots
-              Container(
-                height: 14.h,
-                decoration: BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: BorderRadius.circular(14.r),
-                ),
-                child: Stack(
-                  children: [
-                    FractionallySizedBox(
-                      alignment: Alignment.centerLeft,
-                      widthFactor: totalTasks > 0
-                          ? (completedTasks / totalTasks).clamp(0.0, 1.0)
-                          : 0.0,
-                      child: Container(
-                        height: 14.h,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(14.r),
-                        ),
-                      ),
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(totalTasks, (index) {
-                        return Padding(
-                          padding: EdgeInsets.all(4.sp),
-                          child: Container(
-                            width: 8.w,
-                            height: 8.w,
-                            decoration: const BoxDecoration(
-                              color: Colors.white,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        );
-                      }),
-                    ),
-                  ],
-                ),
-              ),
+              TaskProgressBar(
+                  totalTasks: totalTasks, completedTasks: completedTasks),
 
               SizedBox(height: 32.h),
 

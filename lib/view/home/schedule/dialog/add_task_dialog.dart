@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/view/home/schedule/schedule_screen.dart';
+import 'package:home_cache/view/home/schedule/screens/schedule_screen.dart';
 
 class AddTaskDialog extends StatefulWidget {
   final Function(Task) onTaskAdded;
@@ -135,7 +135,8 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                       ? TextField(
                           controller: _taskNameController,
                           autofocus: true,
-                          style: AppTypoGraphy.regular.copyWith(fontSize: 20.sp),
+                          style:
+                              AppTypoGraphy.regular.copyWith(fontSize: 20.sp),
                           decoration: const InputDecoration(
                             border: InputBorder.none,
                             isDense: true,
@@ -154,7 +155,8 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                               setState(() => _isEditingTaskName = true),
                           child: Text(
                             _taskNameController.text,
-                            style: AppTypoGraphy.regular.copyWith(fontSize: 20.sp),
+                            style:
+                                AppTypoGraphy.regular.copyWith(fontSize: 20.sp),
                           ),
                         ),
                 ),
@@ -197,7 +199,8 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                   borderRadius: BorderRadius.circular(2.r),
                   borderSide: BorderSide(color: AppColors.primary, width: 1.0),
                 ),
-                suffixIcon: Icon(Icons.calendar_today, size: 20.w),
+                suffixIcon: Icon(Icons.calendar_month_outlined,
+                    size: 20.w, color: AppColors.primary),
               ),
               controller: TextEditingController(text: _dateText),
             ),
@@ -214,7 +217,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                 ),
                 SizedBox(height: 8.h),
                 DropdownButtonFormField<String>(
-                  value: _selectedAssignee,
+                  initialValue: _selectedAssignee,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: AppColors.lightgrey,
@@ -265,7 +268,7 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
             if (_repeats) ...[
               SizedBox(height: 8.h),
               DropdownButtonFormField<String>(
-                value: _selectedFrequency,
+                initialValue: _selectedFrequency,
                 decoration: InputDecoration(
                   labelText: 'Frequency',
                   filled: true,
@@ -299,8 +302,8 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(
                     'CANCEL',
-                    style:
-                        AppTypoGraphy.regular.copyWith(color: AppColors.primary),
+                    style: AppTypoGraphy.regular
+                        .copyWith(color: AppColors.primary),
                   ),
                 ),
                 SizedBox(width: 16.w),

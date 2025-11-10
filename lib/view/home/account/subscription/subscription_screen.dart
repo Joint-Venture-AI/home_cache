@@ -3,9 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:get/instance_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/app_typo_graphy.dart';
-import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/home/account/widgets/subscription_tile_widget.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 import '../../../../config/route/route_names.dart';
 
@@ -15,7 +14,10 @@ class SubscriptionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Subscription',
+        titleColor: AppColors.black,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -24,12 +26,6 @@ class SubscriptionScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Subscription',
-                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 12.h),
               Container(
                 padding: EdgeInsets.all(12.0.w),
                 decoration: BoxDecoration(

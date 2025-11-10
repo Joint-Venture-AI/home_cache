@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
+import 'package:home_cache/view/home/account/productsupport/widgets/text_field_widget.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/text_field_widget.dart';
 
 class ProductSupportScreen extends StatelessWidget {
   const ProductSupportScreen({super.key});
@@ -12,7 +12,10 @@ class ProductSupportScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Product Support',
+        titleColor: AppColors.black,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -21,12 +24,6 @@ class ProductSupportScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Product Support',
-                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 48.h),
               Text(
                 'Email',
                 style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
@@ -58,7 +55,7 @@ class ProductSupportScreen extends StatelessWidget {
                 maxLines: 6,
                 decoration: InputDecoration(
                   hintText: 'Enter Details',
-                  hintStyle: TextStyle(color: AppColors.black.withOpacity(.7)),
+                  hintStyle: TextStyle(color: AppColors.black.withAlpha(180)),
                   filled: true,
                   fillColor: Colors.grey[200],
                   contentPadding:
@@ -72,7 +69,7 @@ class ProductSupportScreen extends StatelessWidget {
                     borderSide: BorderSide(color: Colors.grey, width: 1.5.w),
                   ),
                 ),
-                style: const TextStyle(color: Color.fromARGB(255, 243, 90, 90)),
+                // style: const TextStyle(color: Color.fromARGB(255, 243, 90, 90)),
               ),
               SizedBox(height: 56.h),
             ],

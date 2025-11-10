@@ -63,7 +63,6 @@ class ActivityTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(12.w),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12.r),
@@ -109,7 +108,9 @@ class ActivityTile extends StatelessWidget {
                     color: AppColors.black,
                   ),
                 ),
-                Divider(color: AppColors.primary),
+                Divider(
+                  color: AppColors.primary,
+                ),
               ],
             ),
           ),

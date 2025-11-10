@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
-import 'package:home_cache/config/route/routes.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
+import 'package:home_cache/view/home/details/type/appliances/dialog_appliance.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class MaterialScreen extends StatefulWidget {
@@ -80,42 +79,72 @@ class _StructureScreenState extends State<MaterialScreen> {
     }).toList();
 
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar:  AppBarBack(
+        title: 'Materials',
+        titleColor: AppColors.secondary,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: TextButton(
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (context) => const DialogAppliance(),
+                );
+              },
+              style: TextButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.w,
+                  vertical: 6.h,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+              child: Text(
+                '+ Add',
+                style: TextStyle(color: Colors.white, fontSize: 14.sp),
+              ),
+            ),
+          ),
+        ],
+      ),
       backgroundColor: AppColors.surface,
       body: Padding(
         padding: EdgeInsets.all(24.sp),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                SizedBox(width: 40.w),
-                Text(
-                  'Material',
-                  style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
-                  textAlign: TextAlign.center,
-                ),
-                TextButton(
-                  onPressed: () {
-                    // Get.toNamed(AppRoutes.addDocuments);
-                  },
-                  style: TextButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                  ),
-                  child: Text(
-                    '+ Add',
-                    style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 20.h),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     SizedBox(width: 40.w),
+            //     Text(
+            //       'Material',
+            //       style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
+            //       textAlign: TextAlign.center,
+            //     ),
+            //     TextButton(
+            //       onPressed: () {
+            //         // Get.toNamed(AppRoutes.addDocuments);
+            //       },
+            //       style: TextButton.styleFrom(
+            //         backgroundColor: AppColors.primary,
+            //         padding:
+            //             EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
+            //         shape: RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.circular(12.r),
+            //         ),
+            //       ),
+            //       child: Text(
+            //         '+ Add',
+            //         style: TextStyle(color: Colors.white, fontSize: 14.sp),
+            //       ),
+            //     ),
+            //   ],
+            // ),
+            // SizedBox(height: 20.h),
             Wrap(
               alignment: WrapAlignment.spaceEvenly,
               spacing: 6.w,

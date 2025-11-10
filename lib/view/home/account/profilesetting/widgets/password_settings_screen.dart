@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
-import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/auth/widgets/auth_text_form_field.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class PasswordSettingsScreen extends StatelessWidget {
   const PasswordSettingsScreen({super.key});
@@ -13,7 +13,10 @@ class PasswordSettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Password Settings',
+        titleColor: AppColors.black,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -22,12 +25,6 @@ class PasswordSettingsScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Password Settings',
-                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 20.h),
               Text(
                 'Password',
                 style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),

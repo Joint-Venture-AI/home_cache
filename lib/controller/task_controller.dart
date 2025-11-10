@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
 import 'package:home_cache/view/home/home/model/task_model.dart';
 
 class TaskController extends GetxController {
   var tasks = <Task>[].obs;
   var isLoading = false.obs;
   var selectedIndex = 0.obs;
+
+  RxInt totalTasks = 10.obs;
+  RxInt completedTasks = 3.obs;
 
   @override
   void onInit() {
@@ -40,5 +42,10 @@ class TaskController extends GetxController {
 
   void selectOption(int index) {
     selectedIndex.value = index;
+  }
+
+  void updateProgress(int completed, int total) {
+    completedTasks.value = completed;
+    totalTasks.value = total;
   }
 }

@@ -25,14 +25,13 @@ class TaskListTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withAlpha(128),
               spreadRadius: 1,
               blurRadius: 2,
               offset: Offset(0, 2),
             ),
           ],
         ),
-
         child: Row(
           children: [
             Expanded(
@@ -53,7 +52,7 @@ class TaskListTile extends StatelessWidget {
                     Text(
                       date,
                       style: TextStyle(fontSize: 14.sp),
-                    ), // dispaly heart sign
+                    ),
                     SizedBox(height: 8.h),
                   ],
                 ),
@@ -75,16 +74,19 @@ class TaskListTile extends StatelessWidget {
                     Icons.chevron_right,
                     color: AppColors.black,
                     size: 20.sp,
+                    weight: 24.sp,
                   ),
                   SizedBox(height: 4.h),
                   Text(
                     'Info',
-                    style: TextStyle(fontSize: 12.sp, color: AppColors.black),
+                    style: TextStyle(
+                        fontSize: 12.sp,
+                        color: AppColors.black,
+                        fontWeight: FontWeight.w500),
                   ),
                 ],
               ),
             ),
-            SizedBox(width: 2.w),
           ],
         ),
       ),

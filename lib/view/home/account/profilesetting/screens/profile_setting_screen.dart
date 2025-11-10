@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/route_manager.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/app_typo_graphy.dart';
-import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/home/account/widgets/setting_tile.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
-import '../../../../config/route/route_names.dart';
+import '../../../../../config/route/route_names.dart';
 
 class ProfileSettingScreen extends StatelessWidget {
   const ProfileSettingScreen({super.key});
@@ -14,7 +13,10 @@ class ProfileSettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Profile Settings',
+        titleColor: AppColors.black,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -23,12 +25,6 @@ class ProfileSettingScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Profile Settings',
-                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
-
               SizedBox(height: 24.h),
               SettingsTile(
                 leading: Image.asset(

@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/app_assets.dart';
-import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 
 class WelcomeDialog extends StatelessWidget {
@@ -40,9 +40,9 @@ class WelcomeDialog extends StatelessWidget {
               style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 18.h),
+            SizedBox(height: 16.h),
             _buildDialongIconCard(),
-            SizedBox(height: 18.h),
+            SizedBox(height: 16.h),
             Text(
               'More Details Help Us Provide You With Better Information To Maintain Your Home!',
               style: AppTypoGraphy.regular.copyWith(color: AppColors.black),

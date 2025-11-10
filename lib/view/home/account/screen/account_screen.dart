@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:home_cache/constants/colors.dart'
-    show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/view/home/account/widgets/setting_tile.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
-import '../../../config/route/route_names.dart';
+import '../../../../config/route/route_names.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -38,6 +37,7 @@ class AccountScreen extends StatelessWidget {
                 ),
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Image.asset(
                       'assets/images/dot.png',
@@ -60,7 +60,7 @@ class AccountScreen extends StatelessWidget {
                           Text(
                             '2972 Westminster Rd.',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               color: AppColors.black,
                             ),
                           ),
@@ -68,7 +68,7 @@ class AccountScreen extends StatelessWidget {
                           Text(
                             'Los Angeles, California, 90089',
                             style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 14.sp,
                               color: AppColors.black,
                             ),
                           ),

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
+import 'package:home_cache/view/home/account/productsupport/widgets/text_field_widget.dart';
 import 'package:home_cache/view/home/details/providers/provider_screen.dart';
-import 'package:home_cache/view/widget/appbar_back_widget.dart';
-import 'package:home_cache/view/widget/text_field_widget.dart';
 import 'package:home_cache/view/home/details/widgets/tile_button.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 /// Controller for AddProviderScreen
 class AddProviderController extends GetxController {
@@ -373,7 +373,7 @@ class _ProviderTypeDropdownState extends State<ProviderTypeDropdown> {
             contentPadding:
                 EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
           ),
-          value: selectedType,
+          initialValue: selectedType,
           items: providerTypes
               .map((type) => DropdownMenuItem(
                     value: type,

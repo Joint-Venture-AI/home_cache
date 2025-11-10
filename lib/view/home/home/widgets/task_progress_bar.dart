@@ -1,56 +1,81 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:home_cache/constants/colors.dart';
 
-class HomeHealthScore extends StatelessWidget {
-  final int percentage;
-  final String subtitle;
+class TaskProgressBar extends StatelessWidget {
+  final RxInt totalTasks;
+  final RxInt completedTasks;
 
-  const HomeHealthScore(
-      {super.key, required this.percentage, required this.subtitle});
+  TaskProgressBar({
+    super.key,
+    required int totalTasks,
+    required int completedTasks,
+  })  : totalTasks = totalTasks.obs,
+        completedTasks = completedTasks.obs;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Stack(
-          alignment: Alignment.center,
+    return Obx(() {
+      final total = totalTasks.value;
+      final completed = completedTasks.value;
+
+      final progress = total > 0 ? (completed / total).clamp(0.0, 1.0) : 0.0;
+
+      return Container(
+        height: 14.h,
+        width: double.infinity,
+        decoration: BoxDecoration(
+          color: AppColors.secondary,
+          borderRadius: BorderRadius.circular(14.r),
+        ),
+        child: Stack(
           children: [
-            SizedBox(
-              width: 150,
-              height: 150,
-              child: CircularProgressIndicator(
-                value: percentage / 100,
-                strokeWidth: 10,
-                backgroundColor: Colors.grey[200],
-                color: Color(0xFF1d545d),
-                // valueColor: Color(0xFF1d545d),
+            AnimatedFractionallySizedBox(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.easeInOut,
+              alignment: Alignment.centerLeft,
+              widthFactor: progress,
+              child: Container(
+                height: 14.h,
+                decoration: BoxDecoration(
+                  color: AppColors.primary,
+                  borderRadius: BorderRadius.circular(14.r),
+                ),
               ),
             ),
-            Column(
-              children: [
-                Text(
-                  '$percentage%',
-                  style: TextStyle(
-                    fontSize: 35,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1d545d),
-                    // color:getColorForPercentage(),
-                  ),
-                ),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF1d545d),
-                    // color:getColorForPercentage(),
-                  ),
-                ),
-              ],
+            LayoutBuilder(
+              builder: (context, constraints) {
+                final totalWidth = constraints.maxWidth;
+                final filledWidth = totalWidth * progress;
+
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(total, (index) {
+                    final dotPosition = (index / (total - 1)) * totalWidth;
+
+                    final isInsideFilled = dotPosition + 4.w <= filledWidth;
+
+                    return Padding(
+                      padding: EdgeInsets.all(4.sp),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 300),
+                        width: 8.w,
+                        height: 8.w,
+                        decoration: BoxDecoration(
+                          color:
+                              isInsideFilled ? AppColors.white : Colors.white,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    );
+                  }),
+                );
+              },
             ),
           ],
         ),
-        SizedBox(height: 10),
-      ],
-    );
+      );
+    });
   }
 }

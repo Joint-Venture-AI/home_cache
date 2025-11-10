@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/controller/profile_controller.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
-import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/auth/widgets/auth_text_form_field.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class EditContactInformationScreen extends StatelessWidget {
   const EditContactInformationScreen({super.key});
@@ -16,7 +16,10 @@ class EditContactInformationScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final ProfileController controller = Get.find<ProfileController>();
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Contact Information',
+        titleColor: AppColors.black,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -25,11 +28,6 @@ class EditContactInformationScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Contact Information',
-                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
               Text(
                 'Name',
                 style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
@@ -140,10 +138,8 @@ class EditContactInformationScreen extends StatelessWidget {
                         thickness: 1.h,
                         height: 6.h,
                       ),
-                      ...controller.addressSuggestions
-                          .map((text) =>
-                              _addressSuggestionItem(text, controller))
-                          .toList(),
+                      ...controller.addressSuggestions.map(
+                          (text) => _addressSuggestionItem(text, controller)),
                     ],
                   )
                 : SizedBox()),

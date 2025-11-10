@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
-import 'package:home_cache/config/route/routes.dart';
-import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/view/home/account/widgets/payment_selector_widget.dart';
 import 'package:home_cache/view/home/account/widgets/subscription_plan_widget.dart';
+import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
 import '../../../../config/route/route_names.dart';
@@ -26,7 +25,10 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBarBack(),
+      appBar: AppBarBack(
+        title: 'Subscription',
+        titleColor: AppColors.black,
+      ),
       backgroundColor: AppColors.surface,
       body: SafeArea(
         child: SingleChildScrollView(
@@ -34,13 +36,6 @@ class _BillingAddressScreenState extends State<BillingAddressScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                'Subscription',
-                style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 12.h),
-
               Text(
                 'Billing Address',
                 style: AppTypoGraphy.medium.copyWith(

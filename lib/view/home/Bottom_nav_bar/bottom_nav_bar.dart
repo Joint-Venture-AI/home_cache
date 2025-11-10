@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/view/home/schedule/schedule_screen.dart';
+import 'package:home_cache/view/home/schedule/screens/schedule_screen.dart';
 
-import '../account/account_screen.dart';
+import '../account/screen/account_screen.dart';
 import '../chat/screens/handy_chat_screen.dart';
 import '../details/screens/details_screen.dart';
 import '../home/screens/home_screen.dart';
@@ -18,6 +17,8 @@ class BottomNavBar extends StatefulWidget {
 
 class _MainBottomNavScreenState extends State<BottomNavBar> {
   int _selectedIndex = 1;
+
+  static const Color _selectedColor = Color(0XFF137C8E);
 
   final List<Widget> _screens = [
     const ScheduleScreen(),
@@ -78,14 +79,14 @@ class _MainBottomNavScreenState extends State<BottomNavBar> {
                         fontSize: 12.sp,
                         fontWeight:
                             isSelected ? FontWeight.bold : FontWeight.normal,
-                        color: isSelected ? AppColors.primary : Colors.grey,
+                        color: isSelected ? _selectedColor : Colors.grey,
                       ),
                     ),
                     SizedBox(height: 4.h),
                     SvgPicture.asset(
                       _iconPaths[index],
                       height: 30.h,
-                      color: isSelected ? AppColors.primary : Colors.grey,
+                      color: isSelected ? _selectedColor : Colors.grey,
                     ),
                   ],
                 ),
