@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/utils/form_validator.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/auth/widgets/auth_text_form_field.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
-import '../../../../config/route/route_names.dart';
 import '../../../../constants/app_assets.dart';
 import '../../widgets/custom_social_button.dart';
 
@@ -28,6 +28,8 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
 
+  final AuthController _authController = Get.put(AuthController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,13 +47,15 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 30.h),
                 Text(
                   'Create A New Account',
-                  style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
+                  style:
+                      AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 40.h),
                 Text(
                   'Name',
-                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
@@ -75,7 +79,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 20.h),
                 Text(
                   'Email',
-                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 AuthTextFormField(
@@ -86,7 +91,8 @@ class _SignupScreenState extends State<SignupScreen> {
                 SizedBox(height: 20.h),
                 Text(
                   'Password',
-                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 AuthTextFormField(
@@ -129,9 +135,12 @@ class _SignupScreenState extends State<SignupScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 50.w),
                   child: Column(
                     children: [
-                      TextWidgetButton(
-                        text: 'Sign Up',
-                        onPressed: _signUpButton,
+                      Obx(
+                        () => TextWidgetButton(
+                          text: 'Sign Up',
+                          onPressed: _signUpButton,
+                          isLoading: _authController.isLoading.value,
+                        ),
                       ),
                     ],
                   ),
@@ -179,7 +188,14 @@ class _SignupScreenState extends State<SignupScreen> {
     formValidator.validateAndProceed(
       _fromKey,
       () {
-        Get.toNamed(RouteNames.selectHouse);
+        _authController.signUp({
+          "email": _emailTEController.text,
+          "password": _passwordTEController.text,
+          "profile": {
+            "first_name": _firstNameTEController.text,
+            "last_name": _lastNameTEController.text
+          }
+        });
       },
     );
   }

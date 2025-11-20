@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/config/route/route_names.dart';
 import 'package:home_cache/constants/app_assets.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/utils/form_validator.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/auth/widgets/custom_social_button.dart';
@@ -24,6 +25,8 @@ final TextEditingController _passwordTEController = TextEditingController();
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 final FormValidator _formValidator = FormValidator();
 
+final AuthController _authController = Get.put(AuthController());
+
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
@@ -41,13 +44,15 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 100.h),
                 Text(
                   'Welcome Back!',
-                  style: AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
+                  style:
+                      AppTypoGraphy.bold.copyWith(color: AppColors.secondary),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 40.h),
                 Text(
                   'Email or Mobile Number',
-                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
@@ -59,7 +64,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 20.h),
                 Text(
                   'Password',
-                  style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
+                  style:
+                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
                   textAlign: TextAlign.start,
                 ),
                 SizedBox(height: 6.h),
@@ -75,10 +81,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   padding: EdgeInsets.symmetric(horizontal: 50.w),
                   child: Column(
                     children: [
-                      CustomElevatedButton(
-                        onTap: () => Get.toNamed(RouteNames.bottomNav),
-                        width: 208.w,
-                        btnText: 'Log In',
+                      Obx(
+                        () => CustomElevatedButton(
+                          onTap: _loginButton,
+                          width: 208.w,
+                          btnText: 'Log In',
+                          isLoading: _authController.isLoading.value,
+                        ),
                       ),
                       SizedBox(height: 15.h),
                       TextButtonWidgetLight(
@@ -155,7 +164,11 @@ class _LoginScreenState extends State<LoginScreen> {
     _formValidator.validateAndProceed(
       _formKey,
       () {
-        Get.toNamed(RouteNames.bottomNav);
+        // Get.toNamed(RouteNames.bottomNav);
+        _authController.login({
+          "email": _emailTEController.text,
+          "password": _passwordTEController.text,
+        });
       },
     );
   }

@@ -8,6 +8,7 @@ class CustomElevatedButton extends StatelessWidget {
   final String btnText;
   final double? width;
   final double? height;
+  final bool? isLoading;
 
   const CustomElevatedButton({
     super.key,
@@ -16,6 +17,7 @@ class CustomElevatedButton extends StatelessWidget {
     required this.btnText,
     this.width,
     this.height,
+    this.isLoading = false,
   });
 
   @override
@@ -40,7 +42,7 @@ class CustomElevatedButton extends StatelessWidget {
                 size: 18.sp,
               ),
               Text(
-                btnText,
+                isLoading! ? 'Loading...' : btnText,
                 style: TextStyle(
                     color: AppColors.white,
                     fontWeight: FontWeight.w500,

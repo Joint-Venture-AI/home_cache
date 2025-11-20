@@ -7,6 +7,7 @@ class TextWidgetButton extends StatelessWidget {
   final VoidCallback onPressed;
   final double? width;
   final Color? color;
+  final bool isLoading;
 
   const TextWidgetButton({
     super.key,
@@ -14,6 +15,7 @@ class TextWidgetButton extends StatelessWidget {
     this.width,
     this.color,
     required this.onPressed,
+    this.isLoading = false,
   });
 
   @override
@@ -26,7 +28,7 @@ class TextWidgetButton extends StatelessWidget {
         color: color ?? AppColors.primary,
       ),
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: isLoading ? null : onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: Colors.transparent,
           shadowColor: Colors.transparent,
@@ -34,14 +36,18 @@ class TextWidgetButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(10.r),
           ),
         ),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 16.sp,
-            color: Colors.white,
-            fontWeight: FontWeight.w600,
-          ),
-        ),
+        child: isLoading
+            ? const CircularProgressIndicator(
+                color: Colors.white,
+              )
+            : Text(
+                text,
+                style: TextStyle(
+                  fontSize: 16.sp,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
       ),
     );
   }
