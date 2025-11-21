@@ -135,21 +135,21 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 20.h),
 
                     // Task List
-                    if (controller.isLoading.value)
-                      const Center(child: CircularProgressIndicator())
-                    else if (controller.filteredTasks.isEmpty)
-                      const Center(child: Text("No tasks found"))
-                    else
-                      Column(
-                        children: controller.filteredTasks
-                            .map((task) => TaskListTile(
-                                  title: task.title,
-                                  date: task.date,
-                                  onTap: () => Get.toNamed(
-                                      RouteNames.notificationDetails),
-                                ))
-                            .toList(),
-                      ),
+                    // if (controller.isLoading.value)
+                    //   const Center(child: CircularProgressIndicator())
+                    // else if (controller.filteredTasks.isEmpty)
+                    //   const Center(child: Text("No tasks found"))
+                    // else
+                    //   Column(
+                    //     children: controller.filteredTasks
+                    //         .map((task) => TaskListTile(
+                    //               title: task.title,
+                    //               date: task.date,
+                    //               onTap: () => Get.toNamed(
+                    //                   RouteNames.notificationDetails),
+                    //             ))
+                    //         .toList(),
+                    //   ),
                   ],
                 );
               }),

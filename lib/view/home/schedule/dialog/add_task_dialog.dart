@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/controller/task_controller.dart';
 import 'package:home_cache/view/home/schedule/screens/schedule_screen.dart';
 
 class AddTaskDialog extends StatefulWidget {
@@ -15,6 +17,8 @@ class AddTaskDialog extends StatefulWidget {
   @override
   State<AddTaskDialog> createState() => _AddTaskDialogState();
 }
+
+final TaskController _taskController = Get.put(TaskController());
 
 class _AddTaskDialogState extends State<AddTaskDialog> {
   DateTime? _selectedDate;
@@ -92,25 +96,34 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
   }
 
   void _saveTask() {
-    if (_taskNameController.text.isEmpty || _selectedDate == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please fill all required fields')),
-      );
-      return;
-    }
+    // if (_taskNameController.text.isEmpty || _selectedDate == null) {
+    //   ScaffoldMessenger.of(context).showSnackBar(
+    //     const SnackBar(content: Text('Please fill all required fields')),
+    //   );
+    //   return;
+    // }
 
-    final newTask = Task(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      title: _taskNameController.text,
-      date: _selectedDate!,
-      // iconPath: 'assets/icons/task_default.svg',
-      iconPath: '',
-      assignedTo: _selectedAssignee ?? _assignees.first['name']!,
-      repeats: _repeats,
-      frequency: _selectedFrequency,
-    );
+    // final newTask = Task(
+    //   id: DateTime.now().millisecondsSinceEpoch.toString(),
+    //   title: _taskNameController.text,
+    //   date: _selectedDate!,
+    //   // iconPath: 'assets/icons/task_default.svg',
+    //   iconPath: '',
+    //   assignedTo: _selectedAssignee ?? _assignees.first['name']!,
+    //   repeats: _repeats,
+    //   frequency: _selectedFrequency,
+    // );
 
-    widget.onTaskAdded(newTask);
+    final newTask = {
+      "title": _taskNameController.text,
+      "description": " ",
+      "initial_date": _selectedDate!.toIso8601String(),
+      "recurrence_type": "none"
+    };
+
+    _taskController.createTask(newTask);
+
+    // widget.onTaskAdded(newTask);
     Navigator.of(context).pop();
   }
 
@@ -307,17 +320,20 @@ class _AddTaskDialogState extends State<AddTaskDialog> {
                   ),
                 ),
                 SizedBox(width: 16.w),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(4.r),
+                Obx(
+                  () => ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: AppColors.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4.r),
+                      ),
                     ),
-                  ),
-                  onPressed: _saveTask,
-                  child: Text(
-                    'SAVE',
-                    style: AppTypoGraphy.regular.copyWith(color: Colors.white),
+                    onPressed: _saveTask,
+                    child: Text(
+                      _taskController.isLoading.value ? 'Saving...' : 'SAVE',
+                      style:
+                          AppTypoGraphy.regular.copyWith(color: Colors.white),
+                    ),
                   ),
                 ),
               ],

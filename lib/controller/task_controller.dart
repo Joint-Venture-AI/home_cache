@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:home_cache/services/api_checker.dart';
+import 'package:home_cache/services/api_clients.dart';
+import 'package:home_cache/services/api_constants.dart';
 import 'package:home_cache/view/home/home/model/task_model.dart';
 
 class TaskController extends GetxController {
   var tasks = <Task>[].obs;
   var isLoading = false.obs;
   var selectedIndex = 0.obs;
-
+  var task = {}.obs;
   RxInt totalTasks = 10.obs;
   RxInt completedTasks = 3.obs;
 
@@ -32,13 +37,13 @@ class TaskController extends GetxController {
     }
   }
 
-  List<Task> get filteredTasks {
-    if (selectedIndex.value == 0) {
-      return tasks.where((t) => t.status == "upcoming").toList();
-    } else {
-      return tasks.where((t) => t.status == "overdue").toList();
-    }
-  }
+  // List<Task> get filteredTasks {
+  //   if (selectedIndex.value == 0) {
+  //     return tasks.where((t) => t.status == "upcoming").toList();
+  //   } else {
+  //     return tasks.where((t) => t.status == "overdue").toList();
+  //   }
+  // }
 
   void selectOption(int index) {
     selectedIndex.value = index;
@@ -47,5 +52,42 @@ class TaskController extends GetxController {
   void updateProgress(int completed, int total) {
     completedTasks.value = completed;
     totalTasks.value = total;
+  }
+
+  // Create Task api call
+  Future<void> createTask(var data) async {
+    isLoading(true);
+
+    Response response = await ApiClient.postData(
+      ApiConstants.createTask,
+      jsonEncode(data),
+    );
+
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body)['data'];
+      var task = responseData['task'];
+      Get.back();
+    } else {
+      ApiChecker.checkApi(response);
+    }
+
+    isLoading(false);
+  }
+
+  // Fetch task api call
+  Future<void> fetchTask() async {
+    isLoading(true);
+
+    Response response = await ApiClient.getData(ApiConstants.fetchTask);
+
+    if (response.statusCode == 200) {
+      var responseData = json.decode(response.body);
+      task.value = responseData['data']['task'];
+      Get.back();
+    } else {
+      ApiChecker.checkApi(response);
+    }
+
+    isLoading(false);
   }
 }

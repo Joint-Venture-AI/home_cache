@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/controller/task_controller.dart';
 import 'package:home_cache/view/home/schedule/widgets/task_tile_widget.dart';
 
 import '../dialog/add_task_dialog.dart';
@@ -16,7 +18,7 @@ class ScheduleScreen extends StatefulWidget {
 
 class _ScheduleScreenState extends State<ScheduleScreen> {
   final List<Task> _tasks = [];
-
+  final TaskController _taskController = Get.put(TaskController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,7 +53,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 12.h),
-              _buildTaskList(),
+              Obx(() => _buildTaskList()),
             ],
           ),
         ),
@@ -116,7 +118,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
   }
 
   Widget _buildTaskList() {
-    if (_tasks.isEmpty) {
+    if (_taskController.tasks.isEmpty) {
       return Center(
         child: Text(
           'No tasks scheduled',
@@ -129,7 +131,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
       children: _tasks.map((task) {
         return TaskTileWidget(
           date: _formatDate(task.date),
-          taskName: task.title,
+          taskName: "${_taskController.task["title"]}",
           iconPath: task.iconPath,
           assignedTo: task.assignedTo,
           onDelete: () => _deleteTask(task.id),
