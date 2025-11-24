@@ -4,9 +4,9 @@ import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/view/widget/heart_beat_animation.dart';
 
 class ProviderListTile extends StatefulWidget {
-  final String providerName;
-  final String lastUsedDate;
-  final int rating;
+  final String? providerName;
+  final String? lastUsedDate;
+  final String rating;
   final bool isFavorite;
   final VoidCallback? onTap;
 
@@ -14,7 +14,7 @@ class ProviderListTile extends StatefulWidget {
     super.key,
     required this.providerName,
     required this.lastUsedDate,
-    this.rating = 0,
+    this.rating = "0.0",
     this.isFavorite = false,
     this.onTap,
   });
@@ -28,6 +28,9 @@ class _ProviderListTileState extends State<ProviderListTile> {
 
   @override
   Widget build(BuildContext context) {
+    // Convert rating string to int for star display
+    final int ratingValue = int.tryParse(widget.rating.split(".").first) ?? 0;
+
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
@@ -38,7 +41,7 @@ class _ProviderListTileState extends State<ProviderListTile> {
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.5),
+              color: Colors.black.withOpacity(0.2),
               spreadRadius: 1,
               blurRadius: 2,
               offset: Offset(0, 2),
@@ -48,30 +51,45 @@ class _ProviderListTileState extends State<ProviderListTile> {
         child: Row(
           children: [
             SizedBox(width: 12.w),
+
+            // LEFT SIDE TEXT
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  /// Provider Name
                   Text(
-                    widget.providerName,
+                    widget.providerName ?? "Unknown Provider",
                     style: TextStyle(
                       fontSize: 18.sp,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
+
                   SizedBox(height: 4.h),
-                  Text(widget.lastUsedDate, style: TextStyle(fontSize: 14.sp)),
+
+                  /// Last Used Date
+                  Text(
+                    widget.lastUsedDate ?? "N/A",
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      color: Colors.black54,
+                    ),
+                  ),
                 ],
               ),
             ),
+
+            // STARS + FAVORITE
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                /// Rating stars
                 Row(
                   children: List.generate(
                     5,
                     (index) => Icon(
-                      index < widget.rating
+                      index < ratingValue
                           ? Icons.star_rounded
                           : Icons.star_border_rounded,
                       color: AppColors.primaryLight,
@@ -79,7 +97,10 @@ class _ProviderListTileState extends State<ProviderListTile> {
                     ),
                   ),
                 ),
+
                 SizedBox(height: 4.h),
+
+                /// Heart animation
                 HeartBeatAnimation(
                   selected: _favorite,
                   selectedChild: Icon(
@@ -92,7 +113,7 @@ class _ProviderListTileState extends State<ProviderListTile> {
                     color: Colors.grey,
                     size: 20.sp,
                   ),
-                  duration: Duration(milliseconds: 212),
+                  duration: Duration(milliseconds: 220),
                   scale: 1.3,
                   onChange: () {
                     setState(() {
@@ -102,7 +123,10 @@ class _ProviderListTileState extends State<ProviderListTile> {
                 ),
               ],
             ),
+
             SizedBox(width: 6.w),
+
+            // RIGHT SIDE INFO BOX
             Container(
               padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
               decoration: BoxDecoration(
@@ -122,7 +146,10 @@ class _ProviderListTileState extends State<ProviderListTile> {
                   SizedBox(height: 2.h),
                   Text(
                     'Info',
-                    style: TextStyle(fontSize: 12.sp, color: AppColors.black),
+                    style: TextStyle(
+                      fontSize: 12.sp,
+                      color: AppColors.black,
+                    ),
                   ),
                 ],
               ),

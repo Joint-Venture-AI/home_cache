@@ -33,35 +33,35 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
   List<Map<String, String>> pastAppointments = [];
   List<String> documents = [];
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchProviderDetails();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _fetchProviderDetails();
+  // }
 
-  Future<void> _fetchProviderDetails() async {
-    // TODO: Replace with API call
-    // await Future.delayed(const Duration(milliseconds: 500));
+  // Future<void> _fetchProviderDetails() async {
+  //   // TODO: Replace with API call
+  //   // await Future.delayed(const Duration(milliseconds: 500));
 
-    // Mock API response
-    setState(() {
-      providerType = 'HVAC';
-      providerName = 'HVAC Pros';
-      rating = 3;
-      contactName = 'Tom Vu';
-      contactNumber = '(333) 455-6789';
-      contactWebsite = 'www.hvacpros.com';
-      scheduledAppointments = [
-        {'title': 'HVAC Maintenance', 'subtitle': 'Aug 15, 10:00 AM'},
-      ];
-      pastAppointments = [
-        {'date': 'June 18, 2025', 'status': 'AC Check'},
-        {'date': 'May 05, 2025', 'status': 'AC Check'},
-        {'date': 'May 05, 2025', 'status': 'AC Check'},
-      ];
-      documents = ['doc1.pdf', 'doc2.pdf', 'doc3.pdf'];
-    });
-  }
+  //   // Mock API response
+  //   setState(() {
+  //     providerType = 'HVAC';
+  //     providerName = 'HVAC Pros';
+  //     rating = 3;
+  //     contactName = 'Tom Vu';
+  //     contactNumber = '(333) 455-6789';
+  //     contactWebsite = 'www.hvacpros.com';
+  //     scheduledAppointments = [
+  //       {'title': 'HVAC Maintenance', 'subtitle': 'Aug 15, 10:00 AM'},
+  //     ];
+  //     pastAppointments = [
+  //       {'date': 'June 18, 2025', 'status': 'AC Check'},
+  //       {'date': 'May 05, 2025', 'status': 'AC Check'},
+  //       {'date': 'May 05, 2025', 'status': 'AC Check'},
+  //     ];
+  //     documents = ['doc1.pdf', 'doc2.pdf', 'doc3.pdf'];
+  //   });
+  // }
 
   Widget _buildStars(double rating) {
     return Row(
@@ -106,8 +106,8 @@ class _ProviderDetailsScreenState extends State<ProviderDetailsScreen> {
                       SizedBox(height: 6.h),
                       Text(
                         providerName,
-                        style:
-                            AppTypoGraphy.bold.copyWith(color: AppColors.primary),
+                        style: AppTypoGraphy.bold
+                            .copyWith(color: AppColors.primary),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 12.h),

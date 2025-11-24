@@ -4,113 +4,19 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/controller/provider_controller.dart';
 import 'package:home_cache/view/home/chat/widgets/faq_search_bar_widget.dart';
 import 'package:home_cache/view/home/details/providers/filter_dialog.dart';
 import 'package:home_cache/view/home/details/widgets/provider_list_tile.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-
 import '../../../../config/route/route_names.dart';
 
-/// --- Provider Model ---
-class ProviderModel {
-  final String name;
-  final String lastUsed;
-  final int rating;
-  final bool isFavorite;
-
-  ProviderModel({
-    required this.name,
-    required this.lastUsed,
-    required this.rating,
-    required this.isFavorite,
-  });
-}
-
-/// --- Controller with Search + Debounce ---
-class ProviderController extends GetxController {
-  var providers = <ProviderModel>[].obs;
-  var filteredProviders = <ProviderModel>[].obs;
-  var isLoading = true.obs;
-  var errorMessage = ''.obs;
-
-  final searchText = ''.obs;
-
-  @override
-  void onInit() {
-    fetchProviders();
-
-    // Debounce search (wait 200ms after user stops typing)
-    debounce<String>(searchText, (query) {
-      _applyFilter(query);
-    }, time: const Duration(milliseconds: 200));
-
-    super.onInit();
-  }
-
-  Future<void> fetchProviders() async {
-    try {
-      isLoading.value = true;
-      errorMessage.value = '';
-
-      // TODO: Replace with API call
-      await Future.delayed(const Duration(seconds: 1));
-
-      final mockData = [
-        ProviderModel(
-          name: 'HVAC Pros',
-          lastUsed: 'Used on Jul 15, 2025',
-          rating: 2,
-          isFavorite: false,
-        ),
-        ProviderModel(
-          name: 'Bright Electricals',
-          lastUsed: 'Used on Jul 15, 2025',
-          rating: 5,
-          isFavorite: true,
-        ),
-        ProviderModel(
-          name: 'Clean & Shine',
-          lastUsed: 'Used on Jul 10, 2025',
-          rating: 4,
-          isFavorite: false,
-        ),
-      ];
-
-      providers.value = mockData;
-      filteredProviders.value = mockData;
-    } catch (e) {
-      errorMessage.value = 'Failed to load providers';
-    } finally {
-      isLoading.value = false;
-    }
-  }
-
-  /// Called directly from search bar
-  void onSearchChanged(String query) {
-    searchText.value = query; // debounce will handle filtering
-  }
-
-  /// Internal filter logic
-  void _applyFilter(String query) {
-    if (query.isEmpty) {
-      filteredProviders.value = providers;
-    } else {
-      filteredProviders.value = providers
-          .where((p) =>
-              p.name.toLowerCase().contains(query.toLowerCase()) ||
-              p.lastUsed.toLowerCase().contains(query.toLowerCase()))
-          .toList();
-    }
-  }
-}
-
-/// --- Main Screen ---
 class ProviderScreen extends StatelessWidget {
   const ProviderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(ProviderController());
+    final ProviderController controller = Get.put(ProviderController());
 
     return Scaffold(
       backgroundColor: AppColors.surface,
@@ -199,19 +105,21 @@ class ProviderScreen extends StatelessWidget {
                   if (controller.errorMessage.isNotEmpty) {
                     return Center(child: Text(controller.errorMessage.value));
                   }
-                  if (controller.filteredProviders.isEmpty) {
+                  if (controller.filteredAllProviders.isEmpty) {
                     return const Center(child: Text('No providers found.'));
                   }
                   return ListView.builder(
-                    itemCount: controller.filteredProviders.length,
+                    itemCount: controller.filteredAllProviders.length,
                     itemBuilder: (context, index) {
-                      final provider = controller.filteredProviders[index];
+                      final provider = controller.filteredAllProviders[index];
+                      debugPrint("=============> Provider $provider");
                       return ProviderListTile(
                         providerName: provider.name,
-                        lastUsedDate: provider.lastUsed,
+                        lastUsedDate: provider.lastServiceDate,
                         rating: provider.rating,
-                        isFavorite: provider.isFavorite,
-                        onTap: () => Get.toNamed(RouteNames.providerDetails),
+                        isFavorite: provider.isFollowed,
+                        onTap: () => Get.toNamed(RouteNames.providerDetails,
+                            arguments: provider),
                       );
                     },
                   );

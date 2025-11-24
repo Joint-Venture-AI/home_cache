@@ -7,6 +7,7 @@ import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/controller/task_controller.dart';
 import 'package:home_cache/view/home/home/widgets/home_health_pie_chart.dart';
 import 'package:home_cache/view/widget/task_list_tile.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../config/route/route_names.dart';
 
@@ -18,17 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<bool> isSelected = [true, false];
-
-  void selectOption(int index) {
-    setState(() {
-      for (int i = 0; i < isSelected.length; i++) {
-        isSelected[i] = i == index;
-      }
-    });
-  }
-
-  final TaskController controller = Get.find<TaskController>();
+  final TaskController _taskController = Get.find<TaskController>();
 
   @override
   Widget build(BuildContext context) {
@@ -84,10 +75,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       children: [
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () => controller.selectOption(0),
+                            onPressed: () => _taskController.selectOption(0),
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
-                                  controller.selectedIndex.value == 0
+                                  _taskController.selectedIndex.value == 0
                                       ? AppColors.primary
                                       : AppColors.lightgrey,
                               shape: RoundedRectangleBorder(
@@ -97,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(
                               'Upcoming',
                               style: TextStyle(
-                                color: controller.selectedIndex.value == 0
+                                color: _taskController.selectedIndex.value == 0
                                     ? Colors.white
                                     : Colors.black,
                                 fontSize: 16.sp,
@@ -108,10 +99,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         SizedBox(width: 12.w),
                         Expanded(
                           child: ElevatedButton(
-                            onPressed: () => controller.selectOption(1),
+                            onPressed: () => _taskController.selectOption(1),
                             style: ElevatedButton.styleFrom(
                               backgroundColor:
-                                  controller.selectedIndex.value == 1
+                                  _taskController.selectedIndex.value == 1
                                       ? AppColors.primary
                                       : AppColors.lightgrey,
                               shape: RoundedRectangleBorder(
@@ -121,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Text(
                               'Overdue',
                               style: TextStyle(
-                                color: controller.selectedIndex.value == 1
+                                color: _taskController.selectedIndex.value == 1
                                     ? Colors.white
                                     : Colors.black,
                                 fontSize: 16.sp,
@@ -135,21 +126,30 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(height: 20.h),
 
                     // Task List
-                    // if (controller.isLoading.value)
-                    //   const Center(child: CircularProgressIndicator())
-                    // else if (controller.filteredTasks.isEmpty)
-                    //   const Center(child: Text("No tasks found"))
-                    // else
-                    //   Column(
-                    //     children: controller.filteredTasks
-                    //         .map((task) => TaskListTile(
-                    //               title: task.title,
-                    //               date: task.date,
-                    //               onTap: () => Get.toNamed(
-                    //                   RouteNames.notificationDetails),
-                    //             ))
-                    //         .toList(),
-                    //   ),
+                    Obx(
+                      () {
+                        if (_taskController.isLoading.value) {
+                          return const Center(
+                              child: CircularProgressIndicator());
+                        }
+                        if (_taskController.tasks.isEmpty) {
+                          return const Center(child: Text("No tasks found"));
+                        } else {
+                          return Column(
+                            children: _taskController.tasks
+                                .map((task) => TaskListTile(
+                                      title: task.title,
+                                      date: DateFormat('MMMM d, yyyy')
+                                          .format(task.initialDate),
+                                      onTap: () => Get.toNamed(
+                                          RouteNames.notificationDetails,
+                                          arguments: task.id),
+                                    ))
+                                .toList(),
+                          );
+                        }
+                      },
+                    )
                   ],
                 );
               }),

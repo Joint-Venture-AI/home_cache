@@ -1,75 +1,16 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/controller/add_provider_controller.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/home/account/productsupport/widgets/text_field_widget.dart';
-import 'package:home_cache/view/home/details/providers/provider_screen.dart';
 import 'package:home_cache/view/home/details/widgets/tile_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-
-/// Controller for AddProviderScreen
-class AddProviderController extends GetxController {
-  var selectedType = ''.obs;
-  var companyName = ''.obs;
-  var fullName = ''.obs;
-  var phoneNumber = ''.obs;
-  var url = ''.obs;
-  var rating = 3.obs;
-
-  /// Validate required fields
-  bool validateFields() {
-    return selectedType.isNotEmpty &&
-        companyName.isNotEmpty &&
-        fullName.isNotEmpty &&
-        phoneNumber.isNotEmpty;
-  }
-
-  /// Send data to API
-  Future<void> submitProvider() async {
-    if (!validateFields()) {
-      Get.snackbar(
-        'Error',
-        'Please fill all required fields',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-      return;
-    }
-
-    try {
-      // Simulate API call / loading
-      await Future.delayed(const Duration(seconds: 1));
-
-      // Create a new provider model
-      final newProvider = ProviderModel(
-        name: companyName.value,
-        lastUsed: 'Just Added',
-        rating: rating.value,
-        isFavorite: false,
-      );
-
-      // Add provider
-      final providerController = Get.find<ProviderController>();
-      // providerController.providers.add(newProvider);
-      // providerController.filteredProviders.add(newProvider);
-
-      providerController.providers.add(newProvider);
-      providerController.filteredProviders();
-
-      // ✅ Instead of showing snackbar here, return success result
-      Get.back(result: true);
-    } catch (e) {
-      Get.snackbar(
-        'Error',
-        'Failed to add provider',
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
-  }
-}
 
 class AddProviderScreen extends StatefulWidget {
   const AddProviderScreen({super.key});
@@ -81,86 +22,18 @@ class AddProviderScreen extends StatefulWidget {
 class _AddProviderScreenState extends State<AddProviderScreen> {
   final controller = Get.put(AddProviderController());
 
-  final List<String> providerTypes = [
-    'Plumber',
-    'Electrician',
-    'HVAC Technician',
-    'Roofer',
-    'General Contractor',
-    'Handyman',
-    'Landscaper',
-    'Pest Control Specialist',
-    'Painter',
-    'Carpenter',
-    'Appliance Repair Technician',
-    'Window and Door Installer/Repair',
-    'Locksmith',
-    'Pool Maintenance Provider',
-    'Cleaning Service',
-    'Gutter Specialist',
-    'Chimney Sweep / Specialist',
-    'Fence Installer / Repair',
-    'Masonry Specialist',
-    'Insulation Contractor',
-    'Solar Panel Installer / Maintenance',
-    'Siding Contractor',
-    'Garage Door Repair / Installer',
-    'Tree Service / Arborist',
-    'Septic System Service',
-    'Foundation Repair Specialist',
-    'Home Inspector',
-    'Interior Designer / Decorator',
-    'Waste Removal / Dumpster Rental',
-    'Snow Removal Service',
-    'Window Cleaning Service',
-    'Paving / Driveway Repair Contractor',
-    'Energy Auditor',
-    'Water Treatment Specialist',
-    'Smart Home Technician',
-    'Fireplace Repair Technician',
-    'Oil Provider',
-    'Trash / Recycling',
-    'Other',
-  ];
-
-  late List<String> _providerSuggestions = providerTypes;
-
-  bool _showProviderSuggestions = false;
-
-  final TextEditingController _typeController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    _typeController.addListener(
-      () {
-        if (_typeController.text.isEmpty) {
-          if (_showProviderSuggestions) {
-            setState(() {
-              _showProviderSuggestions = false;
-            });
-          }
-        } else {
-          setState(() {
-            _providerSuggestions = providerTypes
-                .where((element) => element.contains(_typeController.text))
-                .toList();
-          });
-          if (!_showProviderSuggestions) {
-            setState(() {
-              _showProviderSuggestions = true;
-            });
-          }
-        }
-      },
+  //! Pick a file
+  Future<void> pickFile() async {
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+      type: FileType.any, // all files
     );
-  }
 
-  @override
-  void dispose() {
-    _typeController.dispose();
-    super.dispose();
+    if (result != null) {
+      controller.selectedFile.value = File(result.files.single.path!);
+      print("Picked file: ${controller.selectedFile.value!.path}");
+    } else {
+      print("No file selected");
+    }
   }
 
   @override
@@ -176,8 +49,13 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // SizedBox(height: 16.h),
-              ProviderTypeDropdown(),
+              ProviderTypeDropdown(
+                onChanged: (value) {
+                  setState(() {
+                    controller.selectedType.value = value ?? "";
+                  });
+                },
+              ),
               SizedBox(height: 16.h),
               _buildTextField('Company Name', controller.companyName),
               SizedBox(height: 16.h),
@@ -197,51 +75,18 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.all(24.0),
-        child: CustomElevatedButton(
-            onTap: () {
-              controller.submitProvider();
-            },
-            btnText: 'Confirm'),
-      ),
-    );
-  }
-
-  Widget _buildDropdown() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildTextField('Type', controller.selectedType,
-            controller: _typeController),
-        if (_providerSuggestions.isNotEmpty && _showProviderSuggestions) ...[
-          SizedBox(height: 8.h),
-          Container(
-            constraints: BoxConstraints(maxHeight: 200.h),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withOpacity(.3),
-              borderRadius: BorderRadius.circular(12.r),
-            ),
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: _providerSuggestions.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(
-                    _providerSuggestions[index],
-                    style:
-                        AppTypoGraphy.regular.copyWith(color: AppColors.black),
-                  ),
-                  onTap: () {
-                    _typeController.text = _providerSuggestions[index];
-                    _showProviderSuggestions = false;
-                  },
-                );
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: CustomElevatedButton(
+              onTap: () {
+                controller.submitProvider();
+                Get.back();
+                Navigator.pop(context);
               },
-            ),
-          ),
-        ],
-      ],
+              btnText: 'Confirm'),
+        ),
+      ),
     );
   }
 
@@ -273,10 +118,18 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
           title: 'Link Meeting',
           onTap: () {},
         ),
-        TileButton(
-          imagePath: 'assets/images/upload.png',
-          title: 'Upload',
-          onTap: () {},
+        Obx(
+          () => TileButton(
+            imagePath: controller.selectedFile.value == null
+                ? 'assets/images/upload.png'
+                : 'assets/logos/pdf_image1.png',
+            title: controller.selectedFile.value == null
+                ? 'Upload'
+                : controller.selectedFile.value!.path.split('/').last,
+            onTap: pickFile,
+            showRemoveButton: controller.selectedFile.value != null,
+            onRemoveTap: () => controller.removeFile(),
+          ),
         ),
       ],
     );
@@ -303,7 +156,9 @@ class _AddProviderScreenState extends State<AddProviderScreen> {
 }
 
 class ProviderTypeDropdown extends StatefulWidget {
-  const ProviderTypeDropdown({super.key});
+  const ProviderTypeDropdown({super.key, this.onChanged});
+
+  final Function(String?)? onChanged; //
 
   @override
   State<ProviderTypeDropdown> createState() => _ProviderTypeDropdownState();
@@ -384,6 +239,10 @@ class _ProviderTypeDropdownState extends State<ProviderTypeDropdown> {
             setState(() {
               selectedType = value;
             });
+
+            if (widget.onChanged != null) {
+              widget.onChanged!(value); // Pass value to parent / backend
+            }
           },
         ),
       ],

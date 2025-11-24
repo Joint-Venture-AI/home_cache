@@ -6,7 +6,10 @@ class ApiConstants {
   static String signup = "/auth/create-user";
   static String login = "/auth/login";
   static String createTask = "/task/add_task";
-  static String fetchTask = "/task/get_users_task?task_time=upcoming";
+  static String fetchTask = "/task/get_users_task";
+
+  static String addProvider = "/provider/";
+  static String fetchProviders = "/provider/";
 
   // static String forgotPassword = "/auth/forgotPassword";
   // static String resetPassword = "/auth/resetPassword";

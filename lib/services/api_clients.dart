@@ -7,7 +7,6 @@ import 'package:home_cache/constants/data/app_constants.dart';
 import 'package:home_cache/services/api_constants.dart';
 import 'package:home_cache/services/prefs_helper.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_parser/http_parser.dart';
 
 class ApiClient extends GetxService {
   static var client = http.Client();
@@ -17,9 +16,13 @@ class ApiClient extends GetxService {
   static const int timeoutInSeconds = 30;
   static String bearerToken = "";
 
+// ?get Request
   static Future<Response> getData(String uri,
       {Map<String, dynamic>? query, Map<String, String>? headers}) async {
     bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+
+    final fullUri =
+        Uri.parse(ApiConstants.baseUrl + uri).replace(queryParameters: query);
 
     var mainHeaders = {
       'Content-Type': 'application/json',
@@ -30,7 +33,7 @@ class ApiClient extends GetxService {
 
       http.Response response = await client
           .get(
-            Uri.parse(ApiConstants.baseUrl + uri),
+            fullUri,
             headers: headers ?? mainHeaders,
           )
           .timeout(const Duration(seconds: timeoutInSeconds));
@@ -41,6 +44,7 @@ class ApiClient extends GetxService {
     }
   }
 
+// ?post Request
   static Future<Response> postData(String uri, dynamic body,
       {Map<String, String>? headers}) async {
     bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
@@ -69,35 +73,87 @@ class ApiClient extends GetxService {
   }
 
   static Future<Response> postMultipartData(
-      String uri, Map<String, String> body,
-      {required List<MultipartBody> multipartBody,
-      Map<String, String>? headers}) async {
+    String uri,
+    Map<String, String> body, {
+    required List<MultipartBody> multipartBody,
+    Map<String, String>? headers,
+  }) async {
     try {
       bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
 
+      // ❗ Multipart MUST NOT use Content-Type: application/json
       var mainHeaders = {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Authorization': 'Bearer $bearerToken'
+        'Authorization': 'Bearer $bearerToken',
       };
 
       debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
       debugPrint('====> API Body: $body with ${multipartBody.length} picture');
-      var request =
-          http.MultipartRequest('POST', Uri.parse(ApiConstants.baseUrl + uri));
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse(ApiConstants.baseUrl + uri),
+      );
+
       request.headers.addAll(headers ?? mainHeaders);
-      for (MultipartBody element in multipartBody) {
-        request.files.add(await http.MultipartFile.fromPath(
-            element.key, element.file.path,
-            contentType: MediaType.parse(element.file.path)));
+
+      // 🔥 Add files WITHOUT MIME TYPE (auto-detect)
+      for (MultipartBody fileItem in multipartBody) {
+        request.files.add(
+          await http.MultipartFile.fromPath(
+            fileItem.key,
+            fileItem.file.path,
+          ),
+        );
       }
+
+      // Add normal fields
       request.fields.addAll(body);
-      http.Response response =
-          await http.Response.fromStream(await request.send());
-      return handleResponse(response, uri);
+
+      // Send request
+      var streamedResponse = await request.send();
+
+      // Convert to http.Response
+      http.Response httpResponse =
+          await http.Response.fromStream(streamedResponse);
+
+      // Convert http.Response → GetX Response
+      return handleResponse(httpResponse, uri);
     } catch (e) {
+      debugPrint("Multipart Error: $e");
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
+
+  // static Future<Response> postMultipartData(
+  //     String uri, Map<String, String> body,
+  //     {required List<MultipartBody> multipartBody,
+  //     Map<String, String>? headers}) async {
+  //   try {
+  //     bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+
+  //     var mainHeaders = {
+  //       'Content-Type': 'application/json',
+  //       'Authorization': 'Bearer $bearerToken'
+  //     };
+
+  //     debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
+  //     debugPrint('====> API Body: $body with ${multipartBody.length} picture');
+  //     var request =
+  //         http.MultipartRequest('POST', Uri.parse(ApiConstants.baseUrl + uri));
+  //     request.headers.addAll(headers ?? mainHeaders);
+  //     for (MultipartBody element in multipartBody) {
+  //       request.files.add(await http.MultipartFile.fromPath(
+  //           element.key, element.file.path,
+  //           contentType: MediaType.parse(element.file.path)));
+  //     }
+  //     request.fields.addAll(body);
+  //     http.Response response =
+  //         await http.Response.fromStream(await request.send());
+  //     return handleResponse(response, uri);
+  //   } catch (e) {
+  //     return const Response(statusCode: 1, statusText: noInternetMessage);
+  //   }
+  // }
 
   Future<Response> putData(String uri, dynamic body,
       {Map<String, String>? headers}) async {

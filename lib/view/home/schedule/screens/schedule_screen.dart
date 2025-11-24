@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/controller/task_controller.dart';
-import 'package:home_cache/view/home/schedule/widgets/task_tile_widget.dart';
+import 'package:intl/intl.dart';
 
 import '../dialog/add_task_dialog.dart';
 
@@ -19,6 +19,7 @@ class ScheduleScreen extends StatefulWidget {
 class _ScheduleScreenState extends State<ScheduleScreen> {
   final List<Task> _tasks = [];
   final TaskController _taskController = Get.put(TaskController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +54,64 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 textAlign: TextAlign.start,
               ),
               SizedBox(height: 12.h),
-              Obx(() => _buildTaskList()),
+              Obx(
+                () {
+                  return ListView.separated(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _taskController.tasks.length,
+                    itemBuilder: (context, index) {
+                      final task = _taskController.tasks[index];
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            DateFormat('MMMM d, yyyy').format(task.initialDate),
+                            style: TextStyle(
+                              fontSize: 16.sp,
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  '• ${task.title}',
+                                  style: TextStyle(
+                                    fontSize: 16.sp,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.black,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 8.w),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    task.isLinked = !task.isLinked;
+                                  });
+                                },
+                                child: SvgPicture.asset(
+                                  task.isLinked
+                                      ? 'assets/icons/link.svg'
+                                      : 'assets/icons/add.svg',
+                                  width: 18.w,
+                                  height: 18.h,
+                                  color: AppColors.primary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(height: 12.h);
+                    },
+                  );
+                },
+              )
             ],
           ),
         ),
@@ -117,28 +175,28 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
     );
   }
 
-  Widget _buildTaskList() {
-    if (_taskController.tasks.isEmpty) {
-      return Center(
-        child: Text(
-          'No tasks scheduled',
-          style: AppTypoGraphy.regular.copyWith(color: Colors.grey),
-        ),
-      );
-    }
+  // Widget _buildTaskList() {
+  //   if (_taskController.tasks.isEmpty) {
+  //     return Center(
+  //       child: Text(
+  //         'No tasks scheduled',
+  //         style: AppTypoGraphy.regular.copyWith(color: Colors.grey),
+  //       ),
+  //     );
+  //   }
 
-    return Column(
-      children: _tasks.map((task) {
-        return TaskTileWidget(
-          date: _formatDate(task.date),
-          taskName: "${_taskController.task["title"]}",
-          iconPath: task.iconPath,
-          assignedTo: task.assignedTo,
-          onDelete: () => _deleteTask(task.id),
-        );
-      }).toList(),
-    );
-  }
+  //   return Column(
+  //     children: _tasks.map((task) {
+  //       return TaskTileWidget(
+  //         date: _formatDate(task.date),
+  //         taskName: "${_taskController.tasks.indexOf(task) + 1}. ${task.title}",
+  //         iconPath: task.iconPath,
+  //         assignedTo: task.assignedTo,
+  //         onDelete: () => _deleteTask(task.id),
+  //       );
+  //     }).toList(),
+  //   );
+  // }
 
   void _showAddTaskDialog(BuildContext context) {
     showModalBottomSheet(
