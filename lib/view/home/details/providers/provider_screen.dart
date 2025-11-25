@@ -119,7 +119,7 @@ class ProviderScreen extends StatelessWidget {
                         rating: provider.rating,
                         isFavorite: provider.isFollowed,
                         onTap: () => Get.toNamed(RouteNames.providerDetails,
-                            arguments: provider),
+                            arguments: provider.id),
                       );
                     },
                   );

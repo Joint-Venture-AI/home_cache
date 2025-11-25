@@ -38,6 +38,7 @@ import 'package:home_cache/view/home/details/documents/preview_document_screen.d
 import 'package:home_cache/view/home/details/providers/add_provider_screen.dart';
 import 'package:home_cache/view/home/details/providers/provider_details_screen.dart';
 import 'package:home_cache/view/home/details/providers/provider_screen.dart';
+import 'package:home_cache/view/home/details/providers/update_provider_screen.dart';
 import 'package:home_cache/view/home/details/room/add_new_room_item_screen.dart';
 import 'package:home_cache/view/home/details/room/add_room_screen.dart';
 import 'package:home_cache/view/home/details/room/edit_room_details_screen.dart';
@@ -103,10 +104,12 @@ class AppRoutes {
     ),
     GetPage(
         name: RouteNames.providerDetails,
-        page: () => const ProviderDetailsScreen(
-              providerId: '',
-            )),
+        page: () => const ProviderDetailsScreen()),
     GetPage(name: RouteNames.addProvider, page: () => AddProviderScreen()),
+    GetPage(
+      name: RouteNames.updateProvider,
+      page: () => const UpdateProviderScreen(),
+    ),
     GetPage(name: RouteNames.documents, page: () => DocumentsScreen()),
     GetPage(
         name: RouteNames.addDocuments, page: () => const AddDocumentsScreen()),

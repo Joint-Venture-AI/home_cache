@@ -1,0 +1,46 @@
+import 'dart:io';
+import 'package:get/get.dart';
+
+class AddDocumentController extends GetxController {
+  var selectedFile = Rx<File?>(null);
+
+  /// Safely extract file extension
+  String? _extension() {
+    final file = selectedFile.value;
+    if (file == null) return null;
+
+    final segments = file.path.split('.');
+    if (segments.length < 2) return null;
+
+    return segments.last.toLowerCase();
+  }
+
+  /// Check if the file is an image
+  bool isImage() {
+    final ext = _extension();
+    if (ext == null) return false;
+
+    const imageExt = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'heic'];
+    return imageExt.contains(ext);
+  }
+
+  /// Check if the file is a PDF
+  bool isPDF() {
+    final ext = _extension();
+    return ext == 'pdf';
+  }
+
+  /// Check if file is a document (pdf, doc, excel)
+  bool isDocument() {
+    final ext = _extension();
+    if (ext == null) return false;
+
+    const docExt = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
+    return docExt.contains(ext);
+  }
+
+  /// Remove selected file
+  void removeFile() {
+    selectedFile.value = null;
+  }
+}

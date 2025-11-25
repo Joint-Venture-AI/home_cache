@@ -10,6 +10,9 @@ class ApiConstants {
 
   static String addProvider = "/provider/";
   static String fetchProviders = "/provider/";
+  static String updateProvider = "/provider/";
+
+  static String addDocument = "/document";
 
   // static String forgotPassword = "/auth/forgotPassword";
   // static String resetPassword = "/auth/resetPassword";

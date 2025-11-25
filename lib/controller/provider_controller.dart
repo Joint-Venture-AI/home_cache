@@ -15,6 +15,8 @@ class ProviderController extends GetxController {
 
   // Single provider details
   var selectedProvider = Rxn<Provider>();
+  var lastAppointment = Rxn<Appointment>();
+  var nextAppointment = Rxn<Appointment>();
 
   @override
   void onInit() {
@@ -70,7 +72,7 @@ class ProviderController extends GetxController {
         allProviders.value =
             providerData.map<Provider>((e) => Provider.fromJson(e)).toList();
 
-        // add filter here
+        // Initialize filtered list
         filteredAllProviders.value = allProviders;
       }
     } else {
@@ -80,21 +82,67 @@ class ProviderController extends GetxController {
     isLoading(false);
   }
 
-  //! Fetch single provider by ID
-  Future<void> fetchProviderById(String id) async {
-    isLoading(true);
-    Response response =
-        await ApiClient.getData("${ApiConstants.fetchProviders}/$id");
-    if (response.statusCode == 200) {
-      var responseData = response.body;
-      if (responseData['data'] != null) {
-        // Assuming API returns a single object in data
-        selectedProvider.value = Provider.fromJson(responseData['data']);
+  //! Fetch provider details by ID
+  Future<void> fetchProviderDetails(String id) async {
+    try {
+      isLoading(true);
+      Response response =
+          await ApiClient.getData("${ApiConstants.fetchProviders}$id");
+
+      if (response.statusCode == 200) {
+        var responseData = response.body;
+
+        if (responseData['data'] != null &&
+            responseData['data']['provider'] != null) {
+          // Parse provider
+          selectedProvider.value =
+              Provider.fromJson(responseData['data']['provider']);
+
+          // Parse appointments if available
+          lastAppointment.value = responseData['data']['lastAppointment'] !=
+                  null
+              ? Appointment.fromJson(responseData['data']['lastAppointment'])
+              : null;
+
+          nextAppointment.value = responseData['data']['nextAppointment'] !=
+                  null
+              ? Appointment.fromJson(responseData['data']['nextAppointment'])
+              : null;
+        } else {
+          errorMessage.value = "No provider found";
+        }
+      } else {
+        ApiChecker.checkApi(response);
+        errorMessage.value = "Failed to load provider details";
       }
-    } else {
-      ApiChecker.checkApi(response);
-      errorMessage.value = "Failed to load provider details";
+    } catch (e) {
+      errorMessage.value = e.toString();
+    } finally {
+      isLoading(false);
     }
-    isLoading(false);
+  }
+}
+
+// Optional Appointment model
+class Appointment {
+  final String id;
+  final String title;
+  final String date;
+  final String status;
+
+  Appointment({
+    required this.id,
+    required this.title,
+    required this.date,
+    required this.status,
+  });
+
+  factory Appointment.fromJson(Map<String, dynamic> json) {
+    return Appointment(
+      id: json['id'] ?? '',
+      title: json['title'] ?? 'Untitled',
+      date: json['date'] ?? '',
+      status: json['status'] ?? '',
+    );
   }
 }

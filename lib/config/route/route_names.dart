@@ -21,6 +21,7 @@ class RouteNames {
   static const provider = '/providers';
   static const providerDetails = '/providers-details';
   static const addProvider = '/add-providers';
+  static const updateProvider = '/update-providers';
   static const documents = '/documents';
   static const addDocuments = '/add-documents';
   static const previewDocument = '/preview-document';

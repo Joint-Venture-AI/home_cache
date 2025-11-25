@@ -72,6 +72,7 @@ class ApiClient extends GetxService {
     }
   }
 
+// ?Multipart post Request
   static Future<Response> postMultipartData(
     String uri,
     Map<String, String> body, {
@@ -123,6 +124,97 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
+
+  // ? Patch Request
+  static Future<Response> patchData(String uri, dynamic body,
+      {Map<String, String>? headers}) async {
+    // Get bearer token
+    bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+
+    // Default headers
+    var mainHeaders = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $bearerToken',
+    };
+
+    try {
+      debugPrint(
+          '====> PATCH API Call: $uri\nHeader: ${headers ?? mainHeaders}');
+      debugPrint('====> PATCH Body: $body');
+
+      http.Response response = await client
+          .patch(
+            Uri.parse(ApiConstants.baseUrl + uri),
+            body: body,
+            headers: headers ?? mainHeaders,
+          )
+          .timeout(const Duration(seconds: timeoutInSeconds));
+
+      debugPrint("==========> PATCH Response Status: ${response.statusCode}");
+      return handleResponse(response, uri);
+    } catch (e) {
+      debugPrint("PATCH Request Error: $e");
+      return const Response(statusCode: 1, statusText: noInternetMessage);
+    }
+  }
+
+//? PATCH with multipart support
+  static Future<Response> patchMultipartData(
+    String uri,
+    Map<String, String> fields, {
+    List<MultipartBody>? multipartBody,
+    Map<String, String>? headers,
+  }) async {
+    bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+
+    var mainHeaders = {
+      'Authorization': 'Bearer $bearerToken',
+      // Content-Type will be set automatically by MultipartRequest
+    };
+
+    try {
+      var fullUri = ApiConstants.baseUrl + uri;
+      var request = http.MultipartRequest('PATCH', Uri.parse(fullUri))
+        ..fields.addAll(fields)
+        ..headers.addAll(headers ?? mainHeaders);
+
+      debugPrint('====> PATCH Multipart API Call=====>> $fullUri');
+      // Add files
+      if (multipartBody != null) {
+        for (var file in multipartBody) {
+          request.files
+              .add(await http.MultipartFile.fromPath(file.key, file.file.path));
+        }
+      }
+
+      debugPrint('====> PATCH Multipart API Call: $uri');
+      debugPrint('====> Fields: $fields');
+      if (multipartBody != null) {
+        debugPrint(
+            '====> Files: ${multipartBody.map((e) => e.file.path).toList()}');
+      }
+
+      var streamedResponse = await request
+          .send()
+          .timeout(const Duration(seconds: timeoutInSeconds));
+      var response = await http.Response.fromStream(streamedResponse);
+
+      debugPrint(
+          "==========> PATCH Multipart Response Status: ${response.statusCode}");
+      return handleResponse(response, uri);
+    } catch (e) {
+      debugPrint("PATCH Multipart Request Error: $e");
+      return const Response(statusCode: 1, statusText: noInternetMessage);
+    }
+  }
+
+// Helper class for files
+// class MultipartBody {
+//   final String key;
+//   final File file;
+
+//   MultipartBody(this.key, this.file);
+// }
 
   // static Future<Response> postMultipartData(
   //     String uri, Map<String, String> body,

@@ -1,13 +1,12 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/controller/provider_controller.dart';
 import 'package:home_cache/services/api_checker.dart';
 import 'package:home_cache/services/api_clients.dart';
 import 'package:home_cache/services/api_constants.dart';
 
-/// Controller for AddProviderScreen
+/// Controller for Add/Update Provider
 class AddProviderController extends GetxController {
   final ProviderController _providerController = Get.find<ProviderController>();
 
@@ -40,7 +39,7 @@ class AddProviderController extends GetxController {
         phoneNumber.isNotEmpty;
   }
 
-
+  /// Add new provider
   Future<void> addProvider(Map<String, String> data) async {
     isLoading(true);
 
@@ -48,12 +47,9 @@ class AddProviderController extends GetxController {
     Response response = await ApiClient.postMultipartData(
       ApiConstants.addProvider,
       data,
-      multipartBody: [
-        MultipartBody(
-          'files',
-          selectedFile.value!,
-        ),
-      ],
+      multipartBody: selectedFile.value != null
+          ? [MultipartBody('files', selectedFile.value!)]
+          : [],
     );
 
     if (response.statusCode == 200) {
@@ -66,25 +62,56 @@ class AddProviderController extends GetxController {
     isLoading(false);
   }
 
-  /// Send data to API
-  submitProvider() async {
-    debugPrint(
-        "===================>   ${selectedType.value} ${companyName.value} ${fullName.value} ${phoneNumber.value} ${url.value} ${rating.value}");
+  /// Submit new provider
+  Future<void> submitProvider() async {
+    if (!validateFields()) return;
 
-    if (validateFields()) {
-      Map<String, String> data = {
-        "type": selectedType.value,
-        "company": companyName.value,
-        "name": fullName.value,
-        "mobile": phoneNumber.value,
-        "web_url": url.value,
-        "rating": rating.value.toString(),
-      };
+    Map<String, String> data = {
+      "type": selectedType.value,
+      "company": companyName.value,
+      "name": fullName.value,
+      "mobile": phoneNumber.value,
+      "web_url": url.value,
+      "rating": rating.value.toString(),
+    };
 
-      await addProvider(data);
-    }
+    await addProvider(data);
   }
 
+  /// Update existing provider
+  Future<void> updateProvider(Map<String, String> data, String id) async {
+    isLoading(true);
 
-  
+    Response response = await ApiClient.patchMultipartData(
+      "${ApiConstants.updateProvider}$id",
+      data,
+      multipartBody: selectedFile.value != null
+          ? [MultipartBody('files', selectedFile.value!)]
+          : [],
+    );
+
+    if (response.statusCode == 200) {
+      Get.back();
+      _providerController.fetchProviderDetails(id);
+    } else {
+      ApiChecker.checkApi(response);
+    }
+
+    isLoading(false);
+  }
+
+  Future<void> submitUpdateProvider(String id) async {
+    if (!validateFields()) return;
+
+    Map<String, String> data = {
+      "type": selectedType.value,
+      "company": companyName.value,
+      "name": fullName.value,
+      "mobile": phoneNumber.value,
+      "web_url": url.value,
+      "rating": rating.value.toString(),
+    };
+
+    await updateProvider(data, id);
+  }
 }

@@ -7,8 +7,6 @@ import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart'
 import 'package:home_cache/view/home/account/productsupport/widgets/text_field_widget.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
-import '../../../../config/route/route_names.dart';
-
 class AddDocumentsDetailsScreen extends StatelessWidget {
   const AddDocumentsDetailsScreen({super.key});
 
@@ -25,6 +23,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
               SizedBox(height: 6.h),
               TextFieldWidget(
                 hintText: 'Enter $label',
+                controller: SearchController(),
               ),
             ],
           ),
@@ -90,6 +89,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final String docType = (Get.arguments?['type'] ?? 'Other') as String;
+    final String filePath = Get.arguments['imagePath'];
 
     return Scaffold(
       appBar: const AppBarBack(
@@ -109,11 +109,15 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
           ),
         ),
       ),
-        bottomNavigationBar: Padding(
+      bottomNavigationBar: Padding(
         padding: EdgeInsets.all(24.0.sp),
         child: CustomElevatedButton(
           onTap: () {
-            Get.toNamed(RouteNames.documents);
+            // Get.toNamed(RouteNames.documents);
+
+            // print();
+
+            print('File path: $filePath');
           },
           btnText: 'Save',
           height: 48.h,
