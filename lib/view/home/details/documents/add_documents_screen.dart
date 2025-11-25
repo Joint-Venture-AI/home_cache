@@ -229,9 +229,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
     docs.addDocument(document);
 
     // Go to preview
-    Get.toNamed(RouteNames.previewDocument, arguments: {
-      document.toJson(),
-    });
+    Get.toNamed(RouteNames.previewDocument, arguments: document.toJson());
   }
 
   Widget _uploadButton(String label, String assetPath) {

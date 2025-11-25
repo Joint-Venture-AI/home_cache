@@ -1,8 +1,12 @@
 import 'dart:io';
 import 'package:get/get.dart';
+import 'package:home_cache/services/api_checker.dart';
+import 'package:home_cache/services/api_clients.dart';
+import 'package:home_cache/services/api_constants.dart';
 
 class AddDocumentController extends GetxController {
   var selectedFile = Rx<File?>(null);
+  var isLoading = false.obs;
 
   /// Safely extract file extension
   String? _extension() {
@@ -42,5 +46,31 @@ class AddDocumentController extends GetxController {
   /// Remove selected file
   void removeFile() {
     selectedFile.value = null;
+  }
+
+  // ! adding new document
+  Future<void> addDocument(var data) async {
+    isLoading(true);
+
+    try {
+      Response response = await ApiClient.postMultipartData(
+        ApiConstants.addDocument,
+        data,
+        multipartBody: selectedFile.value != null
+            ? [MultipartBody('files', selectedFile.value!)]
+            : [],
+      );
+
+      if (response.statusCode == 200) {
+        await Future.delayed(const Duration(seconds: 2));
+        Get.back();
+      } else {
+        ApiChecker.checkApi(response);
+      }
+    } catch (e) {
+      print("Error in addDocument: $e");
+    }
+
+    isLoading(false);
   }
 }

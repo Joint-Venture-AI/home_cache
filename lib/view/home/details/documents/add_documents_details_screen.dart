@@ -1,33 +1,63 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
+import 'package:home_cache/controller/add_document_controller.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/home/account/productsupport/widgets/text_field_widget.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import '../../../../config/route/route_names.dart';
 
-class AddDocumentsDetailsScreen extends StatelessWidget {
+class AddDocumentsDetailsScreen extends StatefulWidget {
   const AddDocumentsDetailsScreen({super.key});
 
+  @override
+  State<AddDocumentsDetailsScreen> createState() =>
+      _AddDocumentsDetailsScreenState();
+}
+
+class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
+  late final String docType;
+  String? filePath;
+
+  final Map<String, TextEditingController> controllers = {};
+
+  final AddDocumentController _addDocumentController =
+      Get.put(AddDocumentController());
+
+  @override
+  void initState() {
+    super.initState();
+    final Map<String, dynamic> args = Get.arguments ?? {};
+    docType = args['type'] ?? 'Other';
+    filePath = args['imagePath'];
+  }
+
   List<Widget> _buildFields(String type) {
-    Widget field(String label) => Padding(
-          padding: EdgeInsets.only(bottom: 16.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
-              ),
-              SizedBox(height: 6.h),
-              TextFieldWidget(
-                hintText: 'Enter $label',
-                controller: SearchController(),
-              ),
-            ],
-          ),
-        );
+    Widget field(String label) {
+      final controller = TextEditingController();
+      controllers[label] = controller;
+
+      return Padding(
+        padding: EdgeInsets.only(bottom: 16.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              label,
+              style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black),
+            ),
+            SizedBox(height: 6.h),
+            TextFieldWidget(
+              hintText: 'Enter $label',
+              controller: controller,
+            ),
+          ],
+        ),
+      );
+    }
 
     switch (type) {
       case 'Warranties':
@@ -86,14 +116,41 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
     }
   }
 
+  void _saveDocument() {
+    // Collect input fields
+    final Map<String, dynamic> fieldData = {};
+    controllers.forEach((label, controller) {
+      fieldData[label] = controller.text;
+    });
+
+    // Prepare JSON
+    final Map<String, String> documentData = {
+      "type": docType,
+      "title": fieldData['Title'] ?? '',
+      "brand":
+          fieldData['Brand/Manufacturer'] ?? fieldData['Brand / Company'] ?? '',
+      "url": fieldData['URL'] ?? '',
+      "note": fieldData['Notes'] ?? '',
+      // "created_at": DateTime.now().toIso8601String(),
+    };
+
+    // Set selected file for upload
+    if (filePath != null) {
+      _addDocumentController.selectedFile.value = File(filePath!);
+    }
+
+    print('Prepared Document JSON:=====>>>> $documentData');
+
+    // Upload document
+    _addDocumentController.addDocument(documentData);
+    Get.offAndToNamed(RouteNames.documents);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final String docType = (Get.arguments?['type'] ?? 'Other') as String;
-    final String filePath = Get.arguments['imagePath'];
-
     return Scaffold(
       appBar: const AppBarBack(
-        title: 'New Document',
+        title: 'Document Details',
         titleColor: AppColors.secondary,
       ),
       backgroundColor: AppColors.surface,
@@ -103,7 +160,31 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 24.h),
+              // Show uploaded file preview
+              if (filePath != null)
+                Container(
+                  height: 200.h,
+                  margin: EdgeInsets.only(bottom: 16.h),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  child: filePath!.endsWith('.pdf')
+                      ? Center(
+                          child: Text('PDF File: ${filePath!.split('/').last}'),
+                        )
+                      : ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: Image.file(
+                            File(filePath!),
+                            width: double.infinity,
+                            height: double.infinity,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                ),
+
+              // Dynamic fields
               ..._buildFields(docType),
             ],
           ),
@@ -112,13 +193,7 @@ class AddDocumentsDetailsScreen extends StatelessWidget {
       bottomNavigationBar: Padding(
         padding: EdgeInsets.all(24.0.sp),
         child: CustomElevatedButton(
-          onTap: () {
-            // Get.toNamed(RouteNames.documents);
-
-            // print();
-
-            print('File path: $filePath');
-          },
+          onTap: _saveDocument,
           btnText: 'Save',
           height: 48.h,
         ),

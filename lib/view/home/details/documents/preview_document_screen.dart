@@ -24,7 +24,7 @@ class PreviewDocumentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Map<String, dynamic> args = Get.arguments ?? {};
     final String? docType = args['type'];
-    final String? filePath = args['imagePath']; // Could be image OR pdf
+    final String? filePath = args['imagePath'];
 
     return Scaffold(
       appBar: const AppBarBack(
