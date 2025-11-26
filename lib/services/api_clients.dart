@@ -126,15 +126,25 @@ class ApiClient extends GetxService {
   }
 
   // ? Patch Request
-  static Future<Response> patchData(String uri, dynamic body,
+
+  // ? PATCH Request
+  static Future<Response> patchData(String uri, Map<String, dynamic> body,
       {Map<String, String>? headers}) async {
     // Get bearer token
-    bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+    String? bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+
+    if (bearerToken == null || bearerToken.isEmpty) {
+      debugPrint("⚠️ Bearer token is null or empty");
+      return const Response(statusCode: 401, statusText: "Unauthorized");
+    }
+
+    // Remove null fields if your API doesn't accept them
+    body.removeWhere((key, value) => value == null);
 
     // Default headers
     var mainHeaders = {
       'Content-Type': 'application/json',
-      'Authorization': 'Bearer $bearerToken',
+      'Authorization': 'Bearer $bearerToken'
     };
 
     try {
@@ -142,10 +152,11 @@ class ApiClient extends GetxService {
           '====> PATCH API Call: $uri\nHeader: ${headers ?? mainHeaders}');
       debugPrint('====> PATCH Body: $body');
 
+      // Encode Map to JSON string
       http.Response response = await client
           .patch(
             Uri.parse(ApiConstants.baseUrl + uri),
-            body: body,
+            body: jsonEncode(body), // encode Map to JSON string
             headers: headers ?? mainHeaders,
           )
           .timeout(const Duration(seconds: timeoutInSeconds));
@@ -157,6 +168,38 @@ class ApiClient extends GetxService {
       return const Response(statusCode: 1, statusText: noInternetMessage);
     }
   }
+
+  // static Future<Response> patchData(String uri, dynamic body,
+  //     {Map<String, String>? headers}) async {
+  //   // Get bearer token
+  //   bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
+
+  //   // Default headers
+  //   var mainHeaders = {
+  //     'Content-Type': 'application/json',
+  //     'Authorization': 'Bearer $bearerToken',
+  //   };
+
+  //   try {
+  //     debugPrint(
+  //         '====> PATCH API Call: $uri\nHeader: ${headers ?? mainHeaders}');
+  //     debugPrint('====> PATCH Body: $body');
+
+  //     http.Response response = await client
+  //         .patch(
+  //           Uri.parse(ApiConstants.baseUrl + uri),
+  //           body: body,
+  //           headers: headers ?? mainHeaders,
+  //         )
+  //         .timeout(const Duration(seconds: timeoutInSeconds));
+
+  //     debugPrint("==========> PATCH Response Status: ${response.statusCode}");
+  //     return handleResponse(response, uri);
+  //   } catch (e) {
+  //     debugPrint("PATCH Request Error: $e");
+  //     return const Response(statusCode: 1, statusText: noInternetMessage);
+  //   }
+  // }
 
 //? PATCH with multipart support
   static Future<Response> patchMultipartData(

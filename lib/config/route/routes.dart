@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:home_cache/config/route/route_names.dart';
+import 'package:home_cache/controller_binder.dart';
 import 'package:home_cache/view/auth/login/login_screen.dart';
 import 'package:home_cache/view/auth/onboarding/onboarding_screen.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/screens/address_form_screen.dart';
@@ -58,46 +59,64 @@ class AppRoutes {
   static final pages = [
     GetPage(name: RouteNames.splash, page: () => const SplashScreen()),
     GetPage(name: RouteNames.onboard, page: () => const OnboardingScreen()),
-    GetPage(name: RouteNames.login, page: () => const LoginScreen()),
-    GetPage(name: RouteNames.signup, page: () => const SignupScreen()),
+    GetPage(
+        name: RouteNames.login,
+        page: () => const LoginScreen(),
+        binding: ControllerBinder()),
+    GetPage(
+        name: RouteNames.signup,
+        page: () => const SignupScreen(),
+        binding: ControllerBinder()),
     GetPage(
         name: RouteNames.selectHouse,
         page: () => const SelectTypeOfHouseScreen()),
-    GetPage(name: RouteNames.homeInfo, page: () => AddressFormScreen()),
+    GetPage(
+        name: RouteNames.homeInfo,
+        page: () => AddressFormScreen(),
+        binding: ControllerBinder()),
     GetPage(
         name: RouteNames.selectPowerType,
-        page: () => const SelectPowerTypeScreen()),
+        page: () => const SelectPowerTypeScreen(),
+        binding: ControllerBinder()),
     GetPage(
-      name: RouteNames.selectWaterSupply,
-      page: () => const SelectWaterSupplyTypeScreen(),
-    ),
+        name: RouteNames.selectWaterSupply,
+        page: () => const SelectWaterSupplyTypeScreen(),
+        binding: ControllerBinder()),
     GetPage(
-      name: RouteNames.selectHeatPowerType,
-      page: () => const SelectHeatPowerTypeScreen(),
-    ),
+        name: RouteNames.selectHeatPowerType,
+        page: () => const SelectHeatPowerTypeScreen(),
+        binding: ControllerBinder()),
     GetPage(
-      name: RouteNames.selectCoolingType,
-      page: () => const SelectCoolingTypeScreen(),
-    ),
+        name: RouteNames.selectCoolingType,
+        page: () => const SelectCoolingTypeScreen(),
+        binding: ControllerBinder()),
     GetPage(
-      name: RouteNames.selectHeatingType,
-      page: () => const SelectHeatingTypeScreen(),
-    ),
+        name: RouteNames.selectHeatingType,
+        page: () => const SelectHeatingTypeScreen(),
+        binding: ControllerBinder()),
     GetPage(
-      name: RouteNames.selectResponsibleType,
-      page: () => const SelectResponsibleTypeScreen(),
-    ),
+        name: RouteNames.selectResponsibleType,
+        page: () => const SelectResponsibleTypeScreen(),
+        binding: ControllerBinder()),
     GetPage(
         name: RouteNames.finishUtility,
-        page: () => const FinishUtilityScreen()),
-    GetPage(name: RouteNames.trackList, page: () => const TrackListScreen()),
+        page: () => const FinishUtilityScreen(),
+        binding: ControllerBinder()),
+    GetPage(
+        name: RouteNames.trackList,
+        page: () => const TrackListScreen(),
+        binding: ControllerBinder()),
     GetPage(name: RouteNames.selectIteam, page: () => const SelectItemScreen()),
     GetPage(
         name: RouteNames.addDetailsIteam,
-        page: () => const AddDetailsIteamScreen()),
-    GetPage(name: RouteNames.bottomNav, page: () => const BottomNavBar()),
+        page: () => const AddDetailsIteamScreen(),
+        binding: ControllerBinder()),
+    GetPage(
+        name: RouteNames.bottomNav,
+        page: () => const BottomNavBar(),
+        binding: ControllerBinder()),
     GetPage(name: RouteNames.homeHealth, page: () => const HomeHealthScreen()),
-    GetPage(name: RouteNames.chat, page: () => const ChatScreen()),
+    GetPage(name: RouteNames.chat, page: () => ChatScreen()),
     GetPage(
       name: RouteNames.provider,
       page: () => const ProviderScreen(),

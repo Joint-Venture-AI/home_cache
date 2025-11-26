@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/home/chat/widgets/faq_search_bar_widget.dart'
@@ -69,6 +70,8 @@ class _TrackListScreenState extends State<TrackListScreen> {
       });
     }
   }
+
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -148,12 +151,24 @@ class _TrackListScreenState extends State<TrackListScreen> {
                 Get.toNamed(RouteNames.finishUtility);
               },
             ),
-            CustomElevatedButton(
-              onTap: () {
-                Get.toNamed(RouteNames.selectIteam);
-              },
-              btnText: 'Next',
-              icon: Icons.arrow_forward,
+            Obx(
+              () => CustomElevatedButton(
+                width: 128.w,
+                onTap: () {
+                  if (_selectedItems.isEmpty) {
+                    Get.snackbar(
+                        'Error', 'Please select at least one item to track');
+                    return;
+                  }
+
+                  authController.updateWantToTrack(_selectedItems);
+
+                  // ! submit all data
+                  authController.submitHomeData();
+                },
+                btnText: authController.isLoading.value ? 'Loading' : 'Confirm',
+                icon: Icons.check,
+              ),
             )
           ],
         ),

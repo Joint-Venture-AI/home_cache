@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/view/home/account/widgets/setting_tile.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 
@@ -14,6 +14,7 @@ class AccountScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final AuthController authController = Get.put(AuthController());
     return Scaffold(
       backgroundColor: AppColors.surface,
       body: SafeArea(
@@ -119,7 +120,7 @@ class AccountScreen extends StatelessWidget {
                 text: 'Log Out',
                 width: 0.5.sw,
                 onPressed: () {
-                  //  Get.toNamed(AppRoutes.selectHouse);
+                  authController.logOut();
                 },
               ),
             ],

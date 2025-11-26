@@ -209,7 +209,13 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
 
     // No file selected → go to details screen
     if (_pickedFile == null) {
-      Get.toNamed(RouteNames.addDocumentsDetails);
+      Get.toNamed(
+        RouteNames.addDocumentsDetails,
+        arguments: {
+          'type': _selectedType,
+        },
+      );
+
       return;
     }
 
@@ -224,12 +230,20 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
       imagePath: _pickedFile!.path,
     );
 
-    // Save document
+    // Save locally
     final DocumentsController docs = Get.find<DocumentsController>();
     docs.addDocument(document);
 
-    // Go to preview
-    Get.toNamed(RouteNames.previewDocument, arguments: document.toJson());
+    // ----------- 🔥 FIX HERE -----------
+    final args = document.toJson();
+    args['type'] = _selectedType; // send type manually
+    // ----------------------------------
+
+    // Go to preview screen
+    Get.toNamed(
+      RouteNames.previewDocument,
+      arguments: args,
+    );
   }
 
   Widget _uploadButton(String label, String assetPath) {

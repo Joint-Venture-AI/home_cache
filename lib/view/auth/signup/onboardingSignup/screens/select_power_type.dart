@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
@@ -22,6 +23,8 @@ class SelectPowerTypeScreen extends StatefulWidget {
 class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
   final List<int> _selectedIndexes = [];
   bool isOtherSelected = false;
+  final TextEditingController otherController = TextEditingController();
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +83,9 @@ class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
               ),
               if (isOtherSelected) ...[
                 SizedBox(height: 16.h),
-                const RoundedSearchBar(),
+                RoundedSearchBar(
+                  controller: otherController,
+                ),
               ],
               SizedBox(height: 72.h),
               Row(
@@ -95,7 +100,31 @@ class _SelectPowerTypeScreenState extends State<SelectPowerTypeScreen> {
                   ),
                   SizedBox(width: 100.w),
                   CustomElevatedButton(
-                    onTap: () => Get.toNamed(RouteNames.selectWaterSupply),
+                    onTap: () {
+                      List<String> selectedPowerTypes =
+                          _selectedIndexes.map((i) {
+                        final types = [
+                          "Electric",
+                          "Solar",
+                          "Gas",
+                          "Off The Grid"
+                        ];
+                        return types[i];
+                      }).toList();
+
+                      // Add "Other" if typed
+                      if (isOtherSelected && otherController.text.isNotEmpty) {
+                        selectedPowerTypes.add(otherController.text.trim());
+                      }
+
+                      if (selectedPowerTypes.isNotEmpty) {
+                        authController.updateHomePowerType(selectedPowerTypes);
+                        Get.toNamed(RouteNames.selectWaterSupply);
+                      } else {
+                        Get.snackbar(
+                            'Error', 'Please select at least one power type');
+                      }
+                    },
                     btnText: 'Next',
                     icon: Icons.arrow_forward,
                   )

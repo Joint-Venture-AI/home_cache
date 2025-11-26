@@ -2,14 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RoundedSearchBar extends StatefulWidget {
-  const RoundedSearchBar({super.key});
+  final TextEditingController? controller;
+  const RoundedSearchBar({super.key, this.controller});
 
   @override
   State<RoundedSearchBar> createState() => _RoundedSearchBarState();
 }
 
 class _RoundedSearchBarState extends State<RoundedSearchBar> {
-  final TextEditingController _controller = TextEditingController();
+  late final TextEditingController _internalController;
+
+  @override
+  void initState() {
+    super.initState();
+    _internalController = widget.controller ?? TextEditingController();
+    _internalController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    if (widget.controller == null) {
+      _internalController.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +40,7 @@ class _RoundedSearchBarState extends State<RoundedSearchBar> {
         children: [
           Expanded(
             child: TextField(
-              controller: _controller,
+              controller: _internalController,
               style: TextStyle(fontSize: 16.sp),
               decoration: InputDecoration(
                 hintText: 'Search',
@@ -32,28 +48,15 @@ class _RoundedSearchBarState extends State<RoundedSearchBar> {
               ),
             ),
           ),
-          if (_controller.text.isNotEmpty)
+          if (_internalController.text.isNotEmpty)
             GestureDetector(
               onTap: () {
-                _controller.clear();
-                setState(() {});
+                _internalController.clear();
               },
               child: Icon(Icons.close, size: 20.sp),
             ),
         ],
       ),
     );
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _controller.addListener(() => setState(() {}));
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

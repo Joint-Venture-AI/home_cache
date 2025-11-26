@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/dialogs/welcome_dialog.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/dialogs/home_selection_dialog.dart';
 import 'package:home_cache/view/auth/signup/onboardingSignup/dialogs/home_progress_dialog.dart';
@@ -27,6 +28,7 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
   int? selectedIndex;
   bool isOtherSelected = false;
   final TextEditingController otherController = TextEditingController();
+  final AuthController authController = Get.put(AuthController());
 
   @override
   void initState() {
@@ -134,6 +136,28 @@ class _SelectTypeOfHouseScreenState extends State<SelectTypeOfHouseScreen> {
                   SizedBox(width: 100.w),
                   CustomElevatedButton(
                     onTap: () {
+                      String? selectedHomeType;
+
+                      if (isOtherSelected) {
+                        selectedHomeType = otherController.text.trim();
+                      } else if (selectedIndex != null) {
+                        final houseTypes = [
+                          "House",
+                          "Condo",
+                          "Townhouse",
+                          "Apartment"
+                        ];
+                        selectedHomeType = houseTypes[selectedIndex!];
+                      } else {
+                        selectedHomeType = null;
+                      }
+
+                      if (selectedHomeType != null &&
+                          selectedHomeType.isNotEmpty) {
+                        authController.updateHomeType(selectedHomeType);
+                      }
+
+                      // Navigate to next screen
                       Get.toNamed(RouteNames.homeInfo);
                     },
                     btnText: 'Next',

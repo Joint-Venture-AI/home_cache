@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
@@ -24,6 +25,9 @@ class _SelectWaterSupplyTypeScreenState
     extends State<SelectWaterSupplyTypeScreen> {
   final Set<int> selectedIndexes = {};
   bool isOtherSelected = false;
+  final AuthController authController = Get.put(AuthController());
+
+  final TextEditingController otherController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +88,9 @@ class _SelectWaterSupplyTypeScreenState
               ),
               if (isOtherSelected) ...[
                 SizedBox(height: 16.h),
-                const RoundedSearchBar(),
+                RoundedSearchBar(
+                  controller: otherController,
+                ),
               ],
               SizedBox(height: 80.h),
               Row(
@@ -99,9 +105,35 @@ class _SelectWaterSupplyTypeScreenState
                   ),
                   SizedBox(width: 100.w),
                   CustomElevatedButton(
-                      onTap: () => Get.toNamed(RouteNames.selectHeatingType),
-                      icon: Icons.arrow_forward,
-                      btnText: 'Next')
+                    onTap: () {
+                      List<String> selectedWaterTypes =
+                          selectedIndexes.map((i) {
+                        final waterTypes = [
+                          "Well",
+                          "Public Utility",
+                          "Tank",
+                          "Off The Grid"
+                        ];
+                        return waterTypes[i];
+                      }).toList();
+
+                      // Include "Other" if typed
+                      if (isOtherSelected && otherController.text.isNotEmpty) {
+                        selectedWaterTypes.add(otherController.text.trim());
+                      }
+
+                      if (selectedWaterTypes.isNotEmpty) {
+                        authController
+                            .updateHomeWaterSupplyType(selectedWaterTypes);
+                        Get.toNamed(RouteNames.selectHeatingType);
+                      } else {
+                        Get.snackbar('Error',
+                            'Please select or enter at least one water supply type');
+                      }
+                    },
+                    icon: Icons.arrow_forward,
+                    btnText: 'Next',
+                  )
                 ],
               ),
             ],

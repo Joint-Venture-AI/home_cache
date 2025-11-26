@@ -5,6 +5,7 @@ import 'package:home_cache/config/route/route_names.dart';
 import 'package:home_cache/constants/data/app_constants.dart';
 import 'package:home_cache/model/sing_up_collected_data.dart';
 import 'package:home_cache/services/api_checker.dart';
+
 import 'package:home_cache/services/api_clients.dart';
 import 'package:home_cache/services/api_constants.dart';
 import 'package:home_cache/services/prefs_helper.dart';
@@ -12,7 +13,7 @@ import 'package:home_cache/services/prefs_helper.dart';
 class AuthController extends GetxController {
   RxBool isLoading = false.obs;
 
-// Signup Api Call
+//! Signup Api Call
   Future<void> signUp(var data) async {
     isLoading(true);
 
@@ -21,6 +22,9 @@ class AuthController extends GetxController {
         headers: {'Content-Type': 'application/json'});
 
     if (response.statusCode == 200) {
+      var responseData = response.body['data'];
+      String token = responseData['access_token'];
+      await PrefsHelper.setString(AppConstants.bearerToken, token);
       Get.offAllNamed(RouteNames.selectHouse);
     } else {
       ApiChecker.checkApi(response);
@@ -29,7 +33,7 @@ class AuthController extends GetxController {
     isLoading(false);
   }
 
-// Login Api Call
+//! Login Api Call
   Future<void> login(var data) async {
     isLoading(true);
 
@@ -49,93 +53,72 @@ class AuthController extends GetxController {
     isLoading(false);
   }
 
-  // Sing up collected data
+// ! Log out method
+  Future<void> logOut() async {
+    await PrefsHelper.remove(AppConstants.bearerToken);
+    Get.offAllNamed(RouteNames.login);
+  }
+
   Rx<SingUpCollectedData> collectedData = SingUpCollectedData(
-    userId: '',
-    homeType: '',
-    homeAddress: '',
+    userId: null,
+    homeType: null,
+    homeAddress: null,
     homePowerType: [],
     homeWaterSupplyType: [],
     homeHeatingType: [],
-    homeHeatingPower: '',
+    homeHeatingPower: null,
     homeCoolingType: [],
     responsibleFor: [],
     wantToTrack: [],
-    lastServiceData: LastServiceData(type: '', lastService: '', note: ''),
+    lastServiceData: LastServiceData(),
   ).obs;
 
-  // Update user ID
-  void updateUserId(String userId) {
-    collectedData.update((data) {
-      data?.userId = userId;
-    });
+// ---------- Update Methods ----------
+  void updateUserId(String value) {
+    collectedData.update((data) => data?.userId = value);
   }
 
-  // Update home type
-  void updateHomeType(String homeType) {
-    collectedData.update((data) {
-      data?.homeType = homeType;
-    });
+  void updateHomeType(String value) {
+    collectedData.update((data) => data?.homeType = value);
   }
 
-  // Update home address
-  void updateHomeAddress(String homeAddress) {
-    collectedData.update((data) {
-      data?.homeAddress = homeAddress;
-    });
+  void updateHomeAddress(String value) {
+    collectedData.update((data) => data?.homeAddress = value);
   }
 
-  // Update home power type
-  void updateHomePowerType(List<String> homePowerType) {
-    collectedData.update((data) {
-      data?.homePowerType = homePowerType;
-    });
+  void updateHomePowerType(List<String> value) {
+    collectedData.update((data) => data?.homePowerType = value);
   }
 
-  // Update home water supply type
-  void updateHomeWaterSupplyType(List<String> homeWaterSupplyType) {
-    collectedData.update((data) {
-      data?.homeWaterSupplyType = homeWaterSupplyType;
-    });
+  void updateHomeWaterSupplyType(List<String> value) {
+    collectedData.update((data) => data?.homeWaterSupplyType = value);
   }
 
-  // Update home heating type
-  void updateHomeHeatingType(List<String> homeHeatingType) {
-    collectedData.update((data) {
-      data?.homeHeatingType = homeHeatingType;
-    });
+  void updateHomeHeatingType(List<String> value) {
+    collectedData.update((data) => data?.homeHeatingType = value);
   }
 
-  // Update home heating power
-  void updateHomeHeatingPower(String homeHeatingPower) {
-    collectedData.update((data) {
-      data?.homeHeatingPower = homeHeatingPower;
-    });
+  void updateHomeHeatingPower(String value) {
+    collectedData.update((data) => data?.homeHeatingPower = value);
   }
 
-  // Update home cooling type
-  void updateHomeCoolingType(List<String> homeCoolingType) {
-    collectedData.update((data) {
-      data?.homeCoolingType = homeCoolingType;
-    });
+  void updateHomeCoolingType(List<String> value) {
+    collectedData.update((data) => data?.homeCoolingType = value);
   }
 
-  // Update responsible for
-  void updateResponsibleFor(List<String> responsibleFor) {
-    collectedData.update((data) {
-      data?.responsibleFor = responsibleFor;
-    });
+  void updateResponsibleFor(List<String> value) {
+    collectedData.update((data) => data?.responsibleFor = value);
   }
 
-  // Update want to track
-  void updateWantToTrack(List<String> wantToTrack) {
-    collectedData.update((data) {
-      data?.wantToTrack = wantToTrack;
-    });
+  void updateWantToTrack(List<String> value) {
+    collectedData.update((data) => data?.wantToTrack = value);
   }
 
-  // Update last service data
-  void updateLastServiceData(String type, String lastService, String note) {
+  void updateLastServiceData({
+    String? type,
+    String? lastService,
+    String? note,
+  }) {
     collectedData.update((data) {
       data?.lastServiceData = LastServiceData(
         type: type,
@@ -145,8 +128,23 @@ class AuthController extends GetxController {
     });
   }
 
-  // Signup collection data Api Call
-  Future<void> submitData() async {
+// ---------- Submit All Collected Data ----------
+  Future<void> submitHomeData() async {
     isLoading(true);
+
+    Response response = await ApiClient.patchData(
+      ApiConstants.updateHomeData,
+      collectedData.value.toJson(),
+    );
+
+    if (response.statusCode == 200) {
+      print("📤 Sending JSON to API==> ${collectedData.value}");
+      // Get.snackbar("Success", "Signup data submitted successfully");
+      Get.offAllNamed(RouteNames.bottomNav);
+    } else {
+      Get.snackbar("Error", "Failed: ${response.body}");
+    }
+
+    isLoading(false);
   }
 }

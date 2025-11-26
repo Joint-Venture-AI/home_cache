@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
@@ -23,6 +24,8 @@ class SelectHeatPowerTypeScreen extends StatefulWidget {
 class _SelectHeatPowerTypeScreenState extends State<SelectHeatPowerTypeScreen> {
   int? selectedIndex;
   bool isOtherSelected = false;
+  final TextEditingController otherController = TextEditingController();
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -94,9 +97,40 @@ class _SelectHeatPowerTypeScreenState extends State<SelectHeatPowerTypeScreen> {
                     },
                   ),
                   CustomElevatedButton(
-                      onTap: () => Get.toNamed(RouteNames.selectCoolingType),
-                      icon: Icons.arrow_forward,
-                      btnText: 'Next')
+                    onTap: () {
+                      String? selectedHeatPower;
+
+                      if (isOtherSelected && otherController.text.isNotEmpty) {
+                        selectedHeatPower =
+                            otherController.text.trim(); // user typed "Other"
+                      } else if (selectedIndex != null) {
+                        final heatPowerOptions = [
+                          "Gas",
+                          "Electric",
+                          "Oil",
+                          "Hybrid"
+                        ];
+                        selectedHeatPower =
+                            heatPowerOptions[selectedIndex!]; // selected option
+                      } else {
+                        selectedHeatPower = null; // skipped
+                      }
+
+                      if (selectedHeatPower != null &&
+                          selectedHeatPower.isNotEmpty) {
+                        authController
+                            .updateHomeHeatingPower(selectedHeatPower);
+
+                        // Navigate to next screen
+                        Get.toNamed(RouteNames.selectCoolingType);
+                      } else {
+                        Get.snackbar('Error',
+                            'Please select or enter a heating power type');
+                      }
+                    },
+                    icon: Icons.arrow_forward,
+                    btnText: 'Next',
+                  )
                 ],
               ),
             ],

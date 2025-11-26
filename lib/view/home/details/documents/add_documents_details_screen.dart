@@ -131,7 +131,6 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
           fieldData['Brand/Manufacturer'] ?? fieldData['Brand / Company'] ?? '',
       "url": fieldData['URL'] ?? '',
       "note": fieldData['Notes'] ?? '',
-      // "created_at": DateTime.now().toIso8601String(),
     };
 
     // Set selected file for upload
@@ -190,12 +189,14 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.all(24.0.sp),
-        child: CustomElevatedButton(
-          onTap: _saveDocument,
-          btnText: 'Save',
-          height: 48.h,
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16.0.w, vertical: 8.h),
+          child: CustomElevatedButton(
+            onTap: _saveDocument,
+            btnText: 'Save',
+            height: 48.h,
+          ),
         ),
       ),
     );

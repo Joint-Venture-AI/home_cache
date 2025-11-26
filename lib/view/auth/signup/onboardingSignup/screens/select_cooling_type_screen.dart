@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
@@ -23,6 +25,8 @@ class SelectCoolingTypeScreen extends StatefulWidget {
 class _SelectCoolingTypeScreenState extends State<SelectCoolingTypeScreen> {
   final Set<int> selectedIndexes = {};
   bool isOtherSelected = false;
+    final AuthController authController = Get.put(AuthController());
+  final TextEditingController otherController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -99,12 +103,40 @@ class _SelectCoolingTypeScreenState extends State<SelectCoolingTypeScreen> {
                       Get.toNamed(RouteNames.finishUtility);
                     },
                   ),
-
-
                   CustomElevatedButton(
-                      onTap: () => Get.toNamed(RouteNames.selectResponsibleType),
-                      icon: Icons.arrow_forward,
-                      btnText: 'Next')
+                    onTap: () {
+                      final List<String> coolingOptions = [
+                        "Central AC",
+                        "Window Unit",
+                        "Mini-Split",
+                        "Evaporative",
+                        "Radiant",
+                        "Fans"
+                      ];
+
+                      List<String> selectedCoolingTypes = [];
+
+                      if (isOtherSelected && otherController.text.isNotEmpty) {
+                        selectedCoolingTypes.add(otherController.text.trim());
+                      } else {
+                        selectedIndexes.forEach((index) {
+                          selectedCoolingTypes.add(coolingOptions[index]);
+                        });
+                      }
+
+                      if (selectedCoolingTypes.isNotEmpty) {
+                        authController
+                            .updateHomeCoolingType(selectedCoolingTypes);
+
+                        Get.toNamed(RouteNames.selectResponsibleType);
+                      } else {
+                        Get.snackbar(
+                            'Error', 'Please select or enter a cooling type');
+                      }
+                    },
+                    icon: Icons.arrow_forward,
+                    btnText: 'Next',
+                  )
                 ],
               ),
             ],

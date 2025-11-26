@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/controller/onboarding_choice_controller.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 
@@ -16,6 +17,8 @@ class AddressFormScreen extends StatelessWidget {
 
   final OnboardingChoiceController controller =
       Get.find<OnboardingChoiceController>();
+
+  final AuthController authController = Get.put(AuthController());
 
   Widget _addressSuggestionItem(String text) {
     return InkWell(
@@ -141,8 +144,12 @@ class AddressFormScreen extends StatelessWidget {
                     SizedBox(width: 100.w),
                     CustomElevatedButton(
                       onTap: () {
-                        if (controller.selectedAddress.value != null) {
-                          print(
+                        if (controller.selectedAddress.value != null &&
+                            controller.selectedAddress.value!.isNotEmpty) {
+                          authController.updateHomeAddress(
+                            controller.selectedAddress.value!,
+                          );
+                          debugPrint(
                               'Selected Address: ${controller.selectedAddress.value}');
                           Get.toNamed(RouteNames.selectPowerType);
                         } else {

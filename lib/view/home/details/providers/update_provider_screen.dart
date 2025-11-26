@@ -25,13 +25,14 @@ class _UpdateProviderScreenState extends State<UpdateProviderScreen> {
   final AddProviderController addProviderController =
       Get.put(AddProviderController());
 
-  late RxString selectedType;
-  late RxString companyName;
-  late RxString fullName;
-  late RxString phoneNumber;
-  late RxString url;
-  late RxInt rating;
+  // Proper text controllers → NO CURSOR JUMP
+  final companyController = TextEditingController();
+  final fullNameController = TextEditingController();
+  final phoneController = TextEditingController();
+  final urlController = TextEditingController();
 
+  RxString selectedType = ''.obs;
+  RxInt rating = 0.obs;
   final selectedFile = Rxn<File>();
 
   bool isFormInitialized = false;
@@ -40,22 +41,20 @@ class _UpdateProviderScreenState extends State<UpdateProviderScreen> {
   @override
   void initState() {
     super.initState();
-    providerId = Get.arguments;
-    print('--------------');
-    print(Get.arguments);
 
-    // Fetch provider details after first frame
+    providerId = Get.arguments;
+
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await providerController.fetchProviderDetails(providerId);
-      final provider = providerController.selectedProvider.value;
 
-      if (provider != null) {
-        selectedType = (provider.type).obs;
-        companyName = (provider.company).obs;
-        fullName = (provider.name).obs;
-        phoneNumber = (provider.mobile).obs;
-        url = (provider.webUrl).obs;
-        rating = ((double.tryParse(provider.rating) ?? 0).toInt()).obs;
+      final p = providerController.selectedProvider.value;
+      if (p != null) {
+        selectedType.value = p.type;
+        companyController.text = p.company;
+        fullNameController.text = p.name;
+        phoneController.text = p.mobile;
+        urlController.text = p.webUrl;
+        rating.value = (double.tryParse(p.rating) ?? 0).toInt();
 
         setState(() => isFormInitialized = true);
       }
@@ -64,7 +63,9 @@ class _UpdateProviderScreenState extends State<UpdateProviderScreen> {
 
   Future<void> pickFile() async {
     final result = await FilePicker.platform.pickFiles(type: FileType.any);
-    if (result != null) selectedFile.value = File(result.files.single.path!);
+    if (result != null) {
+      selectedFile.value = File(result.files.single.path!);
+    }
   }
 
   void removeFile() => selectedFile.value = null;
@@ -86,17 +87,17 @@ class _UpdateProviderScreenState extends State<UpdateProviderScreen> {
             children: [
               ProviderTypeDropdown(
                 initialType: selectedType.value,
-                onChanged: (value) => selectedType.value = value ?? '',
+                onChanged: (v) => selectedType.value = v ?? "",
               ),
               SizedBox(height: 16.h),
-              _buildTextField('Company Name', companyName),
+              _buildField("Company Name", companyController),
               SizedBox(height: 16.h),
-              _buildTextField('Full Name', fullName),
+              _buildField("Full Name", fullNameController),
               SizedBox(height: 16.h),
-              _buildTextField('Phone Number', phoneNumber,
-                  keyboardType: TextInputType.phone),
+              _buildField("Phone Number", phoneController,
+                  keyboard: TextInputType.phone),
               SizedBox(height: 16.h),
-              _buildTextField('URL', url, keyboardType: TextInputType.url),
+              _buildField("URL", urlController),
               SizedBox(height: 32.h),
               _buildTileButtons(),
               SizedBox(height: 20.h),
@@ -111,22 +112,23 @@ class _UpdateProviderScreenState extends State<UpdateProviderScreen> {
           padding: const EdgeInsets.all(24.0),
           child: Obx(() {
             return CustomElevatedButton(
+              btnText: addProviderController.isLoading.value
+                  ? "Updating..."
+                  : "Update",
               onTap: () {
-                debugPrint("++Provider id===========> $providerId");
                 addProviderController.selectedType.value = selectedType.value;
-                addProviderController.companyName.value = companyName.value;
-                addProviderController.fullName.value = fullName.value;
-                addProviderController.phoneNumber.value = phoneNumber.value;
-                addProviderController.url.value = url.value;
+                addProviderController.companyName.value =
+                    companyController.text.trim();
+                addProviderController.fullName.value =
+                    fullNameController.text.trim();
+                addProviderController.phoneNumber.value =
+                    phoneController.text.trim();
+                addProviderController.url.value = urlController.text.trim();
                 addProviderController.rating.value = rating.value;
                 addProviderController.selectedFile.value = selectedFile.value;
 
-                // Call update method
                 addProviderController.submitUpdateProvider(providerId);
               },
-              btnText: addProviderController.isLoading.value
-                  ? 'Updating...'
-                  : 'Update',
             );
           }),
         ),
@@ -134,8 +136,8 @@ class _UpdateProviderScreenState extends State<UpdateProviderScreen> {
     );
   }
 
-  Widget _buildTextField(String label, RxString rxVar,
-      {TextInputType keyboardType = TextInputType.text}) {
+  Widget _buildField(String label, TextEditingController controller,
+      {TextInputType keyboard = TextInputType.text}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -144,9 +146,8 @@ class _UpdateProviderScreenState extends State<UpdateProviderScreen> {
         SizedBox(height: 6.h),
         TextFieldWidget(
           hintText: 'Enter $label',
-          keyboardType: keyboardType,
-          onChanged: (value) => rxVar.value = value,
-          controller: TextEditingController(text: rxVar.value),
+          controller: controller,
+          keyboardType: keyboard,
         ),
       ],
     );
@@ -161,36 +162,40 @@ class _UpdateProviderScreenState extends State<UpdateProviderScreen> {
           title: 'Link Meeting',
           onTap: () {},
         ),
-        Obx(() => TileButton(
-              imagePath: selectedFile.value == null
-                  ? 'assets/images/upload.png'
-                  : 'assets/logos/pdf_image1.png',
-              title: selectedFile.value == null
-                  ? 'Upload'
-                  : selectedFile.value!.path.split('/').last,
-              onTap: pickFile,
-              showRemoveButton: selectedFile.value != null,
-              onRemoveTap: removeFile,
-            )),
+        Obx(
+          () => TileButton(
+            imagePath: selectedFile.value == null
+                ? 'assets/images/upload.png'
+                : 'assets/logos/pdf_image1.png',
+            title: selectedFile.value == null
+                ? "Upload"
+                : selectedFile.value!.path.split('/').last,
+            onTap: pickFile,
+            showRemoveButton: selectedFile.value != null,
+            onRemoveTap: removeFile,
+          ),
+        ),
       ],
     );
   }
 
   Widget _buildRatingStars() {
-    return Obx(() => Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: List.generate(
-            5,
-            (index) => GestureDetector(
-              onTap: () => rating.value = index + 1,
-              child: Icon(
-                index < rating.value ? Icons.star : Icons.star_border,
-                color: AppColors.primaryLight,
-                size: 30.sp,
-              ),
+    return Obx(
+      () => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: List.generate(5, (index) {
+          final filled = index < rating.value;
+          return GestureDetector(
+            onTap: () => rating.value = index + 1,
+            child: Icon(
+              filled ? Icons.star : Icons.star_border,
+              color: AppColors.primaryLight,
+              size: 30.sp,
             ),
-          ),
-        ));
+          );
+        }),
+      ),
+    );
   }
 }
 
@@ -255,7 +260,6 @@ class _ProviderTypeDropdownState extends State<ProviderTypeDropdown> {
     ];
 
     selectedType = widget.initialType;
-
     if (selectedType != null && !providerTypes.contains(selectedType)) {
       providerTypes.insert(0, selectedType!);
     }
@@ -282,10 +286,12 @@ class _ProviderTypeDropdownState extends State<ProviderTypeDropdown> {
           ),
           value: selectedType,
           items: providerTypes
-              .map((type) => DropdownMenuItem(
-                    value: type,
-                    child: Text(type),
-                  ))
+              .map(
+                (type) => DropdownMenuItem(
+                  value: type,
+                  child: Text(type),
+                ),
+              )
               .toList(),
           onChanged: (value) {
             setState(() => selectedType = value);

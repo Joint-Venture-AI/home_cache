@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/auth_controller.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
@@ -23,6 +25,8 @@ class SelectHeatingTypeScreen extends StatefulWidget {
 class _SelectHeatingTypeScreenState extends State<SelectHeatingTypeScreen> {
   final Set<int> selectedIndexes = {};
   bool isOtherSelected = false;
+  final TextEditingController otherController = TextEditingController();
+  final AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -88,7 +92,9 @@ class _SelectHeatingTypeScreenState extends State<SelectHeatingTypeScreen> {
               ),
               if (isOtherSelected) ...[
                 SizedBox(height: 16.h),
-                const RoundedSearchBar(),
+                RoundedSearchBar(
+                  controller: otherController,
+                ),
               ],
               SizedBox(height: 50.h),
               Row(
@@ -101,9 +107,40 @@ class _SelectHeatingTypeScreenState extends State<SelectHeatingTypeScreen> {
                     },
                   ),
                   CustomElevatedButton(
-                      onTap: () => Get.toNamed(RouteNames.selectHeatPowerType),
-                      icon: Icons.arrow_forward,
-                      btnText: 'Next')
+                    onTap: () {
+                      // List of heating types
+                      final heatingTypes = [
+                        "Furnace",
+                        "Hydronic",
+                        "Radiant",
+                        "Heatpump",
+                        "Wood Stove",
+                        "Baseboard"
+                      ];
+
+                      // Get selected types
+                      List<String> selectedHeatingTypes =
+                          selectedIndexes.map((i) => heatingTypes[i]).toList();
+
+                      // Include "Other" if typed
+                      if (isOtherSelected && otherController.text.isNotEmpty) {
+                        selectedHeatingTypes.add(otherController.text.trim());
+                      }
+
+                      if (selectedHeatingTypes.isNotEmpty) {
+                        // Update AuthController
+                        authController
+                            .updateHomeHeatingType(selectedHeatingTypes);
+                        // Navigate to next screen
+                        Get.toNamed(RouteNames.selectHeatPowerType);
+                      } else {
+                        Get.snackbar('Error',
+                            'Please select or enter at least one heating type');
+                      }
+                    },
+                    icon: Icons.arrow_forward,
+                    btnText: 'Next',
+                  )
                 ],
               ),
             ],

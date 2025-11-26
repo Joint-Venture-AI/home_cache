@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/route_manager.dart';
-
-import 'package:home_cache/constants/colors.dart' show AppColors;
+import 'package:get/get.dart';
+import 'package:home_cache/config/route/route_names.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/controller/auth_controller.dart';
+import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:home_cache/view/widget/rounded_search_bar.dart';
 import 'package:home_cache/view/widget/selectable_tiles.dart';
 import 'package:home_cache/view/widget/text_button_widget_light.dart';
-import 'package:home_cache/view/widget/rounded_search_bar.dart';
-
-import '../../../../../config/route/route_names.dart';
-import '../../widgets/custom_elevated_button.dart';
 
 class SelectResponsibleTypeScreen extends StatefulWidget {
   const SelectResponsibleTypeScreen({super.key});
@@ -22,8 +21,26 @@ class SelectResponsibleTypeScreen extends StatefulWidget {
 
 class _SelectResponsibleTypeScreenState
     extends State<SelectResponsibleTypeScreen> {
+  void onSelected(int index) {
+    setState(() {
+      if (index == options.length) {
+        isOtherSelected = !isOtherSelected;
+      } else {
+        if (selectedIndexes.contains(index)) {
+          selectedIndexes.remove(index);
+        } else {
+          selectedIndexes.add(index);
+        }
+      }
+    });
+  }
+
   final Set<int> selectedIndexes = {};
   bool isOtherSelected = false;
+  final TextEditingController otherController = TextEditingController();
+  final AuthController authController = Get.put(AuthController());
+
+  final List<String> options = ["Sewage", "Water", "Waste", "Recycling"];
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +53,6 @@ class _SelectResponsibleTypeScreenState
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(height: 2.h),
               Text(
                 'You Or The City?',
                 style: AppTypoGraphy.bold.copyWith(
@@ -55,13 +71,14 @@ class _SelectResponsibleTypeScreenState
               Wrap(
                 spacing: 16.w,
                 runSpacing: 16.h,
-                children: [
-                  _buildTile(context, "Sewage", "assets/images/sewage.png", 0),
-                  _buildTile(context, "Water", "assets/images/water.png", 1),
-                  _buildTile(context, "Waste", "assets/images/waste.png", 2),
-                  _buildTile(
-                      context, "Recycling", "assets/images/recycling.png", 3),
-                ],
+                children: List.generate(
+                  options.length,
+                  (index) => _buildTile(
+                      context,
+                      options[index],
+                      "assets/images/${options[index].toLowerCase()}.png",
+                      index),
+                ),
               ),
               SizedBox(height: 20.h),
               GestureDetector(
@@ -82,7 +99,7 @@ class _SelectResponsibleTypeScreenState
               ),
               if (isOtherSelected) ...[
                 SizedBox(height: 16.h),
-                const RoundedSearchBar(),
+                RoundedSearchBar(controller: otherController),
               ],
               SizedBox(height: 100.h),
               Row(
@@ -95,9 +112,21 @@ class _SelectResponsibleTypeScreenState
                     },
                   ),
                   CustomElevatedButton(
-                      onTap: () => Get.toNamed(RouteNames.finishUtility),
-                      icon: Icons.arrow_forward,
-                      btnText: 'Next')
+                    btnText: 'Next',
+                    icon: Icons.arrow_forward,
+                    onTap: () {
+                      // Collect selected values
+                      List<String> selectedValues = isOtherSelected
+                          ? [otherController.text]
+                          : selectedIndexes.map((i) => options[i]).toList();
+
+                      // Update AuthController
+                      authController.updateResponsibleFor(selectedValues);
+
+                      // Navigate
+                      Get.toNamed(RouteNames.finishUtility);
+                    },
+                  )
                 ],
               ),
             ],
@@ -110,7 +139,6 @@ class _SelectResponsibleTypeScreenState
   Widget _buildTile(
       BuildContext context, String title, String iconPath, int index) {
     final isSelected = selectedIndexes.contains(index) && !isOtherSelected;
-
     return SizedBox(
       width: (MediaQuery.of(context).size.width - 64.w) / 2,
       child: SelectableTile(
