@@ -5,14 +5,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
-import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/room_controller.dart';
 import 'package:home_cache/view/home/details/room/add_room_item_dialog.dart';
 import 'package:home_cache/utils.dart' as utils;
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../config/route/route_names.dart';
 import '../../../../model/room_model.dart';
 
 class EditRoomDetailsScreen extends StatefulWidget {
@@ -23,26 +22,9 @@ class EditRoomDetailsScreen extends StatefulWidget {
 }
 
 class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
-  late String roomName;
-  late String roomType;
-  List<String> categories = [];
-
   int selectedCategoryIndex = 0;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    final args = Get.arguments as Map<String, dynamic>?;
-    roomName = args?['roomName'] ?? 'Room';
-    roomType = args?['roomType'] ?? 'Room';
-
-    final matchedRoom = rooms.firstWhere(
-      (room) => room.name == roomType,
-      orElse: () => RoomModel(name: roomType, items: []),
-    );
-
-    categories = matchedRoom.items;
-  }
+  File? _selectedImage;
+  final RoomController roomController = Get.put(RoomController());
 
   void selectCategory(int index) {
     setState(() {
@@ -50,58 +32,26 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
     });
   }
 
-  final List<Map<String, dynamic>> documentTiles = [
-    {
-      'title': 'Replace Ceiling',
-      'subtitle': 'ce color',
-      'date': '01 Jul 25',
-      'category': 'Replace',
-    },
-    {
-      'title': 'Wall Paint Info',
-      'subtitle': 'ce color',
-      'date': '02 Jul 25',
-      'category': 'Paint',
-    },
-    {
-      'title': 'Sink Maintenance',
-      'subtitle': 'ce color',
-      'date': '03 Jul 25',
-      'category': 'Sink',
-    },
-    {
-      'title': 'Toilet Model Details',
-      'subtitle': 'ce color',
-      'date': '04 Jul 25',
-      'category': 'Toilet',
-    },
-    {
-      'title': 'Shower Head Specs',
-      'subtitle': 'ce color',
-      'date': '05 Jul 25',
-      'category': 'Shower',
-    },
-    {
-      'title': 'Bath Tub Warranty',
-      'subtitle': 'ce color',
-      'date': '06 Jul 25',
-      'category': 'Bathtub',
-    },
-  ];
+  late String roomId;
+  late String roomName;
 
-  File? _selectedImage;
+  @override
+  void initState() {
+    super.initState();
+    final args = Get.arguments as Map<String, dynamic>?;
+    roomId = args?['roomId'] ?? '';
+    roomName = args?['roomName'] ?? 'Room';
+
+    // Delay fetching until after first frame
+    if (roomId.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        roomController.fetchRoomDetails(roomId);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    String normalize(String s) => s.toLowerCase().replaceAll(' ', '');
-    final normalizedSelectedCategory =
-        normalize(categories[selectedCategoryIndex]);
-
-    final filteredDocuments = documentTiles.where((doc) {
-      final normalizedDocCategory = normalize(doc['category'].toString());
-      return normalizedDocCategory == normalizedSelectedCategory;
-    }).toList();
-
     return Scaffold(
       appBar: AppBarBack(
         title: roomName,
@@ -137,175 +87,149 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
       backgroundColor: AppColors.surface,
       body: Padding(
         padding: EdgeInsets.all(24.sp),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        child: Obx(() {
+          if (roomController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          final room = roomController.roomDetails.value;
+          if (room == null) {
+            return const Center(child: Text("No room details found"));
+          }
+
+          return SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () async {
-                    final image = await utils.pickSingleImage(
-                        context: context, source: ImageSource.gallery);
-                    setState(() {
-                      setState(() {
-                        _selectedImage = image;
-                      });
-                    });
-                  },
-                  child: Container(
-                    width: 112.w,
-                    height: 112.w,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[200],
-                        borderRadius: BorderRadius.circular(10.r)),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10.r),
-                      child: _selectedImage == null
-                          ? Center(
-                              child: SvgPicture.asset(
-                                'assets/icons/gallery.svg',
-                                width: 72.w,
-                              ),
-                            )
-                          : Stack(
-                              alignment: Alignment.topRight,
-                              children: [
-                                Image.file(
-                                  _selectedImage!,
-                                  width: double.infinity,
-                                  height: double.infinity,
-                                  fit: BoxFit.cover,
-                                ),
-                                GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _selectedImage = null;
-                                    });
-                                  },
-                                  child: Container(
-                                    width: 20.w,
-                                    height: 20.w,
-                                    margin:
-                                        EdgeInsets.only(top: 4.w, right: 4.w),
-                                    decoration: BoxDecoration(
-                                        color: Colors.red[400],
-                                        shape: BoxShape.circle),
-                                    child: Center(
-                                      child: Icon(
-                                        Icons.close,
-                                        size: 14.w,
-                                        color: Colors.white,
+                // Room Image
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    GestureDetector(
+                      onTap: () async {
+                        final image = await utils.pickSingleImage(
+                            context: context, source: ImageSource.gallery);
+                        setState(() {
+                          _selectedImage = image;
+                        });
+                      },
+                      child: Container(
+                        width: 112.w,
+                        height: 112.w,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[200],
+                          borderRadius: BorderRadius.circular(10.r),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(10.r),
+                          child: _selectedImage != null
+                              ? Stack(
+                                  alignment: Alignment.topRight,
+                                  children: [
+                                    Image.file(
+                                      _selectedImage!,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      fit: BoxFit.cover,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          _selectedImage = null;
+                                        });
+                                      },
+                                      child: Container(
+                                        width: 20.w,
+                                        height: 20.w,
+                                        margin: EdgeInsets.only(
+                                            top: 4.w, right: 4.w),
+                                        decoration: BoxDecoration(
+                                          color: Colors.red[400],
+                                          shape: BoxShape.circle,
+                                        ),
+                                        child: const Center(
+                                          child: Icon(
+                                            Icons.close,
+                                            size: 14,
+                                            color: Colors.white,
+                                          ),
+                                        ),
                                       ),
                                     ),
-                                  ),
+                                  ],
                                 )
-                              ],
-                            ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            SizedBox(height: 20.h),
-
-            // Category Chips (from dynamic data)
-            if (categories.isNotEmpty)
-              Wrap(
-                alignment: WrapAlignment.center,
-                spacing: 6.w,
-                runSpacing: 8.h,
-                children: List.generate(categories.length, (index) {
-                  final isSelected = selectedCategoryIndex == index;
-                  return ElevatedButton(
-                    onPressed: () => selectCategory(index),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor:
-                          isSelected ? AppColors.primary : AppColors.lightgrey,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                      padding: EdgeInsets.symmetric(horizontal: 10.w),
-                    ),
-                    child: Text(
-                      categories[index],
-                      style: TextStyle(
-                        color: isSelected ? Colors.white : Colors.black,
-                        fontSize: 12.sp,
-                      ),
-                    ),
-                  );
-                }),
-              ),
-
-            SizedBox(height: 20.h),
-
-            Text(
-              'View All',
-              style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
-            ),
-
-            SizedBox(height: 20.h),
-
-            // Document List
-            Expanded(
-              child: filteredDocuments.isEmpty
-                  ? Center(
-                      child: Text(
-                        'No appliances in this category.',
-                        style: AppTypoGraphy.medium.copyWith(
-                          color: AppColors.black,
+                              : room.image.isNotEmpty
+                                  ? Image.network(
+                                      room.image,
+                                      width: double.infinity,
+                                      height: double.infinity,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                        // Fallback image if network fails
+                                        return Center(
+                                          child: SvgPicture.asset(
+                                            'assets/icons/gallery.svg',
+                                            width: 72.w,
+                                          ),
+                                        );
+                                      },
+                                    )
+                                  : Center(
+                                      child: SvgPicture.asset(
+                                        'assets/icons/gallery.svg',
+                                        width: 72.w,
+                                      ),
+                                    ),
                         ),
                       ),
-                    )
-                  : ListView.separated(
-                      itemCount: filteredDocuments.length,
-                      separatorBuilder: (context, index) =>
-                          SizedBox(height: 12.h),
-                      itemBuilder: (context, index) {
-                        final doc = filteredDocuments[index];
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: AppColors.lightgrey,
-                            borderRadius: BorderRadius.circular(12.r),
-                            border: Border.all(
-                              color: AppColors.lightgrey,
-                              width: 1,
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: 20.h),
+
+                // Category Chips (room items)
+                if (room.items.isNotEmpty)
+                  Center(
+                    child: Wrap(
+                      spacing: 18.w,
+                      runSpacing: 18.h,
+                      children: List.generate(room.items.length, (index) {
+                        final isSelected = selectedCategoryIndex == index;
+                        return ElevatedButton(
+                          onPressed: () => selectCategory(index),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: isSelected
+                                ? Color(0xff8CA8AC)
+                                : AppColors.lightgrey,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
+                            padding: EdgeInsets.symmetric(horizontal: 10.w),
                           ),
-                          child: ListTile(
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 24.w),
-                            title: Text(
-                              doc['title'],
-                              style: AppTypoGraphy.medium.copyWith(
-                                fontSize: 20.sp,
-                              ),
-                            ),
-                            subtitle: Text(
-                              doc['subtitle'],
-                              style: TextStyle(fontSize: 12.sp),
-                            ),
-                            trailing: IconButton(
-                              icon: Icon(Icons.edit, color: AppColors.black),
-                              onPressed: () {
-                                Get.toNamed(
-                                  RouteNames.addNewRoomIteam,
-                                  arguments: {
-                                    'selectedRoom': doc['title'],
-                                    'selectedItem': doc['subtitle'],
-                                  },
-                                );
-                              },
+                          child: Text(
+                            room.items[index].item,
+                            style: TextStyle(
+                              color: isSelected ? Colors.white : Colors.black,
+                              fontSize: 12.sp,
                             ),
                           ),
                         );
-                      },
+                      }),
                     ),
+                  ),
+
+                SizedBox(height: 20.h),
+
+                Text(
+                  'View All',
+                  style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
+                ),
+              ],
             ),
-          ],
-        ),
+          );
+        }),
       ),
     );
   }

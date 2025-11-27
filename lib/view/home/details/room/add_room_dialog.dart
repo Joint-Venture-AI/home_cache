@@ -1,40 +1,37 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_navigation/get_navigation.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/room_controller.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
-import 'package:home_cache/view/widget/text_button_widget.dart';
-
 import '../../../../config/route/route_names.dart';
 
-class AddRoomDialog extends StatelessWidget {
+class AddRoomDialog extends StatefulWidget {
   const AddRoomDialog({super.key});
 
   @override
+  State<AddRoomDialog> createState() => _AddRoomDialogState();
+}
+
+class _AddRoomDialogState extends State<AddRoomDialog> {
+  final TextEditingController nameController = TextEditingController();
+  final RoomController roomController = Get.put(RoomController());
+
+// Store the selected room object instead of just its ID
+  dynamic selectedRoom;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      roomController.fetchRoomType();
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
-    String selectedItem = 'Kitchen';
-    final TextEditingController nameController = TextEditingController();
-
-    List<String> _roomOptions = [
-      'Kitchen',
-      'Dining',
-      'Living Room',
-      'Bedroom',
-      'Bathroom',
-      'Laundry',
-      'Office',
-      'Basement',
-      'Garage',
-      'Gym',
-      'Mudroom',
-      'Mediaroom',
-      'Playroom',
-      'Sunroom',
-    ];
-
     return AlertDialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -45,94 +42,116 @@ class AddRoomDialog extends StatelessWidget {
       ),
       content: SizedBox(
         height: 300.h,
-        child: StatefulBuilder(
-          builder: (context, setState) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                SizedBox(height: 18.h),
-                Text('Type',
-                    style: AppTypoGraphy.regular.copyWith(color: AppColors.black)),
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.lightgrey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: DropdownButton<String>(
-                    value: selectedItem,
-                    isExpanded: true,
-                    underline: SizedBox(),
-                    dropdownColor: Color(0xffA7B8BB),
-                    icon: Icon(CupertinoIcons.chevron_down,
-                        color: AppColors.secondary, size: 18.sp),
-                    items: _roomOptions.map((value) {
-                      return DropdownMenuItem(
-                        value: value,
-                        child: Text(value,
-                            style: TextStyle(color: AppColors.black)),
-                      );
-                    }).toList(),
-                    onChanged: (newValue) {
-                      setState(() {
-                        selectedItem = newValue!;
-                      });
-                    },
-                  ),
+        child: Obx(() {
+          if (roomController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (roomController.roomType.isEmpty) {
+            return const Center(child: Text("No room types found"));
+          }
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 18.h),
+              Text('Type',
+                  style:
+                      AppTypoGraphy.regular.copyWith(color: AppColors.black)),
+
+              // DROPDOWN
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.lightgrey),
+                  borderRadius: BorderRadius.circular(8),
                 ),
-                SizedBox(height: 16.h),
-                Text('Name (optional)',
-                    style: AppTypoGraphy.regular.copyWith(color: AppColors.black)),
-                SizedBox(height: 6.h),
-                SizedBox(
-                  height: 48.h,
-                  child: TextField(
-                    controller: nameController,
-                    decoration: InputDecoration(
-                      hintText: 'Enter room name',
-                      hintStyle:
-                          TextStyle(color: AppColors.black.withAlpha(200)),
-                      filled: true,
-                      fillColor: Colors.white,
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: 16.w, vertical: 12.h),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.r),
-                        borderSide: BorderSide(
-                            color: Colors.grey.withAlpha(122), width: 1.w),
+                child: DropdownButton<dynamic>(
+                  value: selectedRoom,
+                  isExpanded: true,
+                  underline: const SizedBox(),
+                  dropdownColor: const Color(0xffA7B8BB),
+                  icon: Icon(
+                    CupertinoIcons.chevron_down,
+                    color: AppColors.secondary,
+                    size: 18.sp,
+                  ),
+                  items: roomController.roomType.map((room) {
+                    return DropdownMenuItem<dynamic>(
+                      value: room,
+                      child: Text(
+                        room.type,
+                        style: const TextStyle(color: AppColors.black),
                       ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12.r),
-                        borderSide:
-                            BorderSide(color: Colors.grey, width: 1.5.w),
-                      ),
+                    );
+                  }).toList(),
+                  onChanged: (newValue) {
+                    setState(() {
+                      selectedRoom = newValue;
+                    });
+                  },
+                ),
+              ),
+
+              SizedBox(height: 16.h),
+              Text('Name (optional)',
+                  style:
+                      AppTypoGraphy.regular.copyWith(color: AppColors.black)),
+              SizedBox(height: 6.h),
+
+              // NAME FIELD
+              SizedBox(
+                height: 48.h,
+                child: TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    hintText: 'Enter room name',
+                    hintStyle: TextStyle(color: AppColors.black.withAlpha(200)),
+                    filled: true,
+                    fillColor: Colors.white,
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide(
+                          color: Colors.grey.withAlpha(122), width: 1.w),
                     ),
-                    style: const TextStyle(color: Colors.black),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                      borderSide: BorderSide(color: Colors.grey, width: 1.5.w),
+                    ),
                   ),
+                  style: const TextStyle(color: Colors.black),
                 ),
-                SizedBox(height: 70.h),
-                Padding(
-                  padding: EdgeInsets.only(left: 100.w),
-                  child: CustomElevatedButton(
-                    onTap: () {
+              ),
+
+              const Spacer(),
+
+              // NEXT BUTTON centered
+              Center(
+                child: CustomElevatedButton(
+                  onTap: () {
+                    if (selectedRoom != null) {
+                      Get.back();
                       Get.toNamed(
                         RouteNames.addRoom,
                         arguments: {
-                          'type': selectedItem,
+                          'id': selectedRoom.id,
+                          'type': selectedRoom.type,
                           'name': nameController.text.trim(),
                         },
                       );
-                    },
-                    btnText: 'Next',
-                    width: 100.w,
-                    height: 42.h,
-                    icon: Icons.arrow_forward,
-                  ),
-                )
-              ],
-            );
-          },
-        ),
+                    }
+                  },
+                  btnText: 'Next',
+                  width: 100.w,
+                  height: 42.h,
+                  icon: Icons.arrow_forward,
+                ),
+              )
+            ],
+          );
+        }),
       ),
     );
   }

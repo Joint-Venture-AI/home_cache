@@ -7,10 +7,10 @@ import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/room_controller.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/home/chat/widgets/faq_search_bar_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
-import 'package:home_cache/utils.dart' as utils;
 import 'package:image_picker/image_picker.dart';
 
 import '../../../../model/room_model.dart';
@@ -25,16 +25,42 @@ class AddRoomScreen extends StatefulWidget {
 class _AddRoomScreenState extends State<AddRoomScreen> {
   late String type;
   late String name;
+  late String typeId;
   List<String> items = [];
   List<String> filteredItems = [];
   List<String> selectedItems = [];
   String _searchQuery = '';
+
+  final RoomController controller = Get.put(RoomController());
+
+  File? _selectedImage;
+
+  //! Pick image + store in controller
+  Future<void> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      final file = File(image.path);
+
+      setState(() {
+        _selectedImage = file; // Show image in UI
+      });
+
+      controller.selectedFile.value = file; // Store in controller
+
+      print("Stored in controller: ${controller.selectedFile.value?.path}");
+    } else {
+      print("No image selected");
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     final Map<String, dynamic> args = Get.arguments ?? {};
     type = args['type'] ?? 'Unknown';
+    typeId = args['id'] ?? '';
     name = (args['name'] is String && args['name'].isNotEmpty)
         ? args['name']
         : 'Room Name';
@@ -45,19 +71,17 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
     );
     items = room.items;
     filteredItems = List.from(items);
-    _filterItems(''); // initialize filteredItems to full list
+    _filterItems('');
   }
 
   void _filterItems(String query) {
     setState(() {
       _searchQuery = query;
-      if (query.isEmpty) {
-        filteredItems = List.from(items);
-      } else {
-        filteredItems = items
-            .where((item) => item.toLowerCase().contains(query.toLowerCase()))
-            .toList();
-      }
+      filteredItems = query.isEmpty
+          ? List.from(items)
+          : items
+              .where((item) => item.toLowerCase().contains(query.toLowerCase()))
+              .toList();
     });
   }
 
@@ -75,8 +99,6 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
     });
   }
 
-  File? _selectedImage;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,7 +108,6 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
         child: SingleChildScrollView(
           padding: EdgeInsets.all(24.sp),
           child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 type,
@@ -111,25 +132,14 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
               ),
               SizedBox(height: 32.h),
               GestureDetector(
-                onTap: () async {
-                  final image = await utils.pickSingleImage(
-                      context: context, source: ImageSource.gallery);
-
-                  if (image == null) return;
-                  final imageData = await image.readAsBytes();
-
-                  setState(() {
-                    setState(() {
-                      _selectedImage = image;
-                    });
-                  });
-                },
+                onTap: () => pickImage(),
                 child: Container(
                   width: 112.w,
                   height: 112.w,
                   decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(10.r)),
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(10.r),
                     child: _selectedImage == null
@@ -152,6 +162,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                 onTap: () {
                                   setState(() {
                                     _selectedImage = null;
+                                    controller.selectedFile.value = null;
                                   });
                                 },
                                 child: Container(
@@ -159,8 +170,9 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                                   height: 20.w,
                                   margin: EdgeInsets.only(top: 4.w, right: 4.w),
                                   decoration: BoxDecoration(
-                                      color: Colors.red[400],
-                                      shape: BoxShape.circle),
+                                    color: Colors.red[400],
+                                    shape: BoxShape.circle,
+                                  ),
                                   child: Center(
                                     child: Icon(
                                       Icons.close,
@@ -176,9 +188,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                 ),
               ),
               SizedBox(height: 32.h),
-              FaqSearchBarWidget(
-                onChanged: _filterItems,
-              ),
+              FaqSearchBarWidget(onChanged: _filterItems),
               SizedBox(height: 16.h),
               if (_searchQuery.isNotEmpty && filteredItems.isNotEmpty)
                 Container(
@@ -186,9 +196,8 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                   decoration: BoxDecoration(
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(
-                      color: AppColors.secondary.withAlpha(50),
-                    ),
+                    border:
+                        Border.all(color: AppColors.secondary.withAlpha(50)),
                   ),
                   child: ListView.builder(
                     shrinkWrap: true,
@@ -211,8 +220,8 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                   padding: EdgeInsets.symmetric(vertical: 12.h),
                   child: Text(
                     'No matching items found.',
-                    style:
-                        AppTypoGraphy.regular.copyWith(color: AppColors.secondary),
+                    style: AppTypoGraphy.regular
+                        .copyWith(color: AppColors.secondary),
                     textAlign: TextAlign.center,
                   ),
                 ),
@@ -238,7 +247,22 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                     child: TextWidgetButton(
                       text: '✓ Complete',
                       onPressed: () {
-                        Get.back(result: selectedItems);
+                        Map<String, String> body = {
+                          'type_id': typeId,
+                          'name': name,
+                        };
+
+                        // Use selected items if available, otherwise use static items
+                        List<String> itemsToSend = selectedItems.isNotEmpty
+                            ? selectedItems
+                            : ['Bed', 'Wardrobe', 'Desk', 'Chair'];
+
+                        for (int i = 0; i < itemsToSend.length; i++) {
+                          body['item[$i]'] = itemsToSend[i];
+                        }
+
+                        debugPrint("Body being sent: $body");
+                        controller.addRoom(body);
                       },
                     ),
                   ),
