@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/controller/add_document_controller.dart';
+import 'package:home_cache/model/document_model.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
-import 'package:home_cache/view/home/details/documents/documents_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
@@ -26,13 +26,21 @@ class AddDocumentsScreen extends StatefulWidget {
 class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
   final AddDocumentController controller = Get.put(AddDocumentController());
 
+  // final List<String> _documentTypes = [
+  //   "Warranties",
+  //   "Insurance",
+  //   "Receipts",
+  //   "Quotes",
+  //   "Manuals",
+  //   "Other",
+  // ];
   final List<String> _documentTypes = [
-    "Warranties",
-    "Insurance",
-    "Receipts",
-    "Quotes",
-    "Manuals",
-    "Other",
+    "warranty",
+    "insurance",
+    "receipt",
+    "quote",
+    "manual",
+    "other"
   ];
 
   String? _selectedType;
@@ -48,7 +56,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
       setState(() => _pickedFile = file);
       controller.selectedFile.value = file;
 
-      print("Picked File: ${file.path}");
+      debugPrint("Picked File: ${file.path}");
     }
   }
 
@@ -220,7 +228,7 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
     }
 
     // Create new Document model
-    final document = DocumentModel(
+    final document = DocumentsModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       title: _selectedType!,
       subtitle: 'Uploaded document',
@@ -231,13 +239,11 @@ class _AddDocumentsScreenState extends State<AddDocumentsScreen> {
     );
 
     // Save locally
-    final DocumentsController docs = Get.find<DocumentsController>();
-    docs.addDocument(document);
+    // final DocumentsController docs = Get.find<DocumentsController>();
+    // docs.addDocument(document);
 
-    // ----------- 🔥 FIX HERE -----------
     final args = document.toJson();
-    args['type'] = _selectedType; // send type manually
-    // ----------------------------------
+    args['type'] = _selectedType;
 
     // Go to preview screen
     Get.toNamed(

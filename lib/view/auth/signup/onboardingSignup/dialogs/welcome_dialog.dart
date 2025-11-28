@@ -24,7 +24,7 @@ class WelcomeDialog extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
       content: SizedBox(
-        height: 350.h,
+        height: 360.h,
         width: double.maxFinite,
         child: Column(
           children: [

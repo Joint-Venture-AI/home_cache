@@ -10,12 +10,14 @@ class ApiConstants {
 
   static String createTask = "/task/add_task";
   static String fetchTask = "/task/get_users_task";
+  static String fetchTaskDetails = "/task/task_details/";
 
   static String addProvider = "/provider/";
   static String fetchProviders = "/provider/";
   static String updateProvider = "/provider/";
 
   static String addDocument = "/document";
+  static String fetchDocument = "/document/all?type=";
 
   static String addRoom = "/view-by-room/add";
   static String fetchAllRoom = "/view-by-room/all";

@@ -1,39 +1,35 @@
-class Task {
-  String id;
-  String title;
-  String description;
-  DateTime initialDate;
-  DateTime? date;
-  bool isLinked;
+class TaskModel {
+  final String id;
+  final String createdBy;
+  final String title;
+  final String description;
+  final String initialDate;
+  final String recurrenceType;
+  final String? lastServiceBy;
+  final String? presentAssignTo;
 
-  Task({
+  TaskModel({
     required this.id,
+    required this.createdBy,
     required this.title,
     required this.description,
     required this.initialDate,
-    this.date,
-    this.isLinked = false,
+    required this.recurrenceType,
+    this.lastServiceBy,
+    this.presentAssignTo,
   });
 
-  // From JSON
-  factory Task.fromJson(Map<String, dynamic> json) {
-    return Task(
-      id: json['id'],
-      title: json['title'],
-      description: json['description'],
-      initialDate: DateTime.parse(json['initial_date']),
-      date: json['date'] != null ? DateTime.parse(json['date']) : null,
+  factory TaskModel.fromJson(Map<String, dynamic> json) {
+    final taskData = json['task_data'] ?? {};
+    return TaskModel(
+      id: taskData['id'] ?? '',
+      createdBy: taskData['created_by'] ?? '',
+      title: taskData['title'] ?? '',
+      description: taskData['description'] ?? '',
+      initialDate: taskData['initial_date'] ?? '',
+      recurrenceType: taskData['recurrence_type'] ?? '',
+      lastServiceBy: json['last_service_by']?.toString(),
+      presentAssignTo: json['present_assign_to']?.toString(),
     );
-  }
-
-  // To JSON
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'title': title,
-      'description': description,
-      'initial_date': initialDate.toIso8601String(),
-      'date': date?.toIso8601String(),
-    };
   }
 }

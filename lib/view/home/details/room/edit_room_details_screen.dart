@@ -12,8 +12,6 @@ import 'package:home_cache/utils.dart' as utils;
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
-import '../../../../model/room_model.dart';
-
 class EditRoomDetailsScreen extends StatefulWidget {
   const EditRoomDetailsScreen({super.key});
 

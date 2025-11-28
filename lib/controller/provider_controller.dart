@@ -94,11 +94,9 @@ class ProviderController extends GetxController {
 
         if (responseData['data'] != null &&
             responseData['data']['provider'] != null) {
-          // Parse provider
           selectedProvider.value =
               Provider.fromJson(responseData['data']['provider']);
 
-          // Parse appointments if available
           lastAppointment.value = responseData['data']['lastAppointment'] !=
                   null
               ? Appointment.fromJson(responseData['data']['lastAppointment'])

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:home_cache/view/home/schedule/screens/schedule_screen.dart';
@@ -17,6 +18,7 @@ class BottomNavBar extends StatefulWidget {
 
 class _MainBottomNavScreenState extends State<BottomNavBar> {
   int _selectedIndex = 1;
+  DateTime? _lastBackPressed;
 
   static const Color _selectedColor = Color(0XFF137C8E);
 
@@ -50,48 +52,88 @@ class _MainBottomNavScreenState extends State<BottomNavBar> {
     });
   }
 
+  Future<bool> _onWillPop() async {
+    // If not on home screen, navigate to home
+    if (_selectedIndex != 1) {
+      setState(() {
+        _selectedIndex = 1;
+      });
+      return false;
+    }
+
+    // Double back press to exit
+    final now = DateTime.now();
+    if (_lastBackPressed == null ||
+        now.difference(_lastBackPressed!) > const Duration(seconds: 2)) {
+      _lastBackPressed = now;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Press back again to exit'),
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return false;
+    }
+
+    // Exit app
+    SystemNavigator.pop();
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(top: true, bottom: false, child: _screens[_selectedIndex]),
-      bottomNavigationBar: SafeArea(
-        top: false,
-        bottom: true,
-        child: Container(
-          height: 70.h,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border(top: BorderSide(color: Colors.grey.shade300)),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(_labels.length, (index) {
-              final isSelected = _selectedIndex == index;
-              return GestureDetector(
-                onTap: () => _onTap(index),
-                behavior: HitTestBehavior.opaque,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      _labels[index],
-                      style: TextStyle(
-                        fontSize: 12.sp,
-                        fontWeight:
-                            isSelected ? FontWeight.bold : FontWeight.normal,
+    return PopScope(
+      canPop: false,
+      onPopInvoked: (didPop) async {
+        if (!didPop) {
+          await _onWillPop();
+        }
+      },
+      child: Scaffold(
+        body: SafeArea(
+          top: true,
+          bottom: false,
+          child: _screens[_selectedIndex],
+        ),
+        bottomNavigationBar: SafeArea(
+          top: false,
+          bottom: true,
+          child: Container(
+            height: 70.h,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border(top: BorderSide(color: Colors.grey.shade300)),
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: List.generate(_labels.length, (index) {
+                final isSelected = _selectedIndex == index;
+                return GestureDetector(
+                  onTap: () => _onTap(index),
+                  behavior: HitTestBehavior.opaque,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        _labels[index],
+                        style: TextStyle(
+                          fontSize: 12.sp,
+                          fontWeight:
+                              isSelected ? FontWeight.bold : FontWeight.normal,
+                          color: isSelected ? _selectedColor : Colors.grey,
+                        ),
+                      ),
+                      SizedBox(height: 4.h),
+                      SvgPicture.asset(
+                        _iconPaths[index],
+                        height: 30.h,
                         color: isSelected ? _selectedColor : Colors.grey,
                       ),
-                    ),
-                    SizedBox(height: 4.h),
-                    SvgPicture.asset(
-                      _iconPaths[index],
-                      height: 30.h,
-                      color: isSelected ? _selectedColor : Colors.grey,
-                    ),
-                  ],
-                ),
-              );
-            }),
+                    ],
+                  ),
+                );
+              }),
+            ),
           ),
         ),
       ),

@@ -24,6 +24,8 @@ class DocumentTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
+        height: 120.h,
+        width: 120.w,
         padding: EdgeInsets.all(12.w),
         decoration: BoxDecoration(
           color: AppColors.lightgrey,
@@ -31,10 +33,10 @@ class DocumentTile extends StatelessWidget {
           borderRadius: BorderRadius.circular(12.r),
           boxShadow: [
             BoxShadow(
-              color: AppColors.black.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 1,
-              offset: const Offset(0, 2),
+              color: AppColors.black.withValues(alpha: 0.3),
+              spreadRadius: 0,
+              blurRadius: 4,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -52,26 +54,28 @@ class DocumentTile extends StatelessWidget {
               title,
               style: AppTypoGraphy.medium.copyWith(
                 color: AppColors.black,
-                fontSize: 14.sp,
+                fontSize: 15.sp,
+                fontWeight: FontWeight.w700,
               ),
               textAlign: TextAlign.center,
             ),
             Text(
               subtitle,
               style: TextStyle(
-                color: AppColors.black.withOpacity(0.7),
-                fontSize: 12.sp,
-              ),
+                  color: AppColors.black.withValues(alpha: 0.7),
+                  fontSize: 12.sp,
+                  fontWeight: FontWeight.w400),
               textAlign: TextAlign.center,
             ),
-
-            Text(
-              date,
-              style: TextStyle(
-                fontSize: 10.sp,
-                color: AppColors.black.withOpacity(0.7),
+            Expanded(
+              child: Text(
+                "Expires : $date",
+                style: TextStyle(
+                    fontSize: 12.sp,
+                    color: AppColors.black.withValues(alpha: 0.7),
+                    fontWeight: FontWeight.w400),
+                textAlign: TextAlign.center,
               ),
-              textAlign: TextAlign.center,
             ),
           ],
         ),

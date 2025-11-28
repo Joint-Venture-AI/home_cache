@@ -1,75 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:home_cache/constants/app_typo_graphy.dart';
-import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/controller/documents_controller.dart';
 import 'package:home_cache/view/home/details/widgets/document_tile.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
-
 import '../../../../config/route/route_names.dart';
+import '../../../../constants/colors.dart';
+import '../../../../constants/app_typo_graphy.dart';
 
-/// --- Document Model ---
-class DocumentModel {
-  final String id; // Unique ID for API
-  final String title;
-  final String subtitle;
-  final String date;
-  final String iconPath;
-  final String category;
-  final String? imagePath;
-  final DateTime createdAt;
-
-  DocumentModel({
-    required this.id,
-    required this.title,
-    required this.subtitle,
-    required this.date,
-    required this.iconPath,
-    required this.category,
-    this.imagePath,
-    DateTime? createdAt,
-  }) : createdAt = createdAt ?? DateTime.now();
-
-  Map<String, dynamic> toJson() {
-    return {
-      "id": id,
-      "title": title,
-      "subtitle": subtitle,
-      "date": date,
-      "iconPath": iconPath,
-      "category": category,
-      "imagePath": imagePath,
-      "createdAt": createdAt.toIso8601String(),
-    };
-  }
-}
-
-/// --- Controller ---
-
-class DocumentsController extends GetxController {
-  var documents = <DocumentModel>[].obs;
-
-  void addDocument(DocumentModel doc) {
-    documents.add(doc);
-  }
-
-  List<DocumentModel> getByCategory(String category) {
-    return documents.where((d) => d.category == category).toList();
-  }
-}
-
-/// --- Screen ---
 class DocumentsScreen extends StatelessWidget {
   DocumentsScreen({super.key});
-  final controller = Get.put(DocumentsController());
+  final DocumentsController controller = Get.put(DocumentsController());
 
   final List<String> categories = [
-    "Warranties",
-    "Insurance",
-    "Receipts",
-    "Quotes",
-    "Manuals",
-    "Other",
+    "warranty",
+    "insurance",
+    "receipt",
+    "quote",
+    "manual",
+    "other"
   ];
   final RxInt selectedCategoryIndex = 0.obs;
 
@@ -114,14 +63,17 @@ class DocumentsScreen extends StatelessWidget {
                         return Padding(
                           padding: EdgeInsets.symmetric(horizontal: 4.w),
                           child: ElevatedButton(
-                            onPressed: () =>
-                                selectedCategoryIndex.value = index,
+                            onPressed: () {
+                              selectedCategoryIndex.value = index;
+                              controller.fetchDocuments(categories[index]);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: isSelected
                                   ? AppColors.primary
                                   : AppColors.lightgrey,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10.r)),
+                              elevation: 0.0,
                             ),
                             child: Text(categories[index],
                                 style: TextStyle(
@@ -143,8 +95,11 @@ class DocumentsScreen extends StatelessWidget {
                         return Padding(
                           padding: EdgeInsets.symmetric(horizontal: 4.w),
                           child: ElevatedButton(
-                            onPressed: () =>
-                                selectedCategoryIndex.value = actualIndex,
+                            onPressed: () {
+                              selectedCategoryIndex.value = actualIndex;
+                              controller
+                                  .fetchDocuments(categories[actualIndex]);
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: isSelected
                                   ? AppColors.primary
@@ -170,6 +125,10 @@ class DocumentsScreen extends StatelessWidget {
             // Documents Grid
             Expanded(
               child: Obx(() {
+                if (controller.isLoading.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
                 final filteredDocs = controller
                     .getByCategory(categories[selectedCategoryIndex.value]);
                 if (filteredDocs.isEmpty) {
@@ -179,6 +138,7 @@ class DocumentsScreen extends StatelessWidget {
                             .copyWith(color: AppColors.black)),
                   );
                 }
+
                 return GridView.builder(
                   padding: EdgeInsets.only(left: 4.w, right: 4.w, bottom: 8.h),
                   itemCount: filteredDocs.length,
@@ -189,13 +149,28 @@ class DocumentsScreen extends StatelessWidget {
                       childAspectRatio: .95),
                   itemBuilder: (context, index) {
                     final doc = filteredDocs[index];
+
+                    String subtitle = '';
+                    if (doc.type == 'warranty') {
+                      subtitle = doc.details.brand ?? '';
+                    } else if (doc.type == 'receipt' ||
+                        doc.type == 'insurance') {
+                      subtitle = doc.details.vendorStoreName ?? '';
+                    }
+
+                    String date = doc.details.warrantyStartDate ??
+                        doc.details.dateOfPurchase ??
+                        '';
+
                     return DocumentTile(
-                      title: doc.title,
-                      subtitle: doc.subtitle,
-                      date: doc.date,
-                      iconPath: doc.iconPath,
+                      title:
+                          (doc.details.name ?? doc.type).capitalizeFirst ?? '',
+                      subtitle: subtitle,
+                      date: date,
+                      iconPath: 'assets/images/document.png',
                       onTap: () {
-                        Get.toNamed(RouteNames.documentsDetails);
+                        Get.toNamed(RouteNames.documentsDetails,
+                            arguments: doc);
                       },
                     );
                   },

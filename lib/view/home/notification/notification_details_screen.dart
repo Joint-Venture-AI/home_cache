@@ -1,33 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart';
+import 'package:home_cache/controller/task_controller.dart';
 import 'package:home_cache/view/home/details/widgets/provider_list_tile.dart';
 import 'package:home_cache/view/home/schedule/widgets/assigned_person_tile.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 import '../../../../config/route/route_names.dart';
-
-/// Mock API service (replace with real repo/providers later)
-class NotificationService {
-  Future<Map<String, dynamic>> fetchNotificationDetails() async {
-    await Future.delayed(const Duration(milliseconds: 500));
-    return {
-      "title": "Change Your Air Filters",
-      "lastServiceDate": "Jan. 1, 2023",
-      "providerName": "HVAC Pros",
-      "providerLastUsed": "Used on Jul 15, 2025",
-      "providerRating": 4,
-    };
-  }
-
-  Future<void> assignPerson(Person person) async {
-    await Future.delayed(const Duration(milliseconds: 300));
-    // API call: assign person
-  }
-}
 
 class NotificationDetailsScreen extends StatefulWidget {
   const NotificationDetailsScreen({super.key});
@@ -42,14 +24,18 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
   bool _isNotificationSettingsVisible = false;
 
   Person? _selectedPerson;
-  late Future<Map<String, dynamic>> _notificationDetails;
 
-  final NotificationService _service = NotificationService();
+  final TaskController taskController = Get.put(TaskController());
 
   @override
   void initState() {
     super.initState();
-    _notificationDetails = _service.fetchNotificationDetails();
+    final id = Get.arguments as String;
+
+    // Delay fetching until after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      taskController.fetchTaskDetails(id);
+    });
   }
 
   @override
@@ -58,54 +44,55 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
       appBar: AppBarBack(),
       backgroundColor: AppColors.surface,
       body: SafeArea(
-        child: FutureBuilder<Map<String, dynamic>>(
-          future: _notificationDetails,
-          builder: (context, snapshot) {
-            if (!snapshot.hasData) {
-              return const Center(child: CircularProgressIndicator());
-            }
+        child: Obx(() {
+          if (taskController.isLoading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
 
-            final data = snapshot.data!;
-            return SingleChildScrollView(
-              padding: EdgeInsets.all(24.sp),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  /// Title
-                  Text(
-                    data["title"],
-                    style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 24.h),
+          final data = taskController.taskDetails.value;
+          if (data == null) {
+            return const Center(child: Text("No data found"));
+          }
 
-                  /// Schedule Status
-                  _buildScheduleSection(),
+          return SingleChildScrollView(
+            padding: EdgeInsets.all(24.sp),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                /// Title
+                Text(
+                  data.title,
+                  style: AppTypoGraphy.bold.copyWith(color: AppColors.black),
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(height: 24.h),
 
-                  SizedBox(height: 24.h),
+                /// Schedule Status
+                _buildScheduleSection(),
 
-                  /// Quick Actions
-                  _buildQuickActions(),
+                SizedBox(height: 24.h),
 
-                  SizedBox(height: 24.h),
+                /// Quick Actions
+                _buildQuickActions(),
 
-                  /// Last Service
-                  _buildLastServiceSection(data),
+                SizedBox(height: 24.h),
 
-                  SizedBox(height: 20.h),
+                /// Last Service
+                // _buildLastServiceSection(data.),
 
-                  /// Assigned To
-                  _buildAssignedSection(),
+                SizedBox(height: 20.h),
 
-                  SizedBox(height: 48.h),
+                /// Assigned To
+                _buildAssignedSection(),
 
-                  /// Notification Settings
-                  _buildNotificationSettings(),
-                ],
-              ),
-            );
-          },
-        ),
+                SizedBox(height: 48.h),
+
+                /// Notification Settings
+                _buildNotificationSettings(),
+              ],
+            ),
+          );
+        }),
       ),
     );
   }
@@ -131,9 +118,7 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
             ),
           ],
         ),
-        SizedBox(
-          height: 10.h,
-        ),
+        SizedBox(height: 10.h),
         Text('No schedule currently linked.'),
       ],
     );
@@ -147,14 +132,13 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
           title: "Link Meeting",
           asset: "assets/images/link.png",
           onTap: () {
-            // TODO: API - Link meeting
+// TODO: API - Link meeting
           },
         ),
         _quickActionTile(
           title: "Schedule Now",
           asset: "assets/images/calender.png",
           onTap: () {
-            // Get.toNamed(AppRoutes.calendar);
             showDatePicker(
               context: context,
               firstDate: DateTime(1995),
@@ -295,7 +279,6 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
                 ),
               );
               if (selected != null) {
-                await _service.assignPerson(selected);
                 setState(() {
                   _selectedPerson = selected;
                 });
@@ -348,7 +331,6 @@ class _NotificationDetailsScreenState extends State<NotificationDetailsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: const [
-                // TODO: Implement actual notification settings UI
                 Text("🔔 Daily reminders"),
                 Text("🔔 Push notifications"),
               ],
@@ -405,12 +387,8 @@ class PersonSelectionPage extends StatelessWidget {
                 itemCount: people.length,
                 itemBuilder: (context, index) {
                   final person = people[index];
-                  final isSelected = person == currentSelection;
                   return ListTile(
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 6.h,
-                    ),
-                    tileColor: Colors.transparent,
+                    contentPadding: EdgeInsets.symmetric(vertical: 6.h),
                     leading: Container(
                       padding: EdgeInsets.all(6.w),
                       decoration: BoxDecoration(
@@ -424,19 +402,13 @@ class PersonSelectionPage extends StatelessWidget {
                         color: AppColors.primary,
                       ),
                     ),
-                    title: Text(
-                      person.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    subtitle: Text(
-                      person.role,
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 14,
-                      ),
-                    ),
+                    title: Text(person.name,
+                        style: const TextStyle(fontWeight: FontWeight.bold)),
+                    subtitle: Text(person.role,
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 14,
+                        )),
                     onTap: () {
                       Navigator.pop(context, person);
                     },

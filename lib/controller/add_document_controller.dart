@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:home_cache/config/route/route_names.dart';
 import 'package:home_cache/services/api_checker.dart';
 import 'package:home_cache/services/api_clients.dart';
 import 'package:home_cache/services/api_constants.dart';
@@ -63,14 +65,17 @@ class AddDocumentController extends GetxController {
 
       if (response.statusCode == 200) {
         await Future.delayed(const Duration(seconds: 2));
-        Get.back();
+        // Get.back();
+        Get.offAllNamed(RouteNames.documents);
       } else {
         ApiChecker.checkApi(response);
       }
     } catch (e) {
-      print("Error in addDocument: $e");
+      debugPrint("Error in addDocument: $e");
     }
 
     isLoading(false);
   }
+
+  
 }

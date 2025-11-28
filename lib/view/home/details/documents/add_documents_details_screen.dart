@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
@@ -23,7 +24,6 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
   String? filePath;
 
   final Map<String, TextEditingController> controllers = {};
-
   final AddDocumentController _addDocumentController =
       Get.put(AddDocumentController());
 
@@ -31,8 +31,9 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
   void initState() {
     super.initState();
     final Map<String, dynamic> args = Get.arguments ?? {};
-    docType = args['type'] ?? 'Other';
+    docType = (args['type'] ?? 'other').toString().toLowerCase();
     filePath = args['imagePath'];
+    print("add doctype shown here ====> $docType");
   }
 
   List<Widget> _buildFields(String type) {
@@ -60,7 +61,7 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
     }
 
     switch (type) {
-      case 'Warranties':
+      case 'warranty':
         return [
           field('Name'),
           field('Brand/Manufacturer'),
@@ -69,7 +70,7 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
           field('Serial Number'),
           field('Service Contact Info'),
         ];
-      case 'Insurance':
+      case 'insurance':
         return [
           field('Policy Number'),
           field('Provider Name'),
@@ -78,7 +79,7 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
           field('Premium Amount'),
           field('Claim Contact Info'),
         ];
-      case 'Receipts':
+      case 'receipt':
         return [
           field('Vendor/Store Name'),
           field('Date of Purchase'),
@@ -86,7 +87,7 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
           field('Payment Method'),
           field('Order Number'),
         ];
-      case 'Quotes':
+      case 'quote':
         return [
           field('Service/Item Quoted'),
           field('Quote Amount'),
@@ -96,7 +97,7 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
           field('Contact Info'),
           field('Quote Reference Number'),
         ];
-      case 'Manuals':
+      case 'manual':
         return [
           field('Title'),
           field('Brand/Company'),
@@ -105,7 +106,7 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
           field('Manual Type'),
           field('Publication Date'),
         ];
-      case 'Other':
+      case 'other':
       default:
         return [
           field('Title'),
@@ -117,31 +118,89 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
   }
 
   void _saveDocument() {
-    // Collect input fields
-    final Map<String, dynamic> fieldData = {};
-    controllers.forEach((label, controller) {
-      fieldData[label] = controller.text;
-    });
-
-    // Prepare JSON
-    final Map<String, String> documentData = {
-      "type": docType,
-      "title": fieldData['Title'] ?? '',
-      "brand":
-          fieldData['Brand/Manufacturer'] ?? fieldData['Brand / Company'] ?? '',
-      "url": fieldData['URL'] ?? '',
-      "note": fieldData['Notes'] ?? '',
+    final fieldData = {
+      for (var entry in controllers.entries) entry.key: entry.value.text.trim(),
     };
 
-    // Set selected file for upload
+    final data = <String, dynamic>{};
+
+    switch (docType) {
+      case 'warranty':
+        data.addAll({
+          "type": "warranty",
+          "name": fieldData['Name'] ?? '',
+          "brand": fieldData['Brand/Manufacturer'] ?? '',
+          "warranty_start_date": fieldData['Warranty Start Date'] ?? '',
+          "warranty_end_date": fieldData['Warranty End Date'] ?? '',
+          "serial_number": fieldData['Serial Number'] ?? '',
+          "service_contact_info": fieldData['Service Contact Info'] ?? '',
+        });
+        break;
+      case 'insurance':
+        data.addAll({
+          "type": "insurance",
+          "policy_number": fieldData['Policy Number'] ?? '',
+          "provider_name": fieldData['Provider Name'] ?? '',
+          "coverage_start_date": fieldData['Coverage Start Date'] ?? '',
+          "coverage_end_date": fieldData['Coverage End Date'] ?? '',
+          "premium_amount": fieldData['Premium Amount'] ?? '',
+          "claim_contact_info": fieldData['Claim Contact Info'] ?? '',
+        });
+        break;
+      case 'receipt':
+        data.addAll({
+          "type": "receipt",
+          "vendor_store_name": fieldData['Vendor/Store Name'] ?? '',
+          "date_of_purchase": fieldData['Date of Purchase'] ?? '',
+          "total_amount_paid": fieldData['Total Amount Paid'] ?? '',
+          "payment_method": fieldData['Payment Method'] ?? '',
+          "order_number": fieldData['Order Number'] ?? '',
+        });
+        break;
+      case 'quote':
+        data.addAll({
+          "type": "quote",
+          "service_item_quoted": fieldData['Service/Item Quoted'] ?? '',
+          "quote_amount": fieldData['Quote Amount'] ?? '',
+          "quote_date": fieldData['Quote Date'] ?? '',
+          "vendor_company_name": fieldData['Vendor/Company Name'] ?? '',
+          "valid_until_date": fieldData['Valid Until Date'] ?? '',
+          "contact_info": fieldData['Contact Info'] ?? '',
+          "quote_reference_number": fieldData['Quote Reference Number'] ?? '',
+        });
+        break;
+      case 'manual':
+        data.addAll({
+          "type": "manual",
+          "title": fieldData['Title'] ?? '',
+          "brand": fieldData['Brand/Company'] ?? '',
+          "item_id": fieldData['Item ID'] ?? '',
+          "model_number": fieldData['Model Number'] ?? '',
+          "manual_type": fieldData['Manual Type'] ?? '',
+          "publication_date": fieldData['Publication Date'] ?? '',
+        });
+        break;
+      case 'other':
+      default:
+        data.addAll({
+          "type": "other",
+          "title": fieldData['Title'] ?? '',
+          "brand": fieldData['Brand / Company'] ?? '',
+          "url": fieldData['URL'] ?? '',
+          "note": fieldData['Notes'] ?? '',
+        });
+        break;
+    }
+    final Map<String, String> finalData =
+        data.map((key, value) => MapEntry(key, value.toString()));
+    debugPrint('FINAL JSON TO SEND ====> $finalData');
+
     if (filePath != null) {
       _addDocumentController.selectedFile.value = File(filePath!);
     }
 
-    print('Prepared Document JSON:=====>>>> $documentData');
+    _addDocumentController.addDocument(finalData);
 
-    // Upload document
-    _addDocumentController.addDocument(documentData);
     Get.offAndToNamed(RouteNames.documents);
   }
 
@@ -159,18 +218,29 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // Show uploaded file preview
               if (filePath != null)
                 Container(
-                  height: 200.h,
+                  height: 160.h,
                   margin: EdgeInsets.only(bottom: 16.h),
                   decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey),
-                    borderRadius: BorderRadius.circular(12.r),
+                    border: Border.all(color: Colors.grey, width: 2.w),
                   ),
                   child: filePath!.endsWith('.pdf')
-                      ? Center(
-                          child: Text('PDF File: ${filePath!.split('/').last}'),
+                      ? PDFView(
+                          filePath: filePath,
+                          enableSwipe: true,
+                          swipeHorizontal: false,
+                          autoSpacing: true,
+                          pageFling: true,
+                          onRender: (_pages) {
+                            debugPrint('PDF rendered with $_pages pages');
+                          },
+                          onError: (error) {
+                            debugPrint(error.toString());
+                          },
+                          onPageError: (page, error) {
+                            debugPrint('$page: ${error.toString()}');
+                          },
                         )
                       : ClipRRect(
                           borderRadius: BorderRadius.circular(12),
@@ -182,8 +252,6 @@ class _AddDocumentsDetailsScreenState extends State<AddDocumentsDetailsScreen> {
                           ),
                         ),
                 ),
-
-              // Dynamic fields
               ..._buildFields(docType),
             ],
           ),

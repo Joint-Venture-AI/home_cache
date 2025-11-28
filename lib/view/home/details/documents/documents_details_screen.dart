@@ -1,11 +1,17 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
-import 'package:home_cache/constants/colors.dart' show AppColors, secondary;
+import 'package:home_cache/constants/colors.dart' show AppColors;
+import 'package:home_cache/model/document.dart';
+
 import 'package:home_cache/view/home/account/productsupport/widgets/text_field_widget.dart';
+import 'package:home_cache/view/home/details/widgets/online_pdf_viewer.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../config/route/route_names.dart';
 
@@ -18,6 +24,8 @@ class DocumentsDetailsScreen extends StatefulWidget {
 
 class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
   int selectedToggleIndex = 0;
+
+  final Document args = Get.arguments as Document;
 
   @override
   Widget build(BuildContext context) {
@@ -83,13 +91,17 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
 
               if (selectedToggleIndex == 0) ...[
                 Text(
-                  'Product Name',
+                  args.type.toString(),
                   style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
                   textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  'Expires on 5/8/25',
+                  args.details.warrantyEndDate != null
+                      ? "Expires ${DateFormat('dd/MM/yyyy').format(
+                          DateTime.parse(args.details.warrantyEndDate!),
+                        )}"
+                      : 'Expired Date not found',
                   style: AppTypoGraphy.regular.copyWith(color: AppColors.black),
                   textAlign: TextAlign.center,
                 ),
@@ -113,21 +125,11 @@ class _DocumentsDetailsScreenState extends State<DocumentsDetailsScreen> {
                 SizedBox(height: 24.h),
                 SizedBox(
                   height: 400.h,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 1),
-                      borderRadius: BorderRadius.circular(12.r),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Document',
-                        style: TextStyle(
-                          fontSize: 16.sp,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                  ),
+                  child: args.files.isNotEmpty
+                      // ? OnlinePdfViewer(url: args.files.first.fileUrl)
+                      ? OnlinePdfViewer(
+                          url: "https://pdfobject.com/pdf/sample.pdf")
+                      : Center(child: Text('No document available')),
                 ),
               ] else ...[
                 Text(

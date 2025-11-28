@@ -38,7 +38,7 @@ class PreviewDocumentScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              // 📄 FILE PREVIEW CONTAINER
+              //FILE PREVIEW CONTAINER
               Container(
                 height: 400.h,
                 decoration: BoxDecoration(
@@ -78,6 +78,7 @@ class PreviewDocumentScreen extends StatelessWidget {
                   'imagePath': filePath,
                 },
               );
+              print(' Selected type:===> $docType');
             },
             icon: Icons.arrow_forward,
             btnText: 'Next',

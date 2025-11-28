@@ -142,8 +142,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                       date: DateFormat('MMMM d, yyyy')
                                           .format(task.initialDate),
                                       onTap: () => Get.toNamed(
-                                          RouteNames.notificationDetails,
-                                          arguments: task.id),
+                                        RouteNames.notificationDetails,
+                                        arguments: task.id,
+                                      ),
                                     ))
                                 .toList(),
                           );

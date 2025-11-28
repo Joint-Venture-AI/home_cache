@@ -2,15 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:home_cache/model/task_model.dart';
 import 'package:home_cache/services/api_checker.dart';
 import 'package:home_cache/services/api_clients.dart';
 import 'package:home_cache/services/api_constants.dart';
-import 'package:home_cache/model/task_model.dart';
+import 'package:home_cache/model/task.dart';
 
 class TaskController extends GetxController {
   var tasks = <Task>[].obs;
   var isLoading = false.obs;
   var selectedIndex = 0.obs;
+  Rx<TaskModel?> taskDetails = Rx<TaskModel?>(null);
 
   RxInt totalTasks = 10.obs;
   RxInt completedTasks = 3.obs;
@@ -74,6 +76,25 @@ class TaskController extends GetxController {
       }
 
       Get.back();
+    } else {
+      ApiChecker.checkApi(response);
+    }
+
+    isLoading(false);
+  }
+
+  // !Fetch task details api call
+  Future<void> fetchTaskDetails(String id) async {
+    isLoading(true);
+
+    Response response =
+        await ApiClient.getData("${ApiConstants.fetchTaskDetails}$id");
+
+    if (response.statusCode == 200) {
+      var responseData = response.body;
+      if (responseData['data'] != null) {
+        taskDetails.value = TaskModel.fromJson(responseData['data']);
+      }
     } else {
       ApiChecker.checkApi(response);
     }
