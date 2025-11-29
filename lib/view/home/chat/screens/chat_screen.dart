@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
-import 'package:home_cache/controller/chat_controller.dart';
+import 'package:home_cache/controller/ai_chat_controller.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
 class ChatScreen extends StatelessWidget {
   ChatScreen({super.key});
 
-  final ChatController controller = Get.put(ChatController());
+  final AiChatController controller = Get.put(AiChatController());
 
   @override
   Widget build(BuildContext context) {
@@ -20,10 +20,10 @@ class ChatScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // Chat messages
             Expanded(
               child: Obx(() {
                 return ListView.builder(
+                  controller: controller.scrollController,
                   padding: EdgeInsets.symmetric(vertical: 24.h),
                   reverse: true,
                   itemCount: controller.messages.length,
@@ -55,11 +55,14 @@ class ChatScreen extends StatelessWidget {
                               ? Text(
                                   message.text,
                                   style: TextStyle(
-                                      fontSize: 16.sp, color: Colors.white),
+                                    fontSize: 16.sp,
+                                    color: Colors.white,
+                                  ),
                                 )
                               : Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    // AI icon at top
                                     Padding(
                                       padding: EdgeInsets.only(bottom: 8.h),
                                       child: Image.asset(
@@ -67,17 +70,17 @@ class ChatScreen extends StatelessWidget {
                                         width: 24.r,
                                         errorBuilder:
                                             (context, error, stackTrace) {
-                                          return const Icon(
-                                            Icons.error,
-                                            color: Colors.red,
-                                          );
+                                          return const Icon(Icons.error,
+                                              color: Colors.red);
                                         },
                                       ),
                                     ),
                                     Text(
                                       message.text,
                                       style: TextStyle(
-                                          fontSize: 16.sp, color: Colors.black),
+                                        fontSize: 16.sp,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -88,8 +91,6 @@ class ChatScreen extends StatelessWidget {
                 );
               }),
             ),
-
-            // Input field
             SafeArea(
               child: Obx(() {
                 bool hasText = controller.inputText.value.isNotEmpty;
@@ -110,7 +111,7 @@ class ChatScreen extends StatelessWidget {
                             onChanged: controller.updateInput,
                             maxLines: null,
                             decoration: InputDecoration(
-                              hintText: 'Type or say your question...',
+                              hintText: 'Type your question...',
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12.r),
                                 borderSide: BorderSide.none,
@@ -132,7 +133,10 @@ class ChatScreen extends StatelessWidget {
                               color: AppColors.black,
                               height: 20.h,
                             ),
-                            onPressed: controller.sendMessage,
+                            onPressed: () {
+                              controller
+                                  .sendMessage(controller.inputText.value);
+                            },
                           )
                         else
                           Obx(() => controller.isLoading.value

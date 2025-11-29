@@ -18,13 +18,16 @@ class ApiConstants {
 
   static String addDocument = "/document";
   static String fetchDocument = "/document/all?type=";
+  static String fetchDocumentDetails = "/document/";
+  // static String updateDocument = "/document/details/name";
 
   static String addRoom = "/view-by-room/add";
   static String fetchAllRoom = "/view-by-room/all";
   static String fetchRoomType = "/view-by-room/all-type";
   static String fetchRoomDetails = "/view-by-room";
 
-  static String aiResponse = "/ai/get-response";
+  static String getAiResponse = "/ai/get-message";
+  static String postAiResponse = "/ai/get-response";
 
   // static String forgotPassword = "/auth/forgotPassword";
   // static String resetPassword = "/auth/resetPassword";

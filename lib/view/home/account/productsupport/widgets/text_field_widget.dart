@@ -7,6 +7,8 @@ class TextFieldWidget extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final TextInputType keyboardType;
   final TextEditingController? controller;
+  final bool isReadable;
+  final FocusNode? focusNode;
 
   const TextFieldWidget({
     super.key,
@@ -14,6 +16,8 @@ class TextFieldWidget extends StatelessWidget {
     this.onChanged,
     this.keyboardType = TextInputType.text,
     this.controller,
+    this.isReadable = false,
+    this.focusNode,
   });
 
   @override
@@ -21,6 +25,8 @@ class TextFieldWidget extends StatelessWidget {
     return SizedBox(
       height: 48.h,
       child: TextFormField(
+        focusNode: focusNode,
+        readOnly: isReadable,
         controller: controller,
         keyboardType: keyboardType,
         onChanged: onChanged,

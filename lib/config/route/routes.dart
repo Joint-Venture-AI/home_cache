@@ -137,7 +137,9 @@ class AppRoutes {
         page: () => const PreviewDocumentScreen()),
     GetPage(
       name: RouteNames.addDocumentsDetails,
-      page: () => const AddDocumentsDetailsScreen(),
+      page: () => const AddDocumentsDetailsScreen(
+        
+      ),
     ),
     GetPage(
         name: RouteNames.documentsDetails,
