@@ -19,7 +19,6 @@ class _AddRoomDialogState extends State<AddRoomDialog> {
   final TextEditingController nameController = TextEditingController();
   final RoomController roomController = Get.put(RoomController());
 
-// Store the selected room object instead of just its ID
   dynamic selectedRoom;
 
   @override

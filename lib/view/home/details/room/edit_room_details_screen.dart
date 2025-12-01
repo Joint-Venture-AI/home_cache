@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import 'package:home_cache/config/route/route_names.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/controller/room_controller.dart';
@@ -23,11 +24,23 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
   int selectedCategoryIndex = 0;
   File? _selectedImage;
   final RoomController roomController = Get.put(RoomController());
+  late String selectedItemId;
 
   void selectCategory(int index) {
     setState(() {
       selectedCategoryIndex = index;
     });
+
+    final room = roomController.roomDetails.value;
+
+    if (room != null && room.items.isNotEmpty) {
+      final itemId = room.items[index].userItemId;
+
+      if (itemId != null && itemId.isNotEmpty) {
+        selectedItemId = itemId;
+        roomController.fetchUserRoomItems(itemId);
+      }
+    }
   }
 
   late String roomId;
@@ -36,14 +49,24 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
   @override
   void initState() {
     super.initState();
+
     final args = Get.arguments as Map<String, dynamic>?;
     roomId = args?['roomId'] ?? '';
     roomName = args?['roomName'] ?? 'Room';
 
-    // Delay fetching until after first frame
     if (roomId.isNotEmpty) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        roomController.fetchRoomDetails(roomId);
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        await roomController.fetchRoomDetails(roomId);
+
+        final room = roomController.roomDetails.value;
+
+        if (room != null && room.items.isNotEmpty) {
+          final firstItemId = room.items[0].userItemId;
+
+          if (firstItemId != null && firstItemId.isNotEmpty) {
+            roomController.fetchUserRoomItems(firstItemId);
+          }
+        }
       });
     }
   }
@@ -74,9 +97,19 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
                   borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
-              child: Text(
-                '+ Add',
-                style: TextStyle(color: Colors.white, fontSize: 14.sp),
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(RouteNames.addNewRoomIteam, arguments: {
+                    'roomId': roomId,
+                    'roomName': roomName,
+                    'selectedCategoryIndex': selectedCategoryIndex,
+                    'selectedItemId': selectedItemId,
+                  });
+                },
+                child: Text(
+                  '+ Add',
+                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
+                ),
               ),
             ),
           ),
@@ -112,75 +145,73 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
                         });
                       },
                       child: Container(
-                        width: 112.w,
-                        height: 112.w,
-                        decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(10.r),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10.r),
-                          child: _selectedImage != null
-                              ? Stack(
-                                  alignment: Alignment.topRight,
-                                  children: [
-                                    Image.file(
-                                      _selectedImage!,
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      fit: BoxFit.cover,
-                                    ),
-                                    GestureDetector(
-                                      onTap: () {
-                                        setState(() {
-                                          _selectedImage = null;
-                                        });
-                                      },
-                                      child: Container(
-                                        width: 20.w,
-                                        height: 20.w,
-                                        margin: EdgeInsets.only(
-                                            top: 4.w, right: 4.w),
-                                        decoration: BoxDecoration(
-                                          color: Colors.red[400],
-                                          shape: BoxShape.circle,
-                                        ),
-                                        child: const Center(
-                                          child: Icon(
-                                            Icons.close,
-                                            size: 14,
-                                            color: Colors.white,
+                          width: 112.w,
+                          height: 112.w,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(10.r),
+                            child: _selectedImage != null
+                                ? Stack(
+                                    alignment: Alignment.topRight,
+                                    children: [
+                                      Image.file(
+                                        _selectedImage!,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        fit: BoxFit.cover,
+                                      ),
+                                      GestureDetector(
+                                        onTap: () {
+                                          setState(() {
+                                            _selectedImage = null;
+                                          });
+                                        },
+                                        child: Container(
+                                          width: 20.w,
+                                          height: 20.w,
+                                          margin: EdgeInsets.only(
+                                              top: 4.w, right: 4.w),
+                                          decoration: BoxDecoration(
+                                            color: Colors.red[400],
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Center(
+                                            child: Icon(
+                                              Icons.close,
+                                              size: 14,
+                                              color: Colors.white,
+                                            ),
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
-                                )
-                              : room.image.isNotEmpty
-                                  ? Image.network(
-                                      room.image,
-                                      width: double.infinity,
-                                      height: double.infinity,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) {
-                                        // Fallback image if network fails
-                                        return Center(
-                                          child: SvgPicture.asset(
-                                            'assets/icons/gallery.svg',
-                                            width: 72.w,
-                                          ),
-                                        );
-                                      },
-                                    )
-                                  : Center(
-                                      child: SvgPicture.asset(
-                                        'assets/icons/gallery.svg',
-                                        width: 72.w,
+                                    ],
+                                  )
+                                : (room.image != null && room.image!.isNotEmpty)
+                                    ? Image.network(
+                                        room.image!,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) {
+                                          return Center(
+                                            child: SvgPicture.asset(
+                                              'assets/icons/gallery.svg',
+                                              width: 72.w,
+                                            ),
+                                          );
+                                        },
+                                      )
+                                    : Center(
+                                        child: SvgPicture.asset(
+                                          'assets/icons/gallery.svg',
+                                          width: 72.w,
+                                        ),
                                       ),
-                                    ),
-                        ),
-                      ),
+                          )),
                     ),
                   ],
                 ),
@@ -224,11 +255,62 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
                   'View All',
                   style: AppTypoGraphy.medium.copyWith(color: AppColors.black),
                 ),
+                SizedBox(height: 20.h),
+                // _buildRoomItemCard(),
+
+                Obx(
+                  () => roomController.userRoomItems.isEmpty
+                      ? Center(child: Text('No room items found'))
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          spacing: 10.h,
+                          children: roomController.userRoomItems
+                              .map((item) => _buildRoomItemCard(
+                                    title: item.details.location,
+                                    subTitle: item.details.brand,
+                                  ))
+                              .toList(),
+                        ),
+                )
               ],
             ),
           );
         }),
       ),
     );
+  }
+
+  Widget _buildRoomItemCard({
+    required String title,
+    required String subTitle,
+  }) {
+    return Container(
+        padding: EdgeInsets.all(20.r),
+        height: 100.h,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            color: AppColors.lightgrey,
+            borderRadius: BorderRadius.circular(12.r)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style:
+                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w700),
+                ),
+                Text(
+                  subTitle,
+                  style:
+                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
+                ),
+              ],
+            ),
+            IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+          ],
+        ));
   }
 }

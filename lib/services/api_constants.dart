@@ -25,12 +25,14 @@ class ApiConstants {
   static String fetchAllRoom = "/view-by-room/all";
   static String fetchRoomType = "/view-by-room/all-type";
   static String fetchRoomDetails = "/view-by-room";
+  static String fetchRoomItem = "/view-by-room/available-item/";
+  static String addUserRoomItem = "/view-by-room/add-item";
+
+  static String fetchUserRoomItems =
+      "/view-by-room/user-room-single-item-data/";
 
   static String getAiResponse = "/ai/get-message";
   static String postAiResponse = "/ai/get-response";
 
-  // static String forgotPassword = "/auth/forgotPassword";
-  // static String resetPassword = "/auth/resetPassword";
-  // static String verifyOtp = "/auth/verifyOtp";
-  // static String productsDetails(String id) => "/products/$id";
+  static String fetchHomeMember = "/home-share/my-home-member";
 }

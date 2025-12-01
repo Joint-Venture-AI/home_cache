@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,12 +7,11 @@ import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/data/rooms.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/controller/room_controller.dart';
+import 'package:home_cache/model/room_model.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:home_cache/view/home/chat/widgets/faq_search_bar_widget.dart';
 import 'package:home_cache/view/widget/text_button_widget.dart';
 import 'package:image_picker/image_picker.dart';
-
-import '../../../../model/room_model.dart';
 
 class AddRoomScreen extends StatefulWidget {
   const AddRoomScreen({super.key});
@@ -26,38 +24,21 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
   late String type;
   late String name;
   late String typeId;
+
   List<String> items = [];
   List<String> filteredItems = [];
   List<String> selectedItems = [];
+  List<String> selectedItemIds = [];
   String _searchQuery = '';
 
   final RoomController controller = Get.put(RoomController());
 
   File? _selectedImage;
 
-  //! Pick image + store in controller
-  Future<void> pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      final file = File(image.path);
-
-      setState(() {
-        _selectedImage = file; // Show image in UI
-      });
-
-      controller.selectedFile.value = file; // Store in controller
-
-      print("Stored in controller: ${controller.selectedFile.value?.path}");
-    } else {
-      print("No image selected");
-    }
-  }
-
   @override
   void initState() {
     super.initState();
+
     final Map<String, dynamic> args = Get.arguments ?? {};
     type = args['type'] ?? 'Unknown';
     typeId = args['id'] ?? '';
@@ -69,9 +50,30 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
       (r) => r.name == type,
       orElse: () => RoomModel(name: type, items: []),
     );
+
     items = room.items;
     filteredItems = List.from(items);
     _filterItems('');
+
+    // Defer fetch to avoid setState during build
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.fetchRoomItem(typeId, _searchQuery);
+    });
+  }
+
+//! Pick image
+  Future<void> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      final file = File(image.path);
+      setState(() {
+        _selectedImage = file;
+      });
+      controller.selectedFile.value = file;
+      print("Stored in controller: ${controller.selectedFile.value?.path}");
+    }
   }
 
   void _filterItems(String query) {
@@ -85,18 +87,41 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
     });
   }
 
-  void _onItemSelected(String item) {
-    if (!selectedItems.contains(item)) {
-      setState(() {
-        selectedItems.add(item);
+  void _onItemSelected(String itemName) {
+    final item =
+        controller.roomItem.firstWhereOrNull((e) => e.name == itemName);
+
+    if (item == null) {
+      // Safe snackbar call
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        Get.snackbar('Error', 'Item not found: $itemName');
       });
+      return;
+    }
+
+    if (!selectedItemIds.contains(item.id)) {
+      setState(() {
+        selectedItemIds.add(item.id);
+        selectedItems.add(item.name);
+      });
+      print('Selected IDs: $selectedItemIds');
     }
   }
 
-  void _removeChip(String item) {
-    setState(() {
-      selectedItems.remove(item);
-    });
+  void _removeChip(String itemName) {
+    final item =
+        controller.roomItem.firstWhereOrNull((e) => e.name == itemName);
+
+    if (item != null) {
+      setState(() {
+        selectedItemIds.remove(item.id);
+        selectedItems.remove(itemName);
+      });
+    } else {
+      setState(() {
+        selectedItems.remove(itemName);
+      });
+    }
   }
 
   @override
@@ -132,7 +157,7 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
               ),
               SizedBox(height: 32.h),
               GestureDetector(
-                onTap: () => pickImage(),
+                onTap: pickImage,
                 child: Container(
                   width: 112.w,
                   height: 112.w,
@@ -210,7 +235,9 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                         trailing: isSelected
                             ? Icon(Icons.check, color: Colors.green)
                             : null,
-                        onTap: () => _onItemSelected(item),
+                        onTap: () {
+                          _onItemSelected(item);
+                        },
                       );
                     },
                   ),
@@ -247,21 +274,14 @@ class _AddRoomScreenState extends State<AddRoomScreen> {
                     child: TextWidgetButton(
                       text: '✓ Complete',
                       onPressed: () {
-                        Map<String, String> body = {
+                        Map<String, dynamic> body = {
                           'type_id': typeId,
                           'name': name,
+                          'item_id': selectedItemIds,
                         };
 
-                        // Use selected items if available, otherwise use static items
-                        List<String> itemsToSend = selectedItems.isNotEmpty
-                            ? selectedItems
-                            : ['Bed', 'Wardrobe', 'Desk', 'Chair'];
+                        print("Body being sent: $body");
 
-                        for (int i = 0; i < itemsToSend.length; i++) {
-                          body['item[$i]'] = itemsToSend[i];
-                        }
-
-                        debugPrint("Body being sent: $body");
                         controller.addRoom(body);
                       },
                     ),
