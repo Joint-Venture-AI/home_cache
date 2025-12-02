@@ -1,28 +1,28 @@
 class HomeTaskData {
   final Tasks tasks;
-  final int health;
+  final HomeHealth homeHealth;
   final MyData myData;
 
   HomeTaskData({
     required this.tasks,
-    required this.health,
+    required this.homeHealth,
     required this.myData,
   });
 
-  factory HomeTaskData.fromJson(Map<String, dynamic> json) => HomeTaskData(
-        tasks: Tasks.fromJson(json["tasks"]),
-        health: json["health"],
-        myData: MyData.fromJson(json["my_data"]),
-      );
+  factory HomeTaskData.fromJson(Map<String, dynamic> json) {
+    return HomeTaskData(
+      tasks: Tasks.fromJson(json['tasks']),
+      homeHealth: HomeHealth.fromJson(json['home_health']),
+      myData: MyData.fromJson(json['my_data']),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "tasks": tasks.toJson(),
-        "health": health,
-        "my_data": myData.toJson(),
+        'tasks': tasks.toJson(),
+        'home_health': homeHealth.toJson(),
+        'my_data': myData.toJson(),
       };
 }
-
-// Needed models:
 
 class Tasks {
   final Season season;
@@ -37,18 +37,20 @@ class Tasks {
     required this.completed,
   });
 
-  factory Tasks.fromJson(Map<String, dynamic> json) => Tasks(
-        season: Season.fromJson(json["season"]),
-        overdue: List<dynamic>.from(json["overdue"].map((x) => x)),
-        upcoming: List<dynamic>.from(json["upcoming"].map((x) => x)),
-        completed: List<dynamic>.from(json["completed"].map((x) => x)),
-      );
+  factory Tasks.fromJson(Map<String, dynamic> json) {
+    return Tasks(
+      season: Season.fromJson(json['season']),
+      overdue: json['overdue'] ?? [],
+      upcoming: json['upcoming'] ?? [],
+      completed: json['completed'] ?? [],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "season": season.toJson(),
-        "overdue": List<dynamic>.from(overdue.map((x) => x)),
-        "upcoming": List<dynamic>.from(upcoming.map((x) => x)),
-        "completed": List<dynamic>.from(completed.map((x) => x)),
+        'season': season.toJson(),
+        'overdue': overdue,
+        'upcoming': upcoming,
+        'completed': completed,
       };
 }
 
@@ -61,14 +63,42 @@ class Season {
     required this.end,
   });
 
-  factory Season.fromJson(Map<String, dynamic> json) => Season(
-        start: DateTime.parse(json["start"]),
-        end: DateTime.parse(json["end"]),
-      );
+  factory Season.fromJson(Map<String, dynamic> json) {
+    return Season(
+      start: DateTime.parse(json['start']),
+      end: DateTime.parse(json['end']),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "start": start.toIso8601String(),
-        "end": end.toIso8601String(),
+        'start': start.toIso8601String(),
+        'end': end.toIso8601String(),
+      };
+}
+
+class HomeHealth {
+  final int health;
+  final int totalTasks;
+  final int completedTasks;
+
+  HomeHealth({
+    required this.health,
+    required this.totalTasks,
+    required this.completedTasks,
+  });
+
+  factory HomeHealth.fromJson(Map<String, dynamic> json) {
+    return HomeHealth(
+      health: json['health'],
+      totalTasks: json['totalTasks'],
+      completedTasks: json['completedTasks'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+        'health': health,
+        'totalTasks': totalTasks,
+        'completedTasks': completedTasks,
       };
 }
 
@@ -81,13 +111,15 @@ class MyData {
     required this.pending,
   });
 
-  factory MyData.fromJson(Map<String, dynamic> json) => MyData(
-        completed: json["completed"],
-        pending: json["pending"],
-      );
+  factory MyData.fromJson(Map<String, dynamic> json) {
+    return MyData(
+      completed: json['completed'],
+      pending: json['pending'],
+    );
+  }
 
   Map<String, dynamic> toJson() => {
-        "completed": completed,
-        "pending": pending,
+        'completed': completed,
+        'pending': pending,
       };
 }

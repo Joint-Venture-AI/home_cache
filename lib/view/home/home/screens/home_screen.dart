@@ -21,7 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TaskController _taskController = Get.find<TaskController>();
-  final HomeController _homeController = Get.put(HomeController());
+  final HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +49,24 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 10.h),
                   GestureDetector(
                       onTap: () => Get.toNamed(RouteNames.homeHealth),
-                      child: HomeHealthPieChart(
-                        completedValue: 70,
-                        remainingValue: 30,
-                      )),
-                  _buildHealthTitleSection(),
+                      child: Obx(() {
+                        return HomeHealthPieChart(
+                          completedValue: homeController
+                                  .homeHealthData.value?.completedTasks ??
+                              0,
+                          remainingValue: 100 -
+                              (homeController
+                                      .homeHealthData.value?.completedTasks ??
+                                  0),
+                        );
+                      })),
+                  _buildHealthTitleSection(
+                    completedTasks:
+                        homeController.homeHealthData.value?.completedTasks ??
+                            0,
+                    totalTasks:
+                        homeController.homeHealthData.value?.totalTasks ?? 0,
+                  ),
                   SizedBox(height: 10.h),
                 ],
               ),
@@ -166,7 +179,10 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildHealthTitleSection() {
+  Widget _buildHealthTitleSection({
+    required double completedTasks,
+    required double totalTasks,
+  }) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: Column(
@@ -180,7 +196,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Text(
-            'You\'ve completed 4/5 tasks this Season!',
+            'You\'ve completed ${completedTasks.toInt()}/${totalTasks.toInt()} tasks this Season!',
             style: AppTypoGraphy.medium.copyWith(
               color: AppColors.secondary,
               fontSize: 18.sp,
