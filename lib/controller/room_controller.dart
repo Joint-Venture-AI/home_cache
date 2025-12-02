@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:get/get.dart';
+import 'package:home_cache/config/route/route_names.dart';
 import 'package:home_cache/model/room.dart';
 import 'package:home_cache/model/room_data.dart';
 import 'package:home_cache/model/room_item.dart';
@@ -199,22 +200,72 @@ class RoomController extends GetxController {
   Future<void> addUserRoomItem(Map<String, dynamic> data) async {
     isLoading(true);
 
-    // Convert all values to String
+    try {
+      final Map<String, String> stringData = data.map(
+          (key, value) => MapEntry(key, value == null ? '' : value.toString()));
+
+      Response response = await ApiClient.postMultipartData(
+        ApiConstants.addUserRoomItem,
+        stringData,
+        multipartBody: selectedFile.value != null
+            ? [MultipartBody('file', selectedFile.value!)]
+            : [],
+      );
+
+      if (response.statusCode == 200) {
+        Get.back();
+
+        // Parse new item from response
+        final responseData = response.body;
+        if (responseData['data'] != null && responseData['data'].isNotEmpty) {
+          final newItem = UserRoomItem.fromJson(responseData['data'][0]);
+          userRoomItems.add(newItem);
+        }
+      } else {
+        ApiChecker.checkApi(response);
+      }
+    } catch (e) {
+      print("Error adding user room item: $e");
+    } finally {
+      isLoading(false);
+    }
+  }
+
+  Future<bool> updateUserRoomItem(Map<String, dynamic> data, String id) async {
+    isLoading(true);
+
     final Map<String, String> stringData = data.map((key, value) {
-      if (value == null) return MapEntry(key, '');
-      return MapEntry(key, value.toString());
+      return MapEntry(key.toString(), value?.toString() ?? '');
     });
 
-    Response response = await ApiClient.postMultipartData(
-      ApiConstants.addUserRoomItem,
+    Response response = await ApiClient.patchMultipartData(
+      "${ApiConstants.updateUserRoomItem}$id",
       stringData,
       multipartBody: selectedFile.value != null
           ? [MultipartBody('file', selectedFile.value!)]
           : [],
     );
 
+    isLoading(false);
+
+    if (response.statusCode == 200) {
+      return true; // success
+    } else {
+      ApiChecker.checkApi(response);
+      return false;
+    }
+  }
+
+  // ! delete user room item
+  Future<void> deleteUserRoomItem(String id) async {
+    isLoading(true);
+
+    Response response =
+        await ApiClient.deleteData("${ApiConstants.deleteUserRoomItem}$id");
+
     if (response.statusCode == 200) {
       Get.back();
+      userRoomItems.removeWhere((item) => item.id == id);
     } else {
       ApiChecker.checkApi(response);
     }

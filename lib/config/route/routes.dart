@@ -44,6 +44,7 @@ import 'package:home_cache/view/home/details/room/add_new_room_item_screen.dart'
 import 'package:home_cache/view/home/details/room/add_room_screen.dart';
 import 'package:home_cache/view/home/details/room/edit_room_details_screen.dart';
 import 'package:home_cache/view/home/details/room/room_screen.dart';
+import 'package:home_cache/view/home/details/room/update_room_item_screen.dart';
 import 'package:home_cache/view/home/details/type/appliances/add_appliances_screen.dart';
 import 'package:home_cache/view/home/details/type/appliances/appliances_screen.dart';
 import 'package:home_cache/view/home/details/type/appliances/edit_appliances_screen.dart';
@@ -137,9 +138,7 @@ class AppRoutes {
         page: () => const PreviewDocumentScreen()),
     GetPage(
       name: RouteNames.addDocumentsDetails,
-      page: () => const AddDocumentsDetailsScreen(
-        
-      ),
+      page: () => const AddDocumentsDetailsScreen(),
     ),
     GetPage(
         name: RouteNames.documentsDetails,
@@ -160,6 +159,9 @@ class AppRoutes {
     GetPage(
         name: RouteNames.addNewRoomIteam,
         page: () => const AddNewRoomItemScreen()),
+    GetPage(
+        name: RouteNames.updateRoomItem,
+        page: () => const UpdateRoomItemScreen()),
     GetPage(
         name: RouteNames.subscription, page: () => const SubscriptionScreen()),
     GetPage(

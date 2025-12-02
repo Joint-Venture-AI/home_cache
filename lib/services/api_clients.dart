@@ -251,45 +251,6 @@ class ApiClient extends GetxService {
     }
   }
 
-// Helper class for files
-// class MultipartBody {
-//   final String key;
-//   final File file;
-
-//   MultipartBody(this.key, this.file);
-// }
-
-  // static Future<Response> postMultipartData(
-  //     String uri, Map<String, String> body,
-  //     {required List<MultipartBody> multipartBody,
-  //     Map<String, String>? headers}) async {
-  //   try {
-  //     bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
-
-  //     var mainHeaders = {
-  //       'Content-Type': 'application/json',
-  //       'Authorization': 'Bearer $bearerToken'
-  //     };
-
-  //     debugPrint('====> API Call: $uri\nHeader: ${headers ?? mainHeaders}');
-  //     debugPrint('====> API Body: $body with ${multipartBody.length} picture');
-  //     var request =
-  //         http.MultipartRequest('POST', Uri.parse(ApiConstants.baseUrl + uri));
-  //     request.headers.addAll(headers ?? mainHeaders);
-  //     for (MultipartBody element in multipartBody) {
-  //       request.files.add(await http.MultipartFile.fromPath(
-  //           element.key, element.file.path,
-  //           contentType: MediaType.parse(element.file.path)));
-  //     }
-  //     request.fields.addAll(body);
-  //     http.Response response =
-  //         await http.Response.fromStream(await request.send());
-  //     return handleResponse(response, uri);
-  //   } catch (e) {
-  //     return const Response(statusCode: 1, statusText: noInternetMessage);
-  //   }
-  // }
-
   Future<Response> putData(String uri, dynamic body,
       {Map<String, String>? headers}) async {
     bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
@@ -355,7 +316,7 @@ class ApiClient extends GetxService {
     bearerToken = await PrefsHelper.getString(AppConstants.bearerToken);
 
     var mainHeaders = {
-      'Content-Type': 'application/x-www-form-urlencoded',
+      'Content-Type': 'application/json',
       'Authorization': 'Bearer $bearerToken'
     };
     try {

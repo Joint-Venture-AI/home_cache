@@ -1,24 +1,25 @@
-import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/controller/room_controller.dart';
+import 'package:home_cache/model/user_room_item.dart';
 import 'package:home_cache/view/auth/signup/widgets/custom_elevated_button.dart';
 import 'package:home_cache/view/home/account/productsupport/widgets/text_field_widget.dart';
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 
-class AddNewRoomItemScreen extends StatefulWidget {
-  const AddNewRoomItemScreen({super.key});
+class UpdateRoomItemScreen extends StatefulWidget {
+  const UpdateRoomItemScreen({super.key});
 
   @override
-  State<AddNewRoomItemScreen> createState() => _AddNewRoomItemScreenState();
+  State<UpdateRoomItemScreen> createState() => _UpdateRoomItemScreenState();
 }
 
-class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
+class _UpdateRoomItemScreenState extends State<UpdateRoomItemScreen> {
   final TextEditingController brandController = TextEditingController();
   final TextEditingController brandLineController = TextEditingController();
   final TextEditingController typeController = TextEditingController();
@@ -29,30 +30,35 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
   final TextEditingController lastPaintController = TextEditingController();
 
   final RoomController roomController = Get.put(RoomController());
-
-  late String roomId;
-  late String typeId;
+  late String itemId;
 
   @override
   void initState() {
     super.initState();
-    final args = Get.arguments as Map<String, dynamic>?;
-    roomId = args?['id'] ?? '';
-    typeId = args?['selectedItemId'] ?? '';
 
-    print("=== Debug Arguments ===");
-    print(Get.arguments);
-    print("Room ID: $roomId");
-    print("Type ID: $typeId");
+    final UserRoomItem args = Get.arguments;
+
+    // Prefill fields
+    brandController.text = args.details.brand;
+    brandLineController.text = args.details.brandLine;
+    typeController.text = args.details.type;
+    colorController.text = args.details.color;
+    finishController.text = args.details.finish;
+    locationController.text = args.details.location;
+    lastPaintController.text = args.details.lastPainted;
+
+    itemId = args.id;
+
+    // Debugging
+    print("Editing Item ID: $itemId");
   }
 
-// Pick image from gallery or camera
   Future<void> pickImage(ImageSource source) async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image =
-        await picker.pickImage(source: source, imageQuality: 80);
-    if (image != null) {
-      roomController.selectedFile.value = File(image.path);
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: source, imageQuality: 80);
+
+    if (picked != null) {
+      roomController.selectedFile.value = File(picked.path);
     }
   }
 
@@ -60,13 +66,14 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.surface,
-      appBar: AppBarBack(),
+      appBar: AppBarBack(title: "Update Item"),
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 24.sp, vertical: 16.sp),
+          padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 16.h),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // ---------------- IMAGE PICKER ----------------
               Center(
                 child: GestureDetector(
                   onTap: () {
@@ -74,12 +81,11 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
                       SafeArea(
                         child: Container(
                           color: Colors.white,
-                          padding: EdgeInsets.all(16),
                           child: Wrap(
                             children: [
                               ListTile(
                                 leading: Icon(Icons.photo_library),
-                                title: Text('Gallery'),
+                                title: Text("Gallery"),
                                 onTap: () {
                                   pickImage(ImageSource.gallery);
                                   Get.back();
@@ -87,7 +93,7 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
                               ),
                               ListTile(
                                 leading: Icon(Icons.camera_alt),
-                                title: Text('Camera'),
+                                title: Text("Camera"),
                                 onTap: () {
                                   pickImage(ImageSource.camera);
                                   Get.back();
@@ -111,7 +117,6 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withAlpha(35),
-                                  spreadRadius: 2,
                                   blurRadius: 10,
                                   offset: Offset(0, 4),
                                 ),
@@ -124,15 +129,13 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
                                   'assets/images/camera.png',
                                   height: 32.h,
                                   width: 32.w,
-                                  color: AppColors.black,
                                 ),
-                                SizedBox(height: 8.h),
+                                SizedBox(height: 6.h),
                                 Text(
-                                  'Pick an Image',
-                                  textAlign: TextAlign.center,
+                                  'Pick Image',
                                   style: AppTypoGraphy.regular.copyWith(
-                                    color: AppColors.black,
                                     fontSize: 12.sp,
+                                    color: AppColors.black,
                                   ),
                                 ),
                               ],
@@ -150,91 +153,29 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
                   ),
                 ),
               ),
-              SizedBox(height: 16.h),
 
-              // Brand
-              Text('Brand',
-                  style:
-                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
-              SizedBox(height: 6.h),
-              TextFieldWidget(
-                  controller: brandController, hintText: 'Enter brand name'),
-              SizedBox(height: 16.h),
+              SizedBox(height: 20.h),
 
-              // Brand Line
-              Text('Brand Line',
-                  style:
-                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
-              SizedBox(height: 6.h),
-              TextFieldWidget(
-                  controller: brandLineController,
-                  hintText: 'Enter brand line'),
-              SizedBox(height: 16.h),
-
-              // Type
-              Text('Type',
-                  style:
-                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
-              SizedBox(height: 6.h),
-              TextFieldWidget(
-                  controller: typeController, hintText: 'Enter type'),
-              SizedBox(height: 16.h),
-
-              // Color
-              Text('Color',
-                  style:
-                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
-              SizedBox(height: 6.h),
-              TextFieldWidget(
-                  controller: colorController, hintText: 'Enter color'),
-              SizedBox(height: 16.h),
-
-              // Finish
-              Text('Finish',
-                  style:
-                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
-              SizedBox(height: 6.h),
-              TextFieldWidget(
-                  controller: finishController, hintText: 'Enter finish'),
-              SizedBox(height: 16.h),
-
-              // Room
-              Text('Room',
-                  style:
-                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
-              SizedBox(height: 6.h),
-              TextFieldWidget(
-                  controller: roomTEController, hintText: 'Enter room name'),
-              SizedBox(height: 16.h),
-
-              // Location
-              Text('Location',
-                  style:
-                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
-              SizedBox(height: 6.h),
-              TextFieldWidget(
-                  controller: locationController, hintText: 'Enter location'),
-              SizedBox(height: 16.h),
-
-              // Last Painted
-              Text('Last Painted',
-                  style:
-                      AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
-              SizedBox(height: 6.h),
-              TextFieldWidget(
-                  controller: lastPaintController,
-                  hintText: 'Enter last painted date'),
-              SizedBox(height: 16.h),
+              // ---------------- INPUT FIELDS ----------------
+              buildField("Brand", brandController),
+              buildField("Brand Line", brandLineController),
+              buildField("Type", typeController),
+              buildField("Color", colorController),
+              buildField("Finish", finishController),
+              buildField("Location", locationController),
+              buildField("Last Painted", lastPaintController),
             ],
           ),
         ),
       ),
       bottomNavigationBar: SafeArea(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16.sp, vertical: 8.h),
+          padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
           child: CustomElevatedButton(
-            onTap: () {
-              Map<String, dynamic> formData = {
+            btnText: "Update",
+            height: 48.h,
+            onTap: () async {
+              Map<String, dynamic> payload = {
                 "type": typeController.text,
                 "location": locationController.text,
                 "brand": brandController.text,
@@ -242,19 +183,34 @@ class _AddNewRoomItemScreenState extends State<AddNewRoomItemScreen> {
                 "color": colorController.text,
                 "finish": finishController.text,
                 "last_painted": lastPaintController.text,
-                "room_name": roomTEController.text,
-                "room_id": roomId,
-                "item_id": typeId
               };
 
-              print("Form Data:====>>> $formData");
-              roomController.addUserRoomItem(formData);
+              print("Updating item: $payload");
+
+              final success =
+                  await roomController.updateUserRoomItem(payload, itemId);
+
+              if (success) {
+                Get.back(result: true);
+              }
             },
-            btnText: 'Save',
-            height: 48.h,
           ),
         ),
       ),
+    );
+  }
+
+  // ---------------- FIELD WIDGET ----------------
+  Widget buildField(String title, TextEditingController controller) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(title,
+            style: AppTypoGraphy.semiBold.copyWith(color: AppColors.black)),
+        SizedBox(height: 6.h),
+        TextFieldWidget(controller: controller, hintText: "Enter $title"),
+        SizedBox(height: 16.h),
+      ],
     );
   }
 }

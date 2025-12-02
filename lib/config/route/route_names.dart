@@ -35,6 +35,7 @@ class RouteNames {
   static const addRoom = '/add-room';
   static const editRoomDetails = '/edit-room-details';
   static const addNewRoomIteam = '/add-new-room-iteam';
+  static const updateRoomItem = '/update-room-item';
   static const subscription = '/subscription';
   static const billingAddress = '/billing-address';
   static const cardInfo = '/card-info';
@@ -51,5 +52,4 @@ class RouteNames {
   static const utility = '/utility';
   static const material = '/material';
   static const calendar = '/calendar';
-
 }

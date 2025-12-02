@@ -7,6 +7,7 @@ class ApiConstants {
   static String login = "/auth/login";
 
   static String updateHomeData = "/user/update_home_data";
+  static String homeTaskData = "/task/home-task-data";
 
   static String createTask = "/task/add_task";
   static String fetchTask = "/task/get_users_task";
@@ -27,6 +28,9 @@ class ApiConstants {
   static String fetchRoomDetails = "/view-by-room";
   static String fetchRoomItem = "/view-by-room/available-item/";
   static String addUserRoomItem = "/view-by-room/add-item";
+  static String updateUserRoomItem = "/view-by-room/update-user-item-details/";
+  static String deleteUserRoomItem =
+      "/view-by-room/delete-user-room-item-details/";
 
   static String fetchUserRoomItems =
       "/view-by-room/user-room-single-item-data/";

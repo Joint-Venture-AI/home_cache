@@ -6,7 +6,12 @@ import 'package:pie_chart/pie_chart.dart';
 class HomeHealthPieChart extends StatelessWidget {
   const HomeHealthPieChart({
     super.key,
+    required this.completedValue,
+    required this.remainingValue,
   });
+
+  final double completedValue;
+  final double remainingValue;
 
   @override
   Widget build(BuildContext context) {
@@ -14,9 +19,9 @@ class HomeHealthPieChart extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         PieChart(
-          dataMap: const {
-            'Completed': 80,
-            'Remaining': 20,
+          dataMap: {
+            'Completed': completedValue,
+            'Remaining': remainingValue,
           },
           animationDuration: const Duration(milliseconds: 800),
           chartLegendSpacing: 0,
@@ -49,7 +54,7 @@ class HomeHealthPieChart extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
-                  '80%',
+                  '${((completedValue / (completedValue + remainingValue)) * 100).round()}%',
                   style: TextStyle(
                     color: AppColors.white,
                     fontSize: 40.sp,

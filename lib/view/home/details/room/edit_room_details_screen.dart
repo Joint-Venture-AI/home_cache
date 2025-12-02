@@ -8,7 +8,6 @@ import 'package:home_cache/config/route/route_names.dart';
 import 'package:home_cache/constants/colors.dart' show AppColors;
 import 'package:home_cache/constants/app_typo_graphy.dart';
 import 'package:home_cache/controller/room_controller.dart';
-import 'package:home_cache/view/home/details/room/add_room_item_dialog.dart';
 import 'package:home_cache/utils.dart' as utils;
 import 'package:home_cache/view/widget/appbar_back_widget.dart';
 import 'package:image_picker/image_picker.dart';
@@ -33,11 +32,15 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
 
     final room = roomController.roomDetails.value;
 
-    if (room != null && room.items.isNotEmpty) {
-      final itemId = room.items[index].userItemId;
+    print("Room: =====>>.$room");
 
-      if (itemId != null && itemId.isNotEmpty) {
+    if (room != null && room.items.isNotEmpty) {
+      final itemId = room.items[index].id;
+
+      if (itemId.isNotEmpty) {
         selectedItemId = itemId;
+
+        print("Selected Item ID: $selectedItemId");
         roomController.fetchUserRoomItems(itemId);
       }
     }
@@ -61,10 +64,9 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
         final room = roomController.roomDetails.value;
 
         if (room != null && room.items.isNotEmpty) {
-          final firstItemId = room.items[0].userItemId;
-
-          if (firstItemId != null && firstItemId.isNotEmpty) {
-            roomController.fetchUserRoomItems(firstItemId);
+          selectedItemId = room.items[0].userItemId ?? "";
+          if (selectedItemId.isNotEmpty) {
+            roomController.fetchUserRoomItems(selectedItemId);
           }
         }
       });
@@ -82,10 +84,12 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
             padding: const EdgeInsets.only(right: 8.0),
             child: TextButton(
               onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (context) => const AddRoomItemDialog(),
-                );
+                Get.toNamed(RouteNames.addNewRoomIteam, arguments: {
+                  'id': roomController.roomDetails.value?.id,
+                  'roomName': roomName,
+                  'selectedItemId': roomController
+                      .roomDetails.value?.items[selectedCategoryIndex].id,
+                });
               },
               style: TextButton.styleFrom(
                 backgroundColor: AppColors.primary,
@@ -97,19 +101,9 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
                   borderRadius: BorderRadius.circular(12.r),
                 ),
               ),
-              child: GestureDetector(
-                onTap: () {
-                  Get.toNamed(RouteNames.addNewRoomIteam, arguments: {
-                    'roomId': roomId,
-                    'roomName': roomName,
-                    'selectedCategoryIndex': selectedCategoryIndex,
-                    'selectedItemId': selectedItemId,
-                  });
-                },
-                child: Text(
-                  '+ Add',
-                  style: TextStyle(color: Colors.white, fontSize: 14.sp),
-                ),
+              child: Text(
+                '+ Add',
+                style: TextStyle(color: Colors.white, fontSize: 14.sp),
               ),
             ),
           ),
@@ -268,6 +262,17 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
                               .map((item) => _buildRoomItemCard(
                                     title: item.details.location,
                                     subTitle: item.details.brand,
+                                    onTap: () {
+                                      Get.toNamed(
+                                        RouteNames.updateRoomItem,
+                                        arguments: item,
+                                      )?.then((result) {
+                                        if (result == true) {
+                                          roomController.fetchUserRoomItems(
+                                              selectedItemId);
+                                        }
+                                      });
+                                    },
                                   ))
                               .toList(),
                         ),
@@ -283,34 +288,38 @@ class _EditRoomDetailsScreenState extends State<EditRoomDetailsScreen> {
   Widget _buildRoomItemCard({
     required String title,
     required String subTitle,
+    VoidCallback? onTap,
   }) {
-    return Container(
-        padding: EdgeInsets.all(20.r),
-        height: 100.h,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            color: AppColors.lightgrey,
-            borderRadius: BorderRadius.circular(12.r)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style:
-                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w700),
-                ),
-                Text(
-                  subTitle,
-                  style:
-                      TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
-                ),
-              ],
-            ),
-            IconButton(onPressed: () {}, icon: Icon(Icons.edit))
-          ],
-        ));
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+          padding: EdgeInsets.all(20.r),
+          height: 100.h,
+          width: double.infinity,
+          decoration: BoxDecoration(
+              color: AppColors.lightgrey,
+              borderRadius: BorderRadius.circular(12.r)),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style:
+                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w700),
+                  ),
+                  Text(
+                    subTitle,
+                    style:
+                        TextStyle(fontSize: 20.sp, fontWeight: FontWeight.w400),
+                  ),
+                ],
+              ),
+              IconButton(onPressed: () {}, icon: Icon(Icons.edit))
+            ],
+          )),
+    );
   }
 }

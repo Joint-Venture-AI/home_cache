@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:home_cache/constants/colors.dart';
 import 'package:home_cache/constants/app_typo_graphy.dart';
+import 'package:home_cache/controller/home_controller.dart';
 import 'package:home_cache/controller/task_controller.dart';
 import 'package:home_cache/view/home/home/widgets/home_health_pie_chart.dart';
 import 'package:home_cache/view/widget/task_list_tile.dart';
@@ -20,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final TaskController _taskController = Get.find<TaskController>();
+  final HomeController _homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(height: 10.h),
                   GestureDetector(
                       onTap: () => Get.toNamed(RouteNames.homeHealth),
-                      child: HomeHealthPieChart()),
+                      child: HomeHealthPieChart(
+                        completedValue: 70,
+                        remainingValue: 30,
+                      )),
                   _buildHealthTitleSection(),
                   SizedBox(height: 10.h),
                 ],

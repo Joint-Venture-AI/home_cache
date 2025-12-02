@@ -145,7 +145,7 @@ class _RoomScreenState extends State<RoomScreen> {
                 final room = roomController.allRooms[index];
                 return _buildTile(
                   context,
-                  room.type.type,
+                  room.roomName,
                   room.type.image,
                   index,
                   () {
